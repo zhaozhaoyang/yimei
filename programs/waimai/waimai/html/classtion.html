@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>分类列表</title>
+    <script src="../js/mui.min.js"></script>
+    <script src="../js/vue.min.js"></script>
+    <link href="../css/mui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/icons-extra.css" />
+    <link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+    <link rel="stylesheet" href="../css/swiper.min.css" />
+</head>
+
+<style>
+    #app {
+        margin-top: 50px;
+    }
+
+    body,
+    html {
+        background: #f2f2f2;
+    }
+
+    .list li {
+        margin: 1%;
+        width: 48%;
+        height: 266px;
+        background: #fff;
+        border-radius: 5px;
+        float: left;
+    }
+
+    .list li img {
+        width: 100%;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        height: 175px;
+    }
+
+    .list li p {
+        padding: 2%;
+    }
+
+    .list li:last-child {
+        margin-bottom: 80px;
+    }
+
+    .list .tittle {
+        margin-bottom: 5px;
+        font-size: 14px;
+        font-family: PingFang-SC-Medium;
+        color: rgba(26, 26, 26, 1);
+    }
+
+    .list .price .fl {
+        font-size: 13px;
+        font-family: PingFang-SC-Medium;
+        color: rgba(230, 0, 19, 1);
+        font-weight: 600;
+    }
+
+    .list .price .fr {
+        font-size: 12px;
+        font-family: PingFang-SC-Medium;
+        color: rgba(153, 153, 153, 1);
+    }
+
+    .tittle {
+        background: #fff;
+        height: 44px;
+    }
+
+    .tittle li+span {
+        margin-top: 10px;
+    }
+
+    .tittle li {
+        text-align: center;
+        width: 32%;
+        float: left;
+        line-height: 44px;
+        font-size: 13px;
+    }
+
+    .mui-icon-arrowdown, .mui-icon-arrowup {
+        font-size: 18px;
+    }
+
+    .tittle .active {
+        color: #E60012;
+    }
+
+    .tittle .fl {
+        color: #f2f2f2;
+    }
+</style>
+
+<body>
+
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">分类列表</h1>
+    </header>
+    <div id="app">
+        <div class="tittle">
+            <li class="active" dart-type="0" id="quanbu">全部</li>
+            <span class="fl">|</span>
+            <li dart-type="1">销量 <span class="mui-icon mui-icon  mui-icon-arrowdown xiaolianga" class=""></span> 
+                <span class="mui-icon mui-icon mui-icon-arrowup xiaoliangb" class=""></span>
+            </li>
+            <span class="fl">|</span>
+            <li dart-type="3">价格<span class="mui-icon mui-icon-arrowdown jiagea" class=""></span>
+                <span class="mui-icon mui-icon mui-icon-arrowup jiageb" class=""></span>
+            </li>
+        </div>
+        <div id="tuijian">
+            <div class="list" id="slider1">
+                <!-- <li>
+                    <img src="../img/tejia.png" alt="">
+                    <p class="tittle">吴小帅的厨房中餐厅 鸡蛋番茄</p>
+                    <p class="price"> <span class="fl">￥200</span><span class="fr">已售200</span></p>
+                </li>
+                <li>
+                    <img src="../img/tejia.png" alt="">
+                    <p class="tittle">吴小帅的厨房中餐厅 鸡蛋番茄</p>
+                    <p class="price"> <span class="fl">￥200</span><span class="fr">已售200</span></p>
+                </li>
+                <li>
+                    <img src="../img/tejia.png" alt="">
+                    <p class="tittle">吴小帅的厨房中餐厅 鸡蛋番茄</p>
+                    <p class="price"> <span class="fl">￥200</span><span class="fr">已售200</span></p>
+                </li> -->
+
+            </div>
+        </div>
+    </div>
+    <script src="../js/zepto.min.js"></script>
+    <script src="../js/swiper.min.js"></script>
+    <script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+</body>
+<script type="text/javascript">
+    window.onload = function () {
+        $(".xiaoliangb").hide();
+        $(".jiageb").hide();
+        var uid = localStorage.getItem("UID");
+        var type =0;
+        function getQueryString(name) {
+            var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            }
+            return null;
+        }
+        //分类ID
+        var classId = getQueryString('classId');
+        var goodsType = getQueryString('goodsType');
+
+        //0.全部 1.销量顺序 2.销量倒序  3.价格顺序  4.价格倒序
+        getData(0)
+
+        function getData(type) {
+            $.ajax({
+                type: "post",
+                url: waimaiurl + "/classTion",
+                data: { 'classId': classId, 'type': type },
+                dataType: "json",
+                success: function (response) {
+                    console.log(response)
+
+                    //成功
+                    if (response.result == 0) {
+                        var foods = '';
+                        $("#slider1").html("")
+                        if (response.dataList != undefined) {
+                            for (var i = 0; i < response.dataList.length; i++) {
+                                //             <li>
+                                //     <img src="../img/tejia.png" alt="">
+                                //     <p class="tittle">吴小帅的厨房中餐厅 鸡蛋番茄</p>
+                                //     <p class="price"> <span class="fl">￥200</span><span class="fr">已售200</span></p>
+                                // </li>
+
+                                //  first += '<li> <img src="' + response.firstList[j].categoryImage + '" alt=" " /><span>' + response.firstList[j].categoryName + '</span></li>';
+                                // console.log(response.dataList.length)
+                                if (response.dataList[i].image == '') {
+                                    foods += '<li class="swiper-slide"  data-id="' + response.dataList[i].id + '"> <img src="../img/tejia.png" alt=" " /> <p class="tittle">' + response.dataList[i].title + '</p>  <p class="price"> <span class="fl">￥' + response.dataList[i].price + '</span><span class="fr">已售' + response.dataList[i].sales + '</span></p></li>';
+                                } else {
+                                    foods += '<li class="swiper-slide"  data-id="' + response.dataList[i].id + '"> <img src="' + response.dataList[i].image + '" alt=" " /> <p class="tittle">' + response.dataList[i].title + '</p>  <p class="price"> <span class="fl">￥' + response.dataList[i].price + '</span><span class="fr">已售' + response.dataList[i].sales + '</span></p></li>';
+                                }
+
+                            }
+
+                            $("#slider1").append(foods);
+
+                            $(".swiper-slide").on("tap", function () {
+                                console.log(this)
+                                var id = $(this).attr("data-id");
+
+
+                                window.location.href = "../html/productDetail.html?id=" + id + "&goodsType=" + goodsType;
+                            })
+                        }
+                    } else {
+
+                    }
+
+                }
+            });
+          }
+
+
+        $(".tittle li").on("tap", function () {
+            $(".tittle li").removeClass("active")
+            $(this).addClass("active")
+
+            type = $(this).attr("dart-type")
+           
+            if(type=="1"){
+                $(this).attr("dart-type","2")
+                $(".xiaoliangb").hide();
+                 $(".xiaolianga").show();
+            }else if(type=="2"){
+                $(this).attr("dart-type","1")
+
+                $(".xiaoliangb").show();
+                $(".xiaolianga").hide();
+            }else if(type=="3"){
+                $(this).attr("dart-type","4")
+                $(".jiageb").hide();
+                 $(".jiagea").show();
+            }else if(type=="4"){
+                $(this).attr("dart-type","3")
+                $(".jiagea").hide();
+                 $(".jiageb").show();
+            }
+         
+            getData(type)
+            console.log(type)
+          
+
+        })
+
+
+
+    }
+
+
+
+</script>

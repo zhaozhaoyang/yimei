@@ -1,0 +1,213 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>所有评论
+    </title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="../css/mui.min.css" rel="stylesheet" />
+    <!-- <link href="../css/jquery-weui.min.css" rel="stylesheet" /> -->
+    <link rel="stylesheet" href="../css/style.css" />
+</head>
+<style>
+    body {
+        background-color: #fff;
+    }
+    
+    .mui-bar-nav {
+        background-color: #f2f2f2;
+    }
+    
+    .container {
+        background: #fff;
+        margin: 2%;
+        margin-top: 60px;
+        height: auto;
+    }
+    
+    .eval {
+        margin: 3%;
+    }
+    
+    .eval .title .fr {
+        font-size: 13px;
+        color: #666;
+        font-weight: 400;
+    }
+    
+    .eval .title .fl {
+        padding-left: 5px;
+        border-left: 3px solid #C6181E;
+    }
+    
+    .eval .title {
+        font-size: 0.95rem;
+        color: #333;
+        height: 3rem;
+        font-weight: 600;
+    }
+    
+    .mui-card {
+        box-shadow: none;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .mui-col-xs-2 img {
+        width: 90%;
+        height: 3rem;
+        margin-top: 10%;
+    }
+    
+    .img img {
+        width: 21%;
+        margin-right: 2%;
+        height: 60px;
+    }
+    
+    .dtail {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        color: #0f0f0f;
+    }
+    
+    .mui-col-xs-10 p {
+        margin-bottom: 5px;
+    }
+    
+    .name {
+        font-size: 0.9rem;
+        color: #3f3f3f;
+        font-weight: 600;
+        margin-bottom: 0 !important;
+    }
+    
+    .name+p {
+        font-size: 0.75rem;
+    }
+    
+    .name img {
+        width: 10px;
+        height: 10px;
+    }
+    
+    .xing img {
+        width: 10px;
+        height: 10px;
+    }
+</style>
+
+
+<body>
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">所有评论
+        </h1>
+    </header>
+    <div class="container" id="app" v-cloak>
+        <div class="eval">
+            <div class="mui-card" v-for="(evl,index) in dataList">
+                <div class="mui-input-row mui-checkbox mui-left mui-col-xs-2 fl">
+                    <img :src="evl.commentList.userIcon" class="fl mui-col-xs-4" alt="" />
+                </div>
+                <div class="mui-col-xs-10 fr">
+                    <p class="name">{{evl.commentList.nickName}}
+
+                        <img src="../img/star01@3x.png" alt="" v-show="evl.commentList.startLevel>=1">
+                        <img src="../img/star01@3x.png" alt="" v-show="evl.commentList.startLevel>=2">
+                        <img src="../img/star01@3x.png" alt="" v-show="evl.commentList.startLevel>=3">
+                        <img src="../img/star01@3x.png" alt="" v-show="evl.commentList.startLevel>=4">
+                        <img src="../img/star01@3x.png" alt="" v-show="evl.commentList.startLevel>=5">
+                    </p>
+
+                    <p>评论时间：{{evl.commentList.createTime}}</p>
+                    <p class="dtail">{{evl.commentList.content}}</p>
+                    <div class="img">
+                        <img :src="imgs" alt="" v-for="(imgs,index) in evl.imagesList" data-preview-src="" data-preview-group="1" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../js/zepto.min.js"></script>
+<script src="../js/jquery-weui.min.js"></script>
+<script src="../js/vue.min.js"></script>
+<script src="../js/base.js"></script>
+<script src="../js/mui.min.js"></script>
+
+<script>
+    window.onload = function() {
+        function getQueryString(name) {
+            var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            }
+            return null;
+        }
+        //分类ID
+        var id = getQueryString('id');
+        var uid = localStorage.getItem("UID");
+        var app = new Vue({
+            el: "#app",
+            data: {
+                dataList: []
+            },
+            methods: {
+                getData() {
+                    $.ajax({
+                        type: "post",
+                        url: waimaiurl + "/allEval",
+                        data: {
+                            id: id
+                        },
+                        dataType: "json",
+                        success: function(response) {
+                            console.log(response)
+                            var that = this;
+                            if (response.result == 0) { //成功
+                                app.dataList = response.dataList;
+                                // for (var i = 0; i < response.dataList.length; i++) {
+                                //     var inner = '';
+                                //     console.log(response.dataList[i].commentList.nickName)
+                                //     inner += ' <div class="mui-input-row mui-checkbox mui-left mui-col-xs-2 fl">' +
+                                //         '<img src="' + response.dataList[i].commentList.userIcon + '" class="fl mui-col-xs-4" alt="" />' +
+                                //         '</div>' +
+                                //         '<div class="mui-col-xs-10 fr">' +
+                                //         '<p class="name">' + response.dataList[i].commentList.nickName + ' <div  class="xing xingxing' + i + '" > </p>' +
+                                //         '<p>评论时间：' + response.dataList[i].commentList.createTime + '</p>' +
+                                //         ' <p class="dtail">' + response.dataList[i].commentList.content + '</p>' +
+                                //         '<div class="img"' + i + '>' +
+                                //         '</div>' +
+                                //         '</div>';
+                                //     var innerMsg = "";
+                                //     for (var j = 0; j < response.dataList[i].imagesList.length; j++) {
+                                //         console.log(response.dataList[i].imagesList[j])
+                                //         innerMsg += '<img src="' + response.dataList[i].imagesList[j] + '" alt=""  /> ';
+                                //     }
+                                //     var xiaoxingxing = '';
+
+                                //     for (var o = 0; o < response.dataList[i].commentList.startLevel; o++) {
+                                //         xiaoxingxing += ' <img src="../img/star01@3x.png" alt="">';
+                                //     }
+                                //     console.log(i)
+                                //     $(".mui-card").append(inner);
+                                //     $(".img" + i).append(innerMsg);
+                                //     $(".xingxing" + i).append(xiaoxingxing);
+                                // }
+                            } else { //失败
+                            }
+                        }
+                    });
+                }
+            },
+            mounted() {
+
+            },
+        })
+        app.getData()
+    }
+</script>

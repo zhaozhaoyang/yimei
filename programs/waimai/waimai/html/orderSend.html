@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>确认订单</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <!--标准mui.css-->
+    <link rel="stylesheet" href="../css/mui.min.css">
+    <!--App自定义的css-->
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+</head>
+<style type="text/css">
+    .mui-bar-nav {
+        background: #fff;
+        box-shadow: none;
+    }
+    
+    a {
+        color: #333;
+    }
+    
+    .mui-content,
+    .mui-table-view-cell:after,
+    .mui-table-view:after {
+        background: #fff;
+    }
+    
+    .mui-ellipsis {
+        white-space: normal;
+    }
+    
+    .mui-media-body p,
+    .mui-media-body span {
+        font-size: 0.8em;
+        color: #5c5c5c;
+    }
+    
+    .mui-table-view .mui-media-object {
+        max-width: 30%!important;
+        width: 30%!important;
+        height: 80px;
+    }
+    
+    .mui-table-view-chevron .commodity {
+        padding-right: 20px;
+    }
+    
+    .mui-media-body h4 {
+        margin-bottom: 5%;
+    }
+    
+    .mui-media-body .ellipsisb {
+        margin-bottom: 8%;
+    }
+    
+    .mui-table-view-cell .fr {
+        margin-right: -2.3em;
+    }
+    
+    .mui-table-view-cell p {
+        color: #1a1a1a;
+    }
+    
+    .playboy {
+        position: fixed;
+        margin-top: 3px;
+        bottom: 0;
+        width: 100%;
+        height: 42px;
+    }
+    
+    .playboy div {
+        position: absolute;
+        top: 0;
+        /*margin-top: 16%;*/
+        background: #fff;
+        width: 100%;
+        color: #747474;
+        height: 42px;
+    }
+    
+    #app .mui-card:last-child .ordercard {
+        margin-bottom: 40px;
+        padding: 2.5%;
+        padding-right: 0;
+    }
+    
+    .mui-table-view:before {
+        background: #fff;
+    }
+    
+    #orderNum {
+        -webkit-user-select: auto;
+    }
+    
+    .mui-media-body {
+        height: 5rem;
+        padding: 3%;
+        position: relative;
+    }
+    
+    .mui-media-body img {
+        width: 1.1rem;
+        height: 1.5rem;
+        position: absolute;
+        top: 20%;
+    }
+    
+    .mui-bar-nav~.mui-content {
+        padding-top: 30px;
+    }
+    
+    .mui-card {
+        box-shadow: none;
+        margin: 0;
+    }
+    
+    .mui-media-body span {
+        line-height: 2;
+        padding-left: 8%;
+        font-size: 1rem;
+    }
+    
+    .mui-media-body #address {
+        padding-left: 8%;
+        text-overflow: -o-ellipsis-lastline;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+    
+    .mui-bar-nav {
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .mui-col-xs-12 {
+        padding: 5%;
+        padding-bottom: 0;
+    }
+    
+    .mui-card-header {
+        position: relative;
+    }
+    
+    .mui-card-header .name {
+        position: absolute;
+        left: 15%;
+    }
+    
+    .mui-card-header>img:first-child {
+        width: 1.6rem;
+        height: 1.4rem;
+    }
+    
+    .bck4 {
+        height: 5px;
+        background: #f7f7f7;
+        width: 100%;
+    }
+    
+    .product img {
+        height: 5rem;
+        width: 5rem;
+        float: left;
+    }
+    
+    .productName {
+        font-size: 1rem;
+        color: #242424;
+        font-weight: 600;
+    }
+    
+    .price {
+        margin-bottom: 5px;
+    }
+    
+    .price .pricea {
+        color: #EC1D3A;
+        font-size: 1rem;
+        margin-right: 9%;
+    }
+    
+    .price .pricea+span {
+        color: #333;
+        font-size: 0.8rem;
+    }
+    
+    .price button {
+        border-radius: 1rem;
+        height: 30px;
+        border-color: #dbdbdb;
+        margin-top: -0.4rem;
+    }
+    
+    .product {
+        height: 7.8rem;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .end {
+        clear: both;
+        color: #333;
+        line-height: 0.8;
+        height: 2.8rem;
+    }
+    
+    .end .fl,
+    .end .fr {
+        color: #333;
+        font-size: 13px;
+    }
+    
+    #contact {
+        margin-right: 5%;
+        border-radius: 1rem;
+        width: 6.95rem;
+        border-color: #DBDBDB;
+    }
+    
+    #all span {
+        color: #EC1D3A;
+        font-size: 1rem;
+        font-weight: 600;
+    }
+    
+    .gopay {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 3rem;
+    }
+    
+    #app {
+        margin-bottom: 50px;
+    }
+    
+    .enda {
+        border-bottom: 1px solid #f4f4f4;
+    }
+    
+    .enda .fr {
+        color: #F12132;
+    }
+    
+    #gopay {
+        width: 100%;
+        height: 3rem;
+        border: none;
+        border-radius: 0;
+        color: #fff;
+        background: #1EA0F6;
+        font-weight: 600;
+    }
+    
+    .endc input {
+        height: 25px;
+        width: 75%;
+        border: none;
+    }
+    .mui-table-view-chevron .mui-table-view-cell{
+        padding-right: 15px;
+    }
+</style>
+
+<body>
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">确认订单</h1>
+    </header>
+    <div class="mui-content" id="app">
+        <ul class="mui-table-view mui-table-view-chevron">
+            <li class="mui-table-view-cell mui-media" id="addressall" @tap="changeAdd()">
+                <a class="mui-navigate-right">
+                    <div class="mui-media-body">
+                        <img src="img/dingwei@3x.png" alt="" />
+                        <span>名称</span><span id="tel">646546546545465</span>
+                        <p class='mui-ellipsis' id="address">河南省郑州市</p>
+                    </div>
+                </a>
+            </li>
+        </ul>
+        <div class="bck4"></div>
+        <div class="mui-card">
+            <div class="mui-card-header">
+                <img src="../img/dianpu@3x.png" />
+                <span class="fl name">嗯嗯嗯</span>
+
+            </div>
+
+            <div class="mui-col-xs-12 fl product" v-for="(product,index) in item.goodsList" v-show="product.onchec==1">
+                <img :src="product.goodsimage||product.goodsImage" class="fl mui-col-xs-4" alt="" />
+                <div class="fr mui-col-xs-8">
+                    <p class="productName">商品名称</p>
+                    <p class="specifications">规格：函数</p>
+                    <p class="price"><span class="pricea">¥199</span><span class="fr">x5</span>
+                        <!--<button class="fr">申请退款</button>-->
+                    </p>
+
+                </div>
+
+            </div>
+            <div class="mui-col-xs-12 end">
+                <p class="fl">配送费用:&nbsp;&nbsp;</p>
+                <p class="fr" id="orderNum">¥60</p>
+            </div>
+            <div class="mui-col-xs-12 end enda"  v-if="goodsType==0">
+                <p class="fl">优惠券:&nbsp;&nbsp;</p>
+                <p class="fr" id="orderNum">-¥20</p>
+            </div>
+            <div class="mui-col-xs-12 end endc">
+                <p class="fl">买家留言:&nbsp;&nbsp;</p>
+                <input type="text" placeholder="如有需要请留言">
+
+            </div>
+            <div class="ordercard">
+                <ul class="mui-table-view mui-table-view-chevron">
+                    <li class="mui-table-view-cell">
+                        <a class="mui-navigate">
+                            <p class="fl"></p>
+                            <p class="fr" id="all">总计：<span class="money">¥200</span></p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="gopay">
+            <button id="gopay" @tap="goPay()">去支付</button>
+        </div>
+</body>
+<script src="../js/mui.min.js"></script>
+<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/zepto.min.js"></script>
+<script src="../js/base.js"></script>
+<script>
+    window.onload = function() {
+
+    }
+</script>
+
+</html>

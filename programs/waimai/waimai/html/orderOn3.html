@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>订单物流详情</title>
+
+    <link href="../css/mui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/icons-extra.css" />
+    <link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+    <link rel="stylesheet" href="../css/swiper.min.css" />
+</head>
+
+<style>
+    html,
+    body {
+        position: relative;
+        background: #fff;
+        height: auto;
+    }
+
+    #app {
+        margin-top: 44px;
+    }
+
+    .map {
+        position: relative;
+        height: 300px;
+        /* background: url("../img/ditudatu@3x.png"); */
+        background-clip: cover;
+        width: 100%;
+    }
+
+    .mapMsg {
+
+        /* position: absolute; */
+        height: 105px;
+        width: 100%;
+      
+        top: 188px;
+        /* border: 1px solid #181818; */
+        background: #fff;
+        text-align: center;
+    
+        z-index: 9;
+    }
+
+    .mapMsg img {
+        position: absolute;
+        right: 8%;
+    }
+
+    .mapMsg .fr {
+        height: 36px;
+        width: 36px;
+    }
+
+    .mapMsg .name {
+        color: #292929;
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .mapMsg .name+p {
+        color: #CFA54F;
+        font-size: 12px;
+    }
+
+    .title {
+        height: 44px;
+        padding-left: 2%;
+        border-bottom: 1px solid #e6e6e6;
+        line-height: 41px;
+    }
+
+    .title p span {
+        font-size: 14px;
+        font-family: PingFang-SC-Bold;
+        padding-left: 3%;
+        color: rgba(51, 51, 51, 1);
+        border-left: 3px solid #EB2932;
+    }
+
+    .cmdyList {
+        padding: 4%;
+        height: 110px;
+        border-bottom: 1px solid #e2e2e2;
+    }
+
+    .cmdy .cmdIcon {
+        width: 28%;
+    }
+
+    .cmdyList .cmdIcon img {
+        width: 83px;
+        height: 77px;
+    }
+
+    .cmdyList .same {
+        width: 65%;
+    }
+
+    .cmdyList .same p:first-child {
+        font-size: 13px;
+        color: #242424;
+        font-weight: 600;
+        margin-bottom: 20px;
+        margin-top: 10px;
+    }
+
+    .same .price span:first-child {
+        font-size: 13px;
+        color: #F12132;
+        font-weight: 600;
+    }
+
+    .sameMoney {
+        height: 70px;
+        padding: 2% 4%;
+        border-bottom: 1px solid #e2e2e2;
+    }
+
+    .sameMoney p {
+        clear: both;
+        height: 21px;
+    }
+
+    .sameMoney p {
+        font-size: 13px;
+        color: #333;
+    }
+
+    .sameMoney .reduce .fr {
+        color: #F12132;
+    }
+
+    .add {
+        height: 43px;
+        padding: 4%;
+    }
+
+    .add span:first-child {
+        color: #333;
+    }
+
+    .add span:last-child {
+        color: #F12132;
+    }
+
+    .toThis {
+        height: 75px;
+        padding-top: 20px;
+        text-align: center;
+    }
+
+    .toThis button {
+        margin: 0 auto;
+        border-color: #e6e6e6;
+        padding: 6px 15px;
+    }
+
+    .mui-icon-phone {
+        color: #F12132;
+    }
+
+    .mui-table-view-cell .msg {
+        color: #242424;
+    }
+
+    .refund {
+        height: 40px;
+        margin: 3%;
+    }
+
+    .more {
+        height: 53px;
+        background: #eee;
+        width: 100%;
+        clear: both;
+        text-align: center;
+        padding: 5%;
+    }
+    .mui-table-view-chevron .mui-table-view-cell{
+        padding-right: 15px;
+    }
+</style>
+
+<body>
+
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">商城订单物流详情</h1>
+    </header>
+    <div id="app">
+ 
+           
+
+        <div class="cmdy">
+            
+           
+          
+            <div class="back4"></div>
+            
+            <div class="back4"></div>
+            <div class="order">
+                <div class="title">
+                    <p> <span>订单信息</span> </p>
+                </div>
+                <ul class="mui-table-view mui-table-view-chevron mylist">
+                    <li class="mui-table-view-cell">                    	
+                                          
+                        <p class="tittle fr"> <a href="orderOn3.html">{{dataObj.orderNum}}  </a></p>   
+                                        
+                    </li>
+              
+              
+                </ul>
+            </div>
+            <div class="wuliu"></div>
+            <div class="back4"></div>
+       
+            <div class="back4"></div>
+
+          
+
+        </div>
+    </div>
+  
+
+
+    <script src="../js/zepto.min.js"></script>
+    <script src="../js/mui.min.js"></script>
+    <script src="../js/vue.min.js"></script>
+    <script src="../js/swiper.min.js"></script>
+    <script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+</body>
+
+<script type="text/javascript">
+    window.onload = function () {
+        function getQueryString(name) {
+            var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            }
+            return null;
+        }
+        var orderNum = getQueryString('orderNum');
+        var uid = localStorage.getItem("UID");
+        var app = new Vue({
+            el: "#app",
+            data: {
+                dataObj: {},
+                dataList: []
+            },
+            methods: {},
+            mounted() {
+                var that = this;
+                $.ajax({
+                    type: "get",
+                    url: waimaiurl + "/express",
+                    data: { "orderNum": orderNum },
+                    dataType: "json",
+                    success: function (response) {
+                    		 console.log(response)
+                    		 var obj=JSON.parse(response.object);
+                    	     var list=obj.list
+                    	     console.log(list) 
+                    	 for(var i=0;i<list.length;i++){
+                    		 
+                    		 $('.wuliu').append('<ul><li><span>'+list[i].datetime+'</span><i>'+list[i].remark+'</i></li></ul>')
+                    	 }   
+                        
+
+                       
+                    }
+                })
+
+            }
+        })
+      
+    }
+   
+</script>

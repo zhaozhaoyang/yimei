@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <link href="../css/mui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/style.css" />
+
+    <style>
+        .mui-content,
+        body,
+        html {
+            background-color: #fff;
+        }
+
+        .topBara {
+            height: 177px;
+            text-align: center;
+        }
+
+        .topBara p {
+            color: #fff;
+            position: absolute;
+        }
+
+        .topBara .title {
+            left: 10%;
+            top: 10%;
+            font-size: 14px;
+        }
+
+        .topBara .price {
+            left: 10%;
+            font-size: 60px;
+            top: 23%;
+        }
+
+        .topBara img {
+            position: relative;
+            width: 95%;
+            height: 157px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .topBar {
+            margin-top: 10px;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .topBar .name {
+            font-family: PingFang-SC-Bold;
+            font-weight: 600;
+            color: rgba(34, 24, 21, 1);
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 28px;
+            padding-top: 25px;
+        }
+
+        .mui-table-view:before,
+        .mui-table-view:after {
+            background: #fff;
+        }
+
+        .sameList li {
+            margin-top: 20px;
+            width: 33%;
+            float: left;
+            text-align: center;
+        }
+
+        .sameList li .money {
+            font-size: 23px;
+            font-family: Adobe Heiti Std R;
+            color: rgba(243, 153, 15, 1);
+            margin-bottom: 20px;
+        }
+
+        .sameList li .money+p {
+            font-size: 12px;
+            font-family: PingFang-SC-Medium;
+            color: rgba(34, 24, 21, 1);
+        }
+
+        .mylist li img {
+            width: 25px;
+            height: 25px;
+            margin-right: 10px;
+        }
+
+        .mui-table-view-cell {
+            padding: 12px 15px;
+        }
+
+        .mylist li p {
+            line-height: 1.9;
+            font-weight: 600;
+            font-size: 14px;
+            font-family: PingFang-SC-Bold;
+            color: rgba(26, 26, 26, 1);
+        }
+
+        #forward {
+            background: rgba(52, 44, 42, 1);
+            border-radius: 6px;
+            height: 45px;
+            width: 80%;
+            color: rgba(243, 153, 15, 1);
+            font-size: 15px;
+        }
+
+        .money {
+            font-size: 30px;
+            font-family: PingFang-SC-Bold;
+            color: rgba(230, 0, 18, 1);
+            margin-bottom: 28px;
+        }
+
+        .tittle {
+            width: 100%;
+            height: 30px;
+        }
+
+        .tittle .fl {
+            font-weight: 600;
+            font-size: 15px;
+            font-family: PingFang-SC-Bold;
+            color: rgba(51, 51, 51, 1);
+        }
+
+        .tittle .fr {
+            font-size: 18px;
+            font-family: DIN-Medium;
+            color: rgba(230, 0, 18, 1);
+            line-height: 2.5;
+        }
+
+        .mui-table-view-chevron .mui-table-view-cell {
+            padding-right: 20px;
+        }
+
+        .mylist li .msg {
+            font-size: 12px;
+            font-family: PingFang-SC-Medium;
+            color: rgba(102, 102, 102, 1);
+        }
+
+        .detailed {
+            text-align: center;
+            height: 20px;
+            margin: 0 auto;
+            width: 70%;
+        }
+
+        .detailed .fl {
+            width: 55px;
+            height: 1px;
+        }
+
+        .detailed .fr {
+            width: 55px;
+            height: 1px;
+            margin-top: -30px;
+        }
+
+        .mylist {
+            clear: both;
+        }
+
+        .mui-table-view-cell:after {
+            background: #fff;
+        }
+
+        .samesay {
+            width: 210px;
+            font-size: 14px;
+            font-family: PingFang-SC-Bold;
+            color: rgba(51, 51, 51, 1);
+        }
+
+        .tittle .reduce {
+            color: rgba(34, 24, 21, 1);
+        }
+
+        .back4 {
+            background: #f7f7f7;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="mui-bar mui-bar-nav" style="padding-right: 15px;">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">我的钱包</h1>
+    </header>
+    <div class="mui-content" id="app">
+        <div class="topBara">
+            <!-- <img src="../img/qianbaobeijing@3x.png" alt="" sizes="" srcset="">
+            <p class="title" >账户余额（元）</p>
+            <p class="price">0.00</p> -->
+        </div>
+        <div class="back4"></div>
+        <div class="topBar">
+            <button id="forward">立即充值</button>
+            <p id="tixian">提现&gt;&gt;</p>
+        </div>
+        <div class="back4"></div>
+        <div>
+            <div class="detailed">
+                <div class="fl">
+                    <hr />
+                </div>
+                <p class="samesay">消费明细</p>
+                <div class="fr">
+                    <hr />
+                </div>
+            </div>
+            <ul class="mui-table-view mui-table-view-chevron mylist">
+                <li class="mui-table-view-cell" hr="0" v-for="(item,index) in dataList">
+                    <p class="tittle"> <span class="fl">{{item.title}}</span> <span class="fr" v-if="item.type==0">+{{item.money}}</span><span class="fr" v-if="item.type==1">-{{item.money}}</span> <span class="fr" v-if="item.type==2">-{{item.money}}</span> <span class="fr" v-if="item.type==4">+{{item.money}}</span></p>
+                    <p class="msg fl">{{item.createTime}}</p>
+                </li>
+                <!-- <li class="mui-table-view-cell" hr="0">
+                    <p class="tittle"> <span class="fl">订单提醒</span> <span class="fr reduce">+180</span></p>
+                    <p class="msg fl">您成功抢单xxx订单</p>
+                </li> -->
+            </ul>
+        </div>
+        <!--内容部分的结束-->
+    </div>
+    <script src="../js/zepto.min.js"></script>
+    <script src="../js/mui.min.js"></script>
+    <script src="../js/vue.min.js"></script>
+    <script src="../js/swiper.min.js"></script>
+    <script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+    </script>
+</body>
+<script type="text/javascript">
+    window.onload = function () {
+        var uid = localStorage.getItem("UID");
+        var balance = localStorage.getItem("balance");
+
+       
+
+        var app = new Vue({
+            el: "#app",
+            data: {
+
+                dataList: []
+            },
+            methods: {},
+            mounted() {
+                var that = this;
+                $.ajax({
+                    type: "get",
+                    url: waimaiurl + "/myWalletRecord",
+                    data: { "uid": uid, "moneyorscore": 0 },
+                    dataType: "json",
+                    success: function (response) {
+                        console.log(response)
+                        that.dataList = response.dataList;
+                        var topBara = "";
+                        topBara += '<img src="../img/qianbaobeijing@3x.png" alt="" sizes="" srcset="">' +
+                            ' <p class="title" >账户余额（元）</p>' +
+                            '<p class="price">' + response.object.balance + '</p>';
+
+                        $(".topBara").append(topBara);
+
+                    }
+                });
+
+                // <img src="../img/qianbaobeijing@3x.png" alt="" sizes="" srcset="">
+                //     <p class="title" >账户余额（元）</p>
+                //     <p class="price">0.00</p>
+
+
+            }
+        })
+
+        $("#tixian").on("tap", function () {
+            window.location.href = "putforward.html?states=0";
+
+        })
+
+        $("#forward").on("tap", function () {
+            window.location.href = "recharge.html";
+
+        })
+
+
+
+
+    }
+</script>

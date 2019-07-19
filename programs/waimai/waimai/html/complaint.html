@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>投诉骑手</title>
+
+    <link href="../css/mui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/icons-extra.css" />
+    <link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+    <link rel="stylesheet" href="../css/swiper.min.css" />
+</head>
+
+<style>
+    html,
+    body {
+        position: relative;
+        background: #eee;
+        height: auto;
+    }
+
+    #app {
+        margin-top: 44px;
+    }
+
+    .textarea {
+        margin-top: 15px;
+        height: 277px;
+        width: 100%;
+        padding: 4px;
+        text-align: left;
+        resize: vertical;
+        overflow: auto;
+        background: #fff;
+    }
+
+    .customer {
+        padding: 2%;
+    }
+
+    .customer p {
+        margin-top: 10px;
+        font-size: 15px;
+        color: #333;
+        font-weight: 600;
+    }
+
+    .textarea:empty:before {
+        content: attr(placeholder);
+        color: #bbb;
+    }
+
+    #send {
+        height: 45px;
+        width: 88%;
+        margin-left: 6%;
+        color: #ffff;
+        background: #F12132;
+        border-radius: 6px;
+        margin-top: 30px;
+    }
+</style>
+
+<body>
+
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">投诉骑手</h1>
+    </header>
+    <div id="app">
+
+        <div class="customer" >
+            <p>请输入投诉原因：</p>
+            <div class="textarea" id="txtarea"  contenteditable="true" placeholder="请输入投诉原因..."></div>
+        </div>
+        <button id="send">提交</button>
+    </div>
+
+    <script src="../js/zepto.min.js"></script>
+    <script src="../js/mui.min.js"></script>
+    <script src="../js/vue.min.js"></script>
+    <script src="../js/swiper.min.js"></script>
+    <script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+</body>
+<script type="text/javascript">
+    window.onload = function () {
+        var uid = localStorage.getItem("UID");
+        function getQueryString(name) {
+            var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            }
+            return null;
+        }
+        var orderNum = getQueryString('orderNum');
+
+        $("#send").on("tap", function () {
+            var c = $("#txtarea").html();
+            
+            $.ajax({
+                type: "get",
+                url: waimaiurl + "/complaintsRider",
+                data: { "uid": uid, "type": 0, "reasonCancellation": c, "orderNum": orderNum },
+                dataType: "json",
+                success: function (response) {
+                    console.log(response)
+                    if (response.result == 0) {
+                        window.location.href = "complaintSues.html";
+                    }
+                }
+            });
+        });
+
+
+
+
+    }
+</script>

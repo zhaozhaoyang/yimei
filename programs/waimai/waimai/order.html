@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>订单</title>
+    <script src="js/mui.min.js"></script>
+    <script src="js/vue.min.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" href="css/icons-extra.css" />
+    <link rel="stylesheet" type="text/css" href="css/mui.picker.min.css" />
+    <link rel="stylesheet" href="css/swiper.min.css" />
+</head>
+
+<style>
+    html,
+    body {
+        background: #EEEEEE;
+        height: 100%;
+        margin-bottom: 100px;
+    }
+
+    .mui-container {
+        margin-top: 44px;
+        background: #fff;
+    }
+
+    .topTab {
+        padding: 10px 15%;
+        background: #fff;
+        height: 43px;
+    }
+
+    .topTab .active span {
+        color: #F12132;
+        padding-bottom: 8px;
+        border-bottom: 4px solid #F12132;
+    }
+
+    .topTab li {
+        width: 50%;
+        font-weight: 600;
+        float: left;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .orderTab {
+        height: 50px;
+        background: #fff;
+    }
+
+    .orderTab li {
+        line-height: 50px;
+        float: left;
+        width: 20%;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    .orderTab .active span {
+        color: #F12132;
+        padding-bottom: 8px;
+        border-bottom: 4px solid #F12132;
+    }
+
+    .orderList li p {
+        margin-bottom: 4px;
+    }
+
+    .orderList {
+        /* border-bottom: 1px solid #f2f2f2; */
+        height: auto;
+    }
+
+    .orderList li {
+      
+        clear: both;
+        height: auto;     margin-bottom: 10px;
+    }
+
+    #order {
+        height: auto;
+        background: #fff;
+    }
+
+    .orderList li .tittle {
+        height: 32px;
+        border-bottom: 1px solid #f4f4f4;margin-bottom:10px;    padding: 0px 2%;
+    }
+   .orderList li .cards {padding: 0px 2%;}
+  .orderList li .card {        margin-bottom: 10px;}
+    .orderList li .tittle .fl {
+        font-size: 12px;
+        font-family: PingFang-SC-Medium;
+        color: rgba(26, 26, 26, 1);
+    }
+
+    .orderList li .tittle .fr {
+        font-size: 13px;
+        font-family: PingFang-SC-Medium;
+        color: rgba(241, 33, 50, 1);
+    }
+    /* .card {
+        border-bottom: 1px solid #f2f2f2;
+    } */
+
+    .card .cardImg {
+        width: 25%;
+        float: left;
+    }
+
+    .card .cardImg img {
+        height: 75px;
+        width: 75px;
+    }
+
+    .cardMsg .name {
+        font-size: 13px;
+        font-family: PingFang-SC-Bold;
+        color: rgba(36, 36, 36, 1);
+    }
+
+    .cardMsg .time {
+        font-size: 12px;
+        font-family: PingFang-SC-Medium;
+        color: rgba(153, 153, 153, 1)
+    }
+
+    .cmdyt .busName {
+        font-size: 12px;
+        font-family: PingFang-SC-Medium;
+        color: rgba(51, 51, 51, 1);
+        margin-right:4%;
+        width:auto;    float: left;
+    display: block;    max-width: 120px;    overflow: hidden;
+    height: 21px;
+    }
+
+    .cmdyt .num {
+        font-size: 12px;
+        font-family: PingFang-SC-Medium;
+        color: rgba(241, 33, 50, 1);
+
+    }
+
+    .cmdyt .price {
+        font-size: 14px;
+        font-family: PingFang-SC-Bold;
+        color: rgba(236, 29, 58, 1);
+        font-weight: 600;    margin-left: 50px;
+    }
+    .shop_sc .shop_price {
+        font-size: 14px;
+        font-family: PingFang-SC-Bold;
+        color: rgba(236, 29, 58, 1);
+        font-weight: 600;    margin-left: 0px;    float: left;    margin-top: 10px;
+    clear: both;
+    }
+    .operation {
+        width: 100%;
+        height: 43px;
+           border-top: 1px solid #f4f4f4;
+    }
+
+    .cardMsg {
+        float: left;
+        width: 75%;
+    }
+
+    .operation #zhifu {
+        margin-top: 5px;
+        float: right;
+    }
+
+    #toPay {
+        border-color: #F12132;
+        width: 75px;
+        height: 27px;
+        background: rgba(255, 255, 255, 1);
+        border-radius: 3px;
+        font-size: 13px;
+        line-height: 15px;
+        font-family: PingFang-SC-Medium;
+        color: rgba(241, 33, 50, 1);
+        margin: 2% 10% 10% 76%;
+    }
+
+    .orderList li:last-child {
+        margin-bottom: 50px;
+    }
+.shij_heji {width: 100%;clear: both;height: 40px;padding: 10px 2% 0px 2%;  border-top: 1px solid #f4f4f4;}
+.shij_heji .time {width: 150px;float: left;font-size: 13px;}
+.shij_heji span {display: block;float: right;font-size: 14px;   }
+.shij_heji span i {font-style: normal; color: rgba(236, 29, 58, 1);}
+.num {margin-top:10px;}
+.yy_qisi {clear: both;}
+#shouhuo{    margin: 10px 10px 10px 0px;}
+
+</style>
+
+<body>
+
+    <header class="mui-bar mui-bar-nav">
+        <!-- <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a> -->
+        <h1 class="mui-title">订单</h1>
+    </header>
+    <div id="app" class="mui-container">
+        <!--<div class="topTab">
+            <li class="active" dart-type="0">
+                <span>同城订单</span>
+            </li>
+            <li dart-type="1">
+                <span>商城订单</span>
+            </li>
+        </div>-->
+        <div class="back4"></div>
+        <div id="order">
+            <div class="orderTab">
+                <li class="active" dart-type="0"><span>未付款</span></li>
+                <li dart-type="1"><span>进行中</span></li>
+                <li dart-type="2"><span>待评价</span></li>
+                <li dart-type="3"><span>已完成</span></li>
+                <li dart-type="4"><span>售后退款</span></li>
+            </div>
+            <div class="orderList">
+               <!--  <li>
+                    <p class="tittle"><span class="fl">订单编号554654654654546546</span><span class="fr">等待支付</span></p>
+                    <div class="card">
+                        <div class="cardImg">
+                            <img src="./img/01@3x.png" alt="">
+                        </div>
+                        <div class="cardMsg">
+                            <p class="name">店铺名称</p>
+                            
+                            <p class="cmdyt"><span class="busName">商品名称</span><span class="num">等1件商品</span><span class="price">￥58</span></p>
+                        </div>
+                    </div>
+                    <div class="shij_heji">
+                        <p class="time">2018-04-21 14:32</p>
+                        <span >合计：<i>232</i></span>
+                    </div>
+                    <div class="operation">
+                        <button id="toPay">去支付</button>
+                    </div>
+                      <div class="operation">
+                        <button id="toPay">去评价</button>
+                    </div>
+
+                </li> -->
+            </div>
+        </div>
+
+    </div>
+    <div id="appTaber">
+
+    </div>
+    <script src="js/zepto.min.js"></script>
+    <script src="js/swiper.min.js"></script>
+    <script src="./js/tab.js"></script>
+
+    <script src="js/base.js" type="text/javascript" charset="utf-8"></script>
+</body>
+<script type="text/javascript">
+var  zf_price; //支付用的总价
+var flg=0;
+    window.onload = function() {
+        changeColor(3);
+
+        var uid = localStorage.getItem("UID");
+        getData(0, 1)
+        var type = 0;
+        var typ = 1;
+        /*  var uid = 2 */
+        function getData(type, typ) {
+            console.log(type,typ)
+            $.ajax({
+                type: "get",
+                url: waimaiurl + "/getOrderList",
+                data: {
+                    "type": type,
+                    "uid": uid,
+                    "typ": typ
+                },
+                dataType: "json",
+                success: function(response) {
+                    console.log(response)
+                     $('.orderList').empty();
+
+                    for (var i = 0; i < response.dataList.length; i++) { //第一层循环编号
+                        if (typ == 0) {
+                            var orderList = "";
+                            var cc = "等待支付"
+                            if (response.dataList[i].status == 0) {
+                                cc = "等待支付"
+                            } else if (response.dataList[i].order.status == 1) {
+                                cc = "等待商家接单"
+
+                            } else if (response.dataList[i].order.status == 2) {
+                                cc = "等待骑手接单"
+                            } else if (response.dataList[i].order.status == 3) {
+                                cc = "骑手待取单"
+                            } else if (response.dataList[i].order.status == 4) {
+                                cc = "骑手送单中"
+                            } else if (response.dataList[i].order.status == 5) {
+                                cc = "待评价"
+                            } else if (response.dataList[i].order.status == 6 || response.dataList[i].order.status == 7 || response.dataList[i].order.status == 8) {
+                                cc = "取消订单"
+                            } else if (response.dataList[i].order.status == 9) {
+                                cc = "已完成"
+                            } else if (response.dataList[i].order.status == 20) {
+                                cc = "退款中"
+                            } else if (response.dataList[i].order.status == 21) {
+                                cc = "退款成功"
+                            } else if (response.dataList[i].order.status == 22) {
+                                cc = "商家退款拒绝"
+                            } else if (response.dataList[i].order.status == 23) {
+                                cc = "平台退款拒绝"
+                            }
+
+                        } else {
+
+                            var orderList = "";
+                            var cc = "等待支付"
+                            if (response.dataList[i].status == 11) {
+                                cc = "等待支付"
+                            } else if (response.dataList[i].order.status == 12) {
+                                cc = "待发货"
+                            } else if (response.dataList[i].order.status == 13) {
+                                cc = "配送中"
+
+                            } else if (response.dataList[i].order.status == 15) {
+                                cc = "待评价"
+
+                            } else if (response.dataList[i].order.status == 16) {
+                                cc = "已完成"
+
+                            } else if (response.dataList[i].order.status == 20) {
+                                cc = "退款中"
+                            } else if (response.dataList[i].order.status == 21) {
+                                cc = "退款成功"
+                            } else if (response.dataList[i].order.status == 22) {
+                                cc = "商家退款拒绝"
+                            } else if (response.dataList[i].order.status == 23) {
+                                cc = "平台退款拒绝"
+                            }
+
+
+                        }
+                         
+                        if (typ == 0) {
+                            if (type == 0) {
+                                orderList += '<li class="clearfix">' +
+                                    ' <p class="tittle"><span class="fl">订单编号:' + response.dataList[i].order.orderNum + '</span><span class="fr">' + cc + '</span></p>' +
+                                    ' <div class="card' + i + ' card cards clearfix" data-id="' + response.dataList[i].order.orderNum + '">' +
+                                    '</div>' +
+                                    '<div class="operation">' +
+                                    '<button  data-id="' + response.dataList[i].order.orderNum + '"  data-qian="'+response.dataList[i].order.oderPrice+'" id="toPay"  class="topay">去支付</button >' +
+                                    '</div>' +
+                                    '</li>';
+                            } else if (type == 1 || type == 3 || type == 4) {
+
+                                orderList += '<li  class="clearfix">' +
+                                    ' <p class="tittle"><span class="fl">订单编号:' + response.dataList[i].order.orderNum + '</span><span class="fr">' + cc + '</span></p>' +
+                                    ' <div class="card' + i + ' card cards clearfix" data-id="' + response.dataList[i].order.orderNum + '">' +
+                                    '</div>' +
+                                    '</li>';
+                            } else {
+                                orderList += '<li  class="clearfix">' +
+                                    ' <p class="tittle"><span class="fl">订单编号:' + response.dataList[i].order.orderNum + '</span><span class="fr">' + cc + '</span></p>' +
+                                    ' <div class="card' + i + ' card cards clearfix" data-id="' + response.dataList[i].order.orderNum + '">' +
+                                    '</div>' +
+                                    '<div class="operation">' +
+                                    '<button id="toPay" data-id="' + response.dataList[i].order.orderNum + '"  class="toeval">待评价</button>' +
+                                    '</div>' +
+                                    '</li>';
+                            }
+                        } else {
+
+                            if (type == 0) {
+
+                                orderList += '<li  class="clearfix">' +
+                                    ' <p class="tittle"><span class="fl">订单编号:' + response.dataList[i].order.orderNum + '</span><span class="fr">' + cc + '</span></p>' +
+                                    ' <div class="card' + i + ' card clearfix" data-id="' + response.dataList[i].order.orderNum + '">' +
+                                    '</div>' +
+                                    '<div class="operation">' +
+                                    '<button  data-id="' + response.dataList[i].order.orderNum + '" data-qian="'+response.dataList[i].order.oderPrice+'"  id="toPay"  class="topay">去支付</button >' +
+                                    '</div>' +
+                                    '</li>';
+                            } else if (type == 1 || type == 3 || type == 4) {
+
+                                if (response.dataList[i].order.status == 13) {
+                                    orderList += '<li  class="clearfix">' +
+                                        ' <p class="tittle"><span class="fl">订单编号:' + response.dataList[i].order.orderNum + '</span><span class="fr">' + cc + '</span></p>' +
+                                        ' <div class="card' + i + ' card clearfix" data-id="' + response.dataList[i].order.orderNum + '">' +
+                                        '</div>' +
+                                        '<div class="operation">' +
+                                        '<button  data-id="' + response.dataList[i].order.orderNum + '" id="shouhuo" class="fr">确认收货</button >' +
+                                        '</div>' +
+                                        '</li>';
+
+                                } else {
+                                    orderList += '<li  class="clearfix">' +
+                                        ' <p class="tittle"><span class="fl">订单编号:' + response.dataList[i].order.orderNum + '</span><span class="fr">' + cc + '</span></p>' +
+                                        ' <div class="card' + i + ' card clearfix" data-id="' + response.dataList[i].order.orderNum + '">' +
+                                        '</div>' +
+                                        '</li>';
+                                }
+
+                            } else {
+
+                                orderList += '<li  class="clearfix">' +
+                                    ' <p class="tittle"><span class="fl">订单编号:' + response.dataList[i].order.orderNum + '</span><span class="fr">' + cc + '</span></p>' +
+                                    ' <div class="card' + i + ' card clearfix" data-id="' + response.dataList[i].order.orderNum + '">' +
+                                    '</div>' +
+                                    '<div class="operation" id = "pingjia">' +
+                                    '<button data-id="' + response.dataList[i].order.orderNum + '" id="toPay" class="toeval">待评价</button>' +
+                                    '</div>' +
+                                    '</li>';
+                            }
+
+                        }
+
+
+
+
+
+
+                        var tupian = "";
+                        console.log(typ)
+                        //外卖订单
+                        if(typ==0){
+                            console.log("走了这个")
+                            for (var j = 0; j < response.dataList[i].orderList.length; j++) { //第二层商品
+                                tupian += '<div class="yy_qisi clearfix"> <div class="cardImg">' +
+                                    '<img src="' + response.dataList[i].orderList[j].orderDetai.goodsImage + '" alt="">' +
+                                    //'<img src="' + response.dataList[i].orderList[j].orderDetai.goodsImage +'" alt="">'
+                                    '</div>' +
+                                    '<div class="cardMsg">' +
+                                    '<p class="name">' + response.dataList[i].order.shopName + '</p>' +
+                                    '<p class="time">' + response.dataList[i].orderList[j].orderDetai.createTime + '</p>' +
+                                    ' <div class="cmdyt"><p class="busName">' + response.dataList[i].orderList[j].orderDetai.goodsName + '</p><span class="num">等' + response.dataList[i].orderList[j].orderDetai.goodsNum + '件商品</span><span class="price">￥' + response.dataList[i].orderList[j].orderDetai.price + '</span></div>' + ' </div></div>'
+                            }
+                        }else if(typ==1){
+                          //商品订单
+                          console.log("走了else")
+                            for (var j = 0; j < response.dataList[i].orderList.length; j++) { //第二层商品
+                                  
+                                tupian += '<div class="yy_qisi clearfix"><div class="cardImg">' +
+                                    '<img src="' + response.dataList[i].orderList[j].orderDetai.goodsImage + '" alt="">' +
+                                    '</div>' +
+                                    '<div class="cardMsg shop_sc">' +                                    
+                                    ' <div class="cmdyt"><p class="busName">' + response.dataList[i].orderList[j].orderDetai.goodsName + '</p><span class="shop_price">￥' + response.dataList[i].orderList[j].orderDetai.price + '</span><span class="num" style=" float: right; margin-right: 24px;color: #999;">x' + response.dataList[i].orderList[j].orderDetai.goodsNum + '</span></div>' + ' </div></div>';
+                              //var  shijian+='<div class="shij_heji"><p class="time">' + response.dataList[i].orderList[j].orderDetai.createTime + '</p><span >合计：<i>'+response.dataList[i].orderList[j].orderDetai.price+'</i></span></div>';
+                            }
+                        }
+                      // if(str . length > 5) str = str.substring(0,5) + '...';//控制显示五个字符+....；
+
+                        $(".orderList").append(orderList);
+                        // $(".orderList li").append()
+                        $(".card" + i).append(tupian+'<div class="shij_heji"><p class="time">' + response.dataList[i].order.createTime + '</p><span >合计：<i>'+response.dataList[i].order.payMoney+'</i></span></div>');
+                         
+
+                        $(".topay").on("tap", function() {
+                            var id = $(this).attr("data-id")
+                            var qian=$(this).attr("data-qian")
+                            console.log("http://cqmxsm.com/duoshangcheng/vip/pay?prca=" + qian + "&num=" + id + "&prc=" + qian + "&cz=0")
+
+                          // /    window.location.href = "http://cqmxsm.com/duoshangcheng/vip/pay?prca=" + qian + "&num=" + id + "&prc=" + qian + "&cz=0";
+                          window.location.href = "http://cqmxsm.com/duoshangcheng/vip/pay?prca=" + qian + "&num=" + id + "&prc=" + qian + "&cz=0";
+
+
+                            // $.ajax({
+                            //     type: "get",
+                            //     url: waimaiurl + "/payment",
+                            //     data: {
+                            //         "orderNum": id,
+                            //         "goodsType": typ
+                            //     },
+                            //     dataType: "json",
+                            //     success: function(response) {
+                            //         console.log(response)
+                            //         if (response.result == 0) {
+                            //             //这个是商城商品支付
+                            //                  // window.location.href = "http://cqmxsm.com/duoshangcheng/vip/pay?prca=" + response.object.money + "&num=" + response.object.orderNum + "&prc=" + response.object.money + "&cz=0";
+                            //         //    window.location.href = "../waimai/html/paySuccess.html?orderNum=" + id;
+                            //         }
+                            //     }
+                            // });
+                        })
+
+
+                        $(".toeval").on("tap", function() {
+                            console.log(11)
+                            var id = $(this).attr("data-id")
+                            if (typ == 0) {
+//                              window.location.href = "../waimai/html/orderEvala.html?orderNum=" + id + "&goodsType=" + typ;
+                            } else {
+                                window.location.href = "../waimai/html/orderEval.html?orderNum=" + id + "&goodsType=" + typ;
+                            }
+
+                        })
+                         //确认收货
+                          console.log("能点击几次确认收货"+flg)
+                          $("#shouhuo").on("tap", function() {
+                                if(flg==0){
+                                flg=1;
+                                console.log("能点击几次确认收货"+flg)
+                                var id = $(this).attr("data-id")
+                                console.log(id)
+
+                                $.ajax({
+                                    type: "get",
+                                    url: waimaiurl + "/confirmReceipt",
+                                    data: {
+                                        "orderNum": id,
+                                        "goodsType": typ,
+                                        "uid": uid
+                                    },
+                                    dataType: "json",
+                                    success: function(response) {
+                                        console.log(response)
+                                        flg=0;
+                                        if (response.result == 0) {
+                                            
+                                           $('.orderList li').empty();
+                                           getData(1, 1);
+                                           //这个是外卖支付
+                                           // window.location.href = "../waimai/html/paySuccess2.html?orderNum=" + id;
+                                        }
+                                    },fail(response){
+                                        flg=0;
+                                    }
+                                });
+
+                            }else{
+                               mui.toast("已确认收货")
+                            }
+                            })
+                        
+
+
+
+                    }
+
+
+
+
+
+
+
+                    $(".card").on("tap", function() {
+                        console.log(type)
+
+                        var id = $(this).attr("data-id")
+                        console.log(id)
+
+                        if (typ == 0) {
+                            if (type == 0) {
+                                window.location.href = "../waimai/html/orderWait.html?orderNum=" + id + "&goodsType=" + typ;
+                            } else if (type == 1) {
+                                window.location.href = "../waimai/html/orderOn.html?orderNum=" + id + "&goodsType=" + typ;
+                            } else if (type == 2) {
+                                window.location.href = "../waimai/html/orderSure.html?orderNum=" + id + "&goodsType=" + typ;
+                            } else if (type == 3) {
+                                window.location.href = "../waimai/html/orderSues.html?orderNum=" + id + "&goodsType=" + typ;
+                            } else if (type == 4) {
+                                window.location.href = "../waimai/html/orderRefund.html?orderNum=" + id + "&goodsType=" + typ;
+                            }
+                        } else {
+                            if (type == 0) {
+                                window.location.href = "../waimai/html/orderWait.html?orderNum=" + id + "&goodsType=" + typ;
+                            } else if (type == 1) {
+                                window.location.href = "../waimai/html/orderOn2.html?orderNum=" + id + "&goodsType=" + typ;
+                            } else if (type == 2) {
+                                window.location.href = "../waimai/html/orderSure.html?orderNum=" + id + "&goodsType=" + typ;
+                            } else if (type == 3) {
+                                window.location.href = "../waimai/html/orderSues2.html?orderNum=" + id + "&goodsType=" + typ;
+                            } else if (type == 4) {
+                                window.location.href = "../waimai/html/orderRefund.html?orderNum=" + id + "&goodsType=" + typ;
+                            }
+                        }
+                    })
+
+                }
+            });
+        }
+        $(".orderTab li").on("tap", function() {
+            $(".orderList").html("");
+            type = $(this).attr("dart-type")
+            console.log(type,typ)
+            $('.orderList li').empty();
+            getData(type, typ)
+
+            $(".orderTab li").removeClass("active");
+            $(this).addClass("active")
+
+
+
+
+
+        })
+       //点击商城或者外卖 最上面的tab切换
+        $(".topTab li").on("tap", function() {
+            $(".orderList").html("");
+            typ = $(this).attr("dart-type")
+            console.log(type,typ)
+            $('.orderList li').empty();
+            getData(type, typ)
+
+            $(".topTab li").removeClass("active");
+            $(this).addClass("active")
+
+        })
+
+
+
+
+    }
+</script>

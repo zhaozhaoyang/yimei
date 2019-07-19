@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title>确认信息</title>
+
+	<link href="../css/mui.min.css" rel="stylesheet" />
+	<link rel="stylesheet" type="text/css" href="../css/style.css" />
+	<link rel="stylesheet" href="../css/icons-extra.css" />
+	<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+	<link rel="stylesheet" href="../css/swiper.min.css" />
+</head>
+
+<style>
+	html,
+	body {
+		position: relative;
+		background: #fff;
+		height: auto;
+	}
+
+	#app {
+		margin-top: 54px;
+		padding: 0 3%;
+	}
+
+	#app input {
+		background: #f7f7f7;
+	}
+
+	.title {
+		font-size: 14px;
+		color: #333;
+		font-weight: 600;
+	}
+
+	#sure {
+		width: 90%;
+		border-radius: 6px;
+		margin-left: 5%;
+		margin-top: 10px;
+		margin-bottom: 20px;
+		background: #E60012;
+		height: 44px;
+		border: none;
+		color: #fff;
+		font-weight: 600;
+		font-size: 13px;
+	}
+
+	.msg {
+		height: 128px;
+		border-bottom: 1px solid #e6e6e6;
+		padding: 0 3%;
+	}
+
+	.title+div img {
+		width: 40px;
+		height: 40px;
+		border-radius: 100%;
+		float: left;
+	}
+
+	.title+div p {
+		margin-bottom: 5px;
+	}
+
+	.title+div div {
+		float: left;
+		margin-left: 5%;
+	}
+
+	.myMsg {
+		padding: 3%;
+		clear: both;
+	}
+
+	#app .myMsg .mui-input-row input,
+	#app .myMsg .mui-input-row textarea {
+		width: 100%;
+		background: #f7f7f7;
+		border: 1px solid #e0e0e0;
+		padding: 0 2%;
+	}
+
+	.mui-input-row label {
+        padding: 10px 0;
+        font-size: 14px;
+    }
+     input::-webkit-input-placeholder,
+    textarea::-webkit-input-placeholder {
+        font-size: 14px;
+    }
+    
+    input::-moz-placeholder,
+    textarea::-webkit-input-placeholder {
+        font-size: 14px;
+    }
+    
+    input:-ms-input-placeholder,
+    textarea::-webkit-input-placeholder {
+        font-size: 14px;
+    }
+    input::-webkit-input-placeholder {
+        font-size: 14px;
+    }
+    
+    input::-moz-placeholder {
+        font-size: 14px;
+    }
+    
+    input:-ms-input-placeholder {
+        font-size: 14px;
+    }
+
+	.first input {
+		position: relative;
+	}
+
+	.first button {
+		position: absolute;
+		right: 0;
+		top: 54%;
+		border: none;
+		background: transparent;
+		color: #E60012;
+		border-left: 1px solid #e2e2e2;
+	}
+
+	.sencod {
+		margin-top: 10px;
+	}
+</style>
+
+<body>
+
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		<h1 class="mui-title">确认信息</h1>
+	</header>
+	<div id="app">
+		<div class="msg">
+			<!-- <p class="title">业务员信息</p>
+			<div>
+				<img src="../img/jieguo@3x.png" />
+				<div>
+					<p class="title">业务员名称</p>
+					<p>性别：男</p>
+					<p>电话:13265465546654</p>
+				</div>
+			</div> -->
+		</div>
+		<div class="myMsg">
+			<p class="title">我的信息</p>
+			<div style="height:50px;" class="geren">
+				<!-- <img src="../img/jieguo@3x.png" />
+				<div>
+					<p class="title">微信昵称</p>
+				</div>-->
+			</div>
+			<div class="mui-input-row">
+				<label for="">姓名</label>
+				<input id="name" type="text" placeholder="请输入您的真实姓名">
+			</div>
+			<div class="mui-input-row mui-password">
+				<label for="">备注</label>
+				<textarea id="beizhu" type="text" placeholder="请输入备注信息" style="height: 117px;"></textarea>
+			</div>
+			<div class="mui-input-row first">
+				<label for="">绑定手机号</label>
+				<input id="account" class="numner" type="text" placeholder="请输入绑定的手机号码">
+				<button class="sendCode" id="sendCode">获取验证码</button>
+			</div>
+			<div class="mui-input-row sencod">
+				<input id="yanzheng" class="inputCode" type="text" placeholder="请输入手机验证码">
+			</div>
+		</div>
+
+		<button id="sure"> 提交</button>
+	</div>
+
+	<script src="../js/zepto.min.js"></script>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/vue.min.js"></script>
+	<script src="../js/swiper.min.js"></script>
+	<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+</body>
+<script type="text/javascript">
+	var uid;
+	var codeUid;
+	window.onload = function () {
+		uid=getParmVal("uid");
+		codeUid=getParmVal("codeUid");
+		console.log("uid:"+uid+"  codeUid:"+codeUid)
+		function getQueryString(name) {
+			var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+			var r = window.location.search.substr(1).match(reg);
+			if (r != null) {
+				return unescape(r[2]);
+			}
+			return null;
+		}
+		//被扫码人ID
+		//var codeUid = getQueryString('codeUid');
+
+		// var uid = 1;
+		// var codeUid = 2
+		$.ajax({
+			type: "get",
+			url: waimaiurl + "/ownerInformation",
+			data: { "codeUid": codeUid, "uid": uid },
+			dataType: "json",
+			success: function (response) {
+				console.log(response)
+				// <p class="title">业务员信息</p>
+				// 	<div>
+				// 	<img src="../img/jieguo@3x.png" />
+				// 	<div>
+				// 		<p class="title">业务员名称</p>
+				// 		<p>性别：男</p>
+				// 		<p>电话:13265465546654</p>
+				// 	</div>
+				// </div>
+				var sex = "";
+				if (response.codeUser.sex == 1) {
+					sex = '男'
+				} else if (response.codeUser.sex == 2) {
+					sex = '女'
+				} else {
+					sex = '未知'
+				}
+
+				var inner = "";
+				var cphpne=response.codeUser.phone;
+				if(typeof(featureId)=="undefined"){
+					cphpne="";
+				}
+				inner += '<p class="title">业务员信息</p>' +
+					'<div>' +
+					'<img src="' + response.codeUser.icon + '" />' +
+					'<div>' +
+					'<p class="title">' + response.codeUser.nickName + '</p>' +
+					'<p>性别：' + sex + '</p>' +
+					'<p>电话:' + cphpne + '</p>' +
+					'</div>' +
+					'</div>'
+
+
+				$(".msg").append(inner);
+
+				// 	<p class="title">我的信息</p>
+				// 		<div style="height:50px;">
+				// 			<img src="../img/jieguo@3x.png" />
+				// 			<div>
+				// 				<p class="title">微信昵称</p>
+				// 			</div>
+				// 		</div>
+				// 		<div class="mui-input-row">
+				// 			<label for="">姓名</label>
+				// 			<input type="text" placeholder="请输入您的真实姓名">
+				//		 </div>
+				// 			<div class="mui-input-row mui-password">
+				// 				<label for="">备注</label>
+				// 				<textarea type="text" placeholder="请输入备注信息" style="height: 117px;"></textarea>
+				// 			</div>
+				// 			<div class="mui-input-row first">
+				// 				<label for="">绑定手机号</label>
+				// 				<input type="text" placeholder="请输入绑定的手机号码">
+				// 					<button>获取验证码</button>
+				//			 </div>
+				// 			 <div class="mui-input-row sencod">
+				// 					<input type="text" placeholder="请输入手机验证码">
+				//			 </div>
+
+				var geren = "";
+				geren += '<img src="' + response.user.icon + '" />' +
+					'<div>' +
+					'<p class="title">' + response.user.nickName + '</p>' +
+					'</div>';
+				$(".geren").append(geren);
+
+
+			}
+		});
+
+
+		//var uid = localStorage.getItem("UID");
+		var phone = $("#account").val();
+		var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+		var code = "0"; //间隔函数，1秒执行 
+		var code1 = "";
+		var code2 = "";
+		var curCount = 60; //当前剩余秒数 
+		function SetRemainTimes() {
+			if (curCount == 0) {
+				window.clearInterval(InterValObj);
+				$("#sendCode").removeAttr("disabled");
+				$("#sendCode").html("重新发送验证码");
+				curCount = 60;
+			} else {
+				curCount--;
+				$("#sendCode").html(curCount + "秒后再次发送");
+			}
+		}
+		$("#sendCode").on("tap", function (param) {
+			var phone = $("#account").val();
+
+			if (!myreg.test(phone)) {
+				mui.toast("请输入正确的手机号")
+				return false;
+			} else {
+				console.log("**")
+				$(this).attr("disabled", "true");
+				$(this).html(curCount + "秒后再次发送");
+				InterValObj = window.setInterval(SetRemainTimes, 1000);
+				$.ajax({
+					type: "get",
+					url: 'http://cqmxsm.com/duoshangcheng/api/service?json={"cmd":"sendSms","phone":"' + phone + '","type":"0"}',
+					data: "",
+					dataType: "json",
+					success: function (response) {
+						mui.toast(response.resultNote);
+						code2 = response.verificationCode;
+					}
+				});
+
+			}
+			// console.log(phone)
+		})
+
+
+		$("#sure").on("tap", function () {
+
+			var name = $("#name").val();
+			var beizhu = $("#beizhu").val();
+			var phone = $("#account").val();
+			var yanzheng = $("#yanzheng").val();
+
+			console.log("name --------- " + name)
+			console.log("beizhu --------- " + beizhu)
+			console.log("phone --------- " + phone)
+			console.log("yanzheng --------- " + yanzheng)
+
+			if (name == '') {
+				mui.toast("请输入姓名");
+				return;
+			}
+
+			if (beizhu == '') {
+				mui.toast("请输入备注");
+				return;
+			}
+
+			if (phone == '') {
+				mui.toast("请输入电话");
+				return;
+			}
+
+			if (yanzheng == '') {
+				mui.toast("请输入验证");
+				return;
+			}
+
+			$.ajax({
+				type: "get",
+				url: waimaiurl + "/updateInformation",
+				data: { "uid": uid, "codeUid":codeUid,"userName": name, "userBeizhu": beizhu, "userPhone": phone },
+				dataType: "json",
+				success: function (response) {
+					console.log(response)
+					if (response.result == 0) {
+						mui.toast("申请信息提交成功~~~");
+						window.location.href = "http://cqmxsm.com/duoshangcheng/webpage/modules/waimai/index.html?uid="+uid;
+					}
+
+				}
+			});
+		})
+
+		var phone = getQueryString('phone');
+		console.log(phone)
+		if (!phone) {
+
+		} else {
+			$(".numner").val(phone)
+		}
+
+	}
+</script>

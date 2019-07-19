@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>业务员</title>
+    <script src="../js/mui.min.js"></script>
+    <script src="../js/vue.min.js"></script>
+    <link href="../css/mui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/icons-extra.css" />
+    <link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+    <link rel="stylesheet" href="../css/swiper.min.css" />
+</head>
+
+<style>
+    #app {
+        margin-top: 50px;
+    }
+    
+    a {
+        color: #333;
+    }
+    
+    body,
+    html {
+        background: #fff;
+    }
+    
+    .topMsg {
+        background: url("../img/fenxiaobeijing@3x.png") no-repeat;
+        height: 186px;
+        width: 96%;
+        background-size: cover;
+        margin: 2%;
+        padding-top: 30px;
+        border-radius: 6px;
+        text-align: center;
+    }
+    
+    .topMsg img {
+        width: 70px;
+        height: 70px;
+        border-radius: 100%;
+    }
+    
+    .topMsg p {
+        margin-top: 10px;
+        color: #221815;
+        font-weight: 600;
+        font-size: 15px;
+        border-radius: 100%;
+    }
+    
+    .myList {
+        width: 100%;
+        padding: 3%;
+        height: 250px;
+        margin-top: 50px;
+    }
+    
+    .myList li {
+        width: 50%;
+        float: left;
+        height: 125px;
+        text-align: center;
+    }
+    
+    .myList li p {
+        color: #333;
+        font-size: 13px;
+        font-weight: 600;
+        margin-top: 10px;
+    }
+    
+    .myList li img {
+        width: 30px;
+        height: 30px;
+    }
+</style>
+
+<body>
+
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">业务员</h1>
+    </header>
+    <div id="app">
+        <div class="topMsg">
+            <img id="icon" src="../img/dingweitubs@3x.png" alt="">
+            <p id="name"></p>
+        </div>
+        <div class="myList">
+            <li id="jifen">
+                <img src="../img/wodejifen@3x.png" alt="">
+                <p>我的积分</p>
+            </li>
+            <li id="tuiguang">
+                <img src="../img/kaishituiguang@3x.png" alt="">
+                <p>开始推广</p>
+            </li>
+            <li id="shangji">
+                <img src="../img/wodeshangji@3x.png" alt="">
+                <p>我的上级</p>
+            </li>
+            <li id="kehu">
+                <img src="../img/wodekehu@3x.png" alt="">
+                <p>我的客户</p>
+            </li>
+        </div>
+    </div>
+    <script src="../js/zepto.min.js"></script>
+    <script src="../js/swiper.min.js"></script>
+    <script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+</body>
+<script type="text/javascript">
+    window.onload = function() {
+        var nickName = localStorage.getItem("nickName");
+        var uid = localStorage.getItem("UID");
+        $.ajax({
+                type: "get",
+                url: waimaiurl + "/personalCenter",
+                data: {
+                    "uid": uid
+                },
+                dataType: "json",
+                success: function(response) {
+                    console.log(response)
+                    if (response.result == "0") {
+                        $("#name").html(response.object.nickName);
+                        $("#icon").attr("src", response.object.icon);
+                    }
+                }
+            })
+            //我的上级
+        $("#shangji").on("tap", function() {
+            window.location.href = "../html/mySuperior.html";
+
+        })
+
+        //我的客户
+        $("#kehu").on("tap", function() {
+            window.location.href = "../html/myKehu.html";
+
+        })
+
+        //我的积分
+        $("#jifen").on("tap", function() {
+                window.location.href = "../html/myjifen.html";
+
+            })
+            //我的推广
+        $("#tuiguang").on("tap", function(param) {
+            var cod = localStorage.getItem("qrcode");
+            location.href = "../html/myExtension.html?qrcode=" + cod;
+            // window.location.href = "../html/myjifen.html";
+        })
+
+
+    }
+</script>

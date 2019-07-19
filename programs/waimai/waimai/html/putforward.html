@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title></title>
+	<link href="../css/mui.min.css" rel="stylesheet" />
+	<link href="../css/style.css" rel="stylesheet" />
+	<style>
+		.area {
+			margin: 20px auto 0px auto;
+		}
+
+		body,
+		html {
+			background: #F2F2F2;
+		}
+
+		.mui-content {
+			background: #fff;
+			height: 60%;
+		}
+
+		input::-webkit-input-placeholder,
+		textarea::-webkit-input-placeholder {
+			font-size: 12px;
+		}
+
+		input:-moz-placeholder,
+		textarea:-moz-placeholder {
+			font-size: 12px;
+		}
+
+		input::-moz-placeholder,
+		textarea::-moz-placeholder {
+			font-size: 12px;
+		}
+
+		input:-ms-input-placeholder,
+		textarea:-ms-input-placeholder {
+			font-size: 12px;
+		}
+
+		.shu {
+			margin-top: 8px;
+			color: #CCCCCC;
+		}
+
+		#login-form {
+			padding: 0 3%;
+		}
+
+		#login {
+			height: 44px;
+			background: rgba(230, 0, 18, 1);
+			border-radius: 6px;
+			border: none;
+			margin: 50px auto;
+			width: 96%;
+			line-height: 20px;
+			font-size: 15px;
+		}
+
+		.price {
+			margin: 3%;
+			line-height: 2.5;
+			height: 85px;
+		}
+
+		#account {
+			border: 0;
+			border-bottom: 1px solid #f2f2f2;
+		}
+
+		.price .fl {
+			font-size: 15px;
+			font-family: PingFang-SC-Medium;
+			color: rgba(0, 0, 0, 1);
+			width: 30%;
+		}
+
+		.price .fr {
+			width: 70%;
+		}
+
+		.price .fl span {
+			font-size: 25px;
+		}
+
+		.pricea {
+			clear: both;
+			margin-bottom: 10px;
+			height: 105px;
+		}
+
+		.pricea #account {
+			margin-bottom: 10px;
+			width: 100%;
+			border: 1px solid rgba(0, 0, 0, .2);
+		}
+
+		.pricea .ff {
+			font-size: 15px;
+			font-family: PingFang-SC-Medium;
+			color: rgba(0, 0, 0, 1);
+		}
+	</style>
+
+</head>
+
+<body>
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		<h1 class="mui-title">提现</h1>
+	</header>
+	<div class="mui-content">
+		<div class="price">
+			<p class="fl">提现金额：<span>￥</span></p>
+			<input id='account' type="text" class="mui-input-clear mui-input fr price" placeholder="">
+		</div>
+		<div class="price pricea">
+			<p class="ff">提现到银行卡：<span></span></p>
+			<input id='account' type="text" class="mui-input-clear mui-input fr bankName" placeholder="请输入开户行">
+			<input id='account' type="text" class="mui-input-clear mui-input fr userName" placeholder="请输入开户人姓名">
+			<input id='account' type="text" class="mui-input-clear mui-input fr cardNum" placeholder="请输入银行卡号">
+		</div>
+
+	</div>
+	<div class="mui-content-padded">
+		<button id='login' class="mui-btn mui-btn-block mui-btn-primary">申请提现</button>
+	</div>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/mui.enterfocus.js"></script>
+	<script src="../js/zepto.min.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script>
+		
+		window.onload = function () {
+			var uid = localStorage.getItem("UID");
+			// var states = localStorage.getItem("states");
+			function getQueryString(name) {
+				var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+				var r = window.location.search.substr(1).match(reg);
+				if (r != null) {
+					return unescape(r[2]);
+				}
+				return null;
+			}
+
+			console.log(states)
+			var states = getQueryString('states');
+
+			$("#login").on("tap", function () {
+
+				var bankName = $(".bankName").val();
+				var name = $(".userName").val();
+				var bankNumber = $(".cardNum").val();
+				var price = $("#account").val();
+				if(bankName == ""){
+					mui.toast("开户行不能为空")
+					return;
+				}
+				if(name == ""){
+					mui.toast("开户姓名不能为空")
+					return;
+				}
+				if(bankNumber == ""){
+					mui.toast("开户卡号不能为空")
+					return;
+				}
+				if(price == ""){
+					mui.toast("金额")
+					return;
+				}
+				
+				$.ajax({
+					type: "get",
+					url: waimaiurl + "/riderApplyWithdraw",
+					data: { "uid": uid, "states": states, "money": price, "bankNumber": bankNumber,"name": name,"bankName":bankName},
+					dataType: "json",
+					success: function (response) {
+						console.log(response)
+						if (response.result == 0) {
+
+							window.location.href = "forwardSues.html?states=" + states;
+
+						} else {
+							mui.toast("余额不足")
+						}
+					}
+				});
+
+			})
+		}
+	</script>
+</body>
+
+</html>

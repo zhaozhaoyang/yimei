@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>评价订单</title>
+    <script src="../js/mui.min.js"></script>
+    <script src="../js/vue.min.js"></script>
+    <link href="../css/mui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/icons-extra.css" />
+    <link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+    <link rel="stylesheet" href="../css/swiper.min.css" />
+</head>
+
+<style>
+    html,
+    body {
+        position: relative;
+        background: #fff;
+        height: auto;
+    }
+    
+    #app {
+        margin-top: 44px;
+    }
+    
+    .customer {
+        background: #fff;
+        padding: 3%;
+    }
+    
+    .cmdyList {
+        height: 100px;
+        padding: 2%;
+        border-bottom: 1px solid #f2f2f2;
+    }
+    
+    .cmdyList .cmdIcon img {
+        width: 83px;
+        height: 77px;
+    }
+    
+    .cmdyList .same {
+        margin-left: 5%;
+        width: 65%;
+    }
+    
+    .cmdyList .same p:first-child {
+        font-size: 13px;
+        color: #242424;
+        font-weight: 600;
+        margin-bottom: 20px;
+        margin-top: 10px;
+    }
+    
+    .same .price span:first-child {
+        font-size: 13px;
+        color: #F12132;
+        font-weight: 600;
+    }
+    
+    .customer p {
+        font-size: 15px;
+        font-weight: 600;
+        font-family: PingFang-SC-Bold;
+        color: rgba(51, 51, 51, 1);
+        margin: 36px 0 12px auto;
+    }
+    
+    .customer .star img {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .textarea {
+        margin-top: 15px;
+        height: 133px;
+        width: 100%;
+        padding: 4px;
+        text-align: left;
+        resize: vertical;
+        overflow: auto;
+        background: #F6F6F7;
+    }
+    
+    .textarea:empty:before {
+        content: attr(placeholder);
+        color: #bbb;
+    }
+    
+    .buiness {
+        margin-top: 10px;
+    }
+    
+    .bine {
+        margin-bottom: 80px;
+        height: 300px;
+    }
+    
+    .textareab {
+        height: 85px;
+    }
+    
+    .textareab+div {
+        background: #F6F6F7;
+        position: relative;
+        height: 75px;
+    }
+    
+    .textareab+div img {
+        width: 75px;
+        height: 83px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
+    
+    .footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 45px;
+    }
+    
+    .footer button {
+        height: 100%;
+        width: 100%;
+        background: #F12132;
+        color: #fff;
+        border: 0;
+        border-radius: 0;
+    }
+    
+    .imglist .ipt2,
+    .imglist .img2 {
+        left: 88px;
+    }
+    
+    .imglist .ipt3,
+    .imglist .img3 {
+        left: 166px;
+    }
+    
+    .imglist .ipt4,
+    .imglist .img4 {
+        left: 245px;
+    }
+    
+    .imglist img {
+        left: 3%;
+        width: 75px;
+        height: 75px;
+        margin: 3% 0;
+        position: absolute
+    }
+    
+    .imglist img+input {
+        width: 75px;
+        opacity: 0;
+        height: 75px;
+        float: left;
+        /* position: absolute */
+    }
+    
+    .imglist {}
+    
+    .imglist {
+        width: 100%;
+        height: 100px;
+    }
+    
+    .star {
+        text-align: center;
+    }
+    
+    .enen {
+        height: 40px
+    }
+    
+    .mui-table-view-chevron .mui-table-view-cell {
+        padding-right: 15px;
+    }
+    
+    .knight {
+        height: 70px;
+        background: #eee;
+        width: 100%;
+        margin: 0;
+        padding: 2%;
+    }
+    
+    .knight .knigIcon {
+        width: 20%;
+        text-align: center;
+    }
+    
+    .knight .knigIcon img {
+        width: 40px;
+        height: 40px;
+        margin: 6% 2%;
+    }
+    
+    .knigMsg .name {
+        margin-top: 5px;
+        font-size: 14px;
+        font-family: PingFang-SC-Bold;
+        color: rgba(51, 51, 51, 1);
+        font-weight: 600;
+        margin-bottom: 0;
+    }
+    
+    .customer {
+        background: #fff;
+        height: 267px;
+        text-align: center;
+        padding: 2%;
+        margin-bottom: 60px;
+    }
+    
+    .customer p {
+        font-size: 15px;
+        font-weight: 600;
+        font-family: PingFang-SC-Bold;
+        color: rgba(51, 51, 51, 1);
+        margin: 36px 0 12px auto;
+    }
+    
+    .customer .star img {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .textarea {
+        margin-top: 15px;
+        height: 200px;
+        width: 100%;
+        padding: 4px;
+        text-align: left;
+        resize: vertical;
+        overflow: auto;
+        background: #F6F6F7;
+    }
+    
+    .textarea:empty:before {
+        content: attr(placeholder);
+        color: #bbb;
+    }
+    
+    .buiness {
+        margin-top: 10px;
+    }
+    
+    .bine {
+        margin-bottom: 80px;
+        height: 300px;
+    }
+    
+    .textareab {
+        height: 85px;
+    }
+    
+    .textareab+div {
+        background: #F6F6F7;
+        position: relative;
+        height: 75px;
+    }
+    
+    .textareab+div img {
+        width: 75px;
+        height: 75px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
+    
+    .footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 45px;
+    }
+    
+    .footer button {
+        height: 100%;
+        width: 100%;
+        background: #F12132;
+        color: #fff;
+        border: 0;
+        border-radius: 0;
+    }
+</style>
+
+<body>
+
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">评价订单</h1>
+    </header>
+    <div id="app">
+        <div v-for="(item,index) in dataList">
+            <li class="cmdyList">
+                <div class="cmdIcon fl">
+                    <img :src="item.orderDetails2.goodsImage" alt="">
+                </div>
+                <div class="fl same">
+                    <p>{{item.orderDetails2.goodsName}}</p>
+                    <p class="price"> <span>¥{{item.orderDetails2.price}}</span> <span class="fr">x{{item.orderDetails2.goodsNum}}</span></p>
+                </div>
+            </li>
+            <div class="customer">
+                <p>描述相符</p>
+                <div class="star">
+                    <img :src="src.sre" alt="" sizes="" srcset="" @tap="star(index,idx,item.orderDetails2.goodsId,item.orderDetails2.orderNum)" v-for="(src,idx) in item.orderDetails2.starList">
+                    <!-- <img src="../img/star01@3x.png" alt="" sizes="" srcset="">
+                    <img src="../img/star01@3x.png" alt="" sizes="" srcset="">
+                    <img src="../img/star01@3x.png" alt="" sizes="" srcset="">
+                    <img src="../img/star01@3x.png" alt="" sizes="" srcset=""> -->
+                </div>
+                <textarea name="" id="" cols="30" rows="10" class="textarea" v-model="content" @input="ipt($event,index)" placeholder="请输入您的评价~"></textarea>
+                <!-- <div @input="ipt($event,index)" class="textarea" contenteditable="true" placeholder="请输入您的评价~"></div> -->
+                <div class="imglist" style="margin-top: -110px;">
+                    <img src="../img/jiatu@3x.png" alt="" class="img1">
+                    <input type="file" data-ids="1" class="ipt1" @change="selectImage($event,index)">
+                    <img src="../img/jiatu@3x.png" alt="" data-ids="2" class="img2">
+                    <input type="file" data-ids="2" class="ipt2" @change="selectImage($event,index)">
+                    <img src="../img/jiatu@3x.png" alt="" data-ids="3" class="img3">
+                    <input type="file" data-ids="3" class="ipt3" @change="selectImage($event,index)">
+                    <img src="../img/jiatu@3x.png" alt="" data-ids="4" class="img4">
+                    <input type="file" data-ids="4" class="ipt4" @change="selectImage($event,index)">
+                </div>
+
+            </div>
+            <div class="back4"></div>
+        </div>
+        <div class="enen"></div>
+        <div class="knight" v-if="goodsType==0">
+            <div class="knigIcon fl">
+                <img src="../img/dingweitubs@3x.png" alt="">
+            </div>
+            <div class="knigMsg fl">
+                <p class="name">骑手：{{dataObj.riderName}}</p>
+                <p>送达时间：{{dataObj.rider_delivery_time}}</p>
+            </div>
+
+        </div>
+        <div class="customer"  v-if="goodsType==0">
+            <p>你好，评价一下我的配送服务吧~</p>
+            <div class="star">
+                <img :src="src.sre" alt="" sizes="" srcset="" @tap="starc(idx)" v-for="(src,idx) in starListc">
+
+            </div>
+            <textarea class="textarea" id="qisho" contenteditable="true" placeholder="您的建议会督促我做的更好~"></textarea>
+        </div>
+    </div>
+    <div class="footer">
+        <button id="send">提交</button>
+    </div>
+
+    <script src="../js/zepto.min.js"></script>
+    <script src="../js/swiper.min.js"></script>
+    <script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+</body>
+<script type="text/javascript">
+    window.onload = function() {
+        var qishou = {}
+        var uid = localStorage.getItem("UID");
+
+        function getQueryString(name) {
+            var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            }
+            return null;
+        }
+        $(".img2").hide()
+        $(".img3").hide()
+        $(".img4").hide()
+        $(".ipt2").hide()
+        $(".ipt3").hide()
+        $(".ipt4").hide()
+        var orderNum = getQueryString('orderNum');
+        var goodsType = getQueryString('goodsType');
+
+        var comment = []
+        var app = new Vue({
+            el: "#app",
+            data: {
+                 content:'',
+                goodsType:goodsType,
+                send: {},
+                dataObj: {},
+                dataList: [],
+                comment: [],
+                starList: [{
+                    sre: "../img/star2@3x.png"
+                }, {
+                    sre: "../img/star2@3x.png"
+                }, {
+                    sre: "../img/star2@3x.png"
+                }, {
+                    sre: "../img/star2@3x.png"
+                }, {
+                    sre: "../img/star2@3x.png"
+                }],
+                starListc: [{
+                    sre: "../img/star2@3x.png"
+                }, {
+                    sre: "../img/star2@3x.png"
+                }, {
+                    sre: "../img/star2@3x.png"
+                }, {
+                    sre: "../img/star2@3x.png"
+                }, {
+                    sre: "../img/star2@3x.png"
+                }],
+            },
+            methods: {
+                starc: function(idx) {
+                    qishou.star = JSON.stringify(idx + 1);
+                    console.log(idx)
+                    for (var i = 0; i < app.starListc.length; i++) {
+                        app.starListc[i].sre = "../img/star2@3x.png"
+                        if (i <= idx) {
+                            app.starListc[i].sre = "../img/star01@3x.png"
+                        }
+                    }
+
+                },
+                ipt: function($event, idx) {
+                     console.log(app.content)
+                    comment[idx].replyContent = app.content;
+
+                    // console.log($event.target.innerHTML)
+                    // comment[idx].replyContent = $event.target.innerHTML;
+                    // // app.comment[idx] = send
+                    // console.log(comment)
+                },
+                star: function(idx1, idx2, id, num) {
+                    console.log(idx1)
+                    console.log(num)
+                    console.log(idx2)
+                    console.log(app.dataList[idx1].orderDetails2.starList)
+                    comment[idx1].startLevel = JSON.stringify(idx2 + 1);
+                    comment[idx1].orderNum = num;
+                    comment[idx1].foodsId = id;
+                    for (var i = 0; i < app.dataList[idx1].orderDetails2.starList.length; i++) {
+                        app.dataList[idx1].orderDetails2.starList[i].sre = "../img/star2@3x.png"
+                        if (idx2 >= i) {
+                            app.dataList[idx1].orderDetails2.starList[i].sre = "../img/star01@3x.png"
+                        }
+                    }
+                    console.log(app.dataList[idx1])
+                        // app.dataList[idx1].orderDetails2.starList
+                },
+                selectImage: function($event, index) {
+                    console.log()
+                    var ids = $event.target.getAttribute("data-ids");
+                    if (ids == 1) {
+                        $event.target.parentNode.childNodes[4].setAttribute("style", "display:block")
+                        $event.target.parentNode.childNodes[6].setAttribute("style", "display:block")
+                    } else if (ids == 2) {
+                        $event.target.parentNode.childNodes[8].setAttribute("style", "display:block")
+                        $event.target.parentNode.childNodes[10].setAttribute("style", "display:block")
+                    } else {
+                        $event.target.parentNode.childNodes[12].setAttribute("style", "display:block")
+                        $event.target.parentNode.childNodes[14].setAttribute("style", "display:block")
+                    }
+                    console.log($event.target.parentNode.childNodes)
+                    console.log($event.target.parentNode.childNodes)
+
+                    // $event.target.nextElementSibling.show();
+                    // $event.target.nextSibling.show();
+                    // if (ids < 3) {
+                    //     var pp = ;
+                    //     pp.classList.remove("hidd")
+                    // }
+                    // var flowIndex = $event.target.parentNode.getAttribute("name")
+                    var reads = new FileReader();
+                    var f = $event.target.files[0];
+                    reads.readAsDataURL(f);
+                    reads.onload = function(e) {
+                        $event.target.previousElementSibling.src = this.result;
+                    };
+                    var formData = new FormData();
+                    formData.append('file', f); //添加图片信息的参数
+                    app.imgFile(formData, ids, index)
+                        // evaluateList[index].commds. = ""
+                },
+                imgFile: function(formdataa, ids, index) {
+                    $.ajax({
+                        url: baseId + 'addimg',
+                        type: 'post',
+                        cache: false, //上传文件不需要缓存
+                        data: formdataa,
+                        processData: false, // 告诉jQuery不要去处理发送的数据
+                        contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+                        dataType: "json",
+                        success: function(data) {
+                            console.log(data)
+                            if (data.result == "0") {
+                                console.log(ids)
+                                if (ids == 1) {
+                                    comment[index].image1 = data.object;
+                                } else if (ids == 2) {
+                                    comment[index].image2 = data.object;
+                                } else if (ids == 3) {
+                                    comment[index].image3 = data.object;
+                                } else if (ids == 4) {
+                                    comment[index].image4 = data.object;
+                                }
+                            } else {
+                                mui.toast(data.resultNote);
+                            }
+                            // evaluateList[index].push(imageFile)
+                            // commds.imageFile = imageFile;
+                        },
+                        error: function(data) {
+                            console.log(data)
+                        }
+                    })
+                },
+
+            },
+            mounted() {
+                var that = this;
+                $("#send").on("tap", function(param) {
+                    qishou.cont = $("#qisho").val()
+                        //骑手评价和行行
+
+                    var evalList = JSON.stringify(comment);
+                    var qishous = JSON.stringify(qishou);
+                    console.log(qishous)
+                        // "goodsType": typ,
+                        //tij提交函数
+                    $.ajax({
+                        type: "get",
+                        url: waimaiurl + '/myEvaluate?json={"orderNum" : "' + orderNum + '" ,"goodsTypes":  "' + goodsType + '","uid" : "' + uid + '" ,"evalList" : ' + evalList + ',"qishou":' + qishous + '}',
+                        // url: waimaiurl + "/myEvaluate",
+                        data: {
+                            "orderNum": orderNum,
+                            "uid": uid,
+                            "evalList": evalList
+                        },
+                        dataType: "json",
+                        success: function(response) {
+                            console.log(response)
+                            window.location.href = "http://cqmxsm.com/duoshangcheng/webpage/modules/waimai/order.html";
+                        }
+                    });
+
+                })
+
+                $.ajax({
+                    type: "get",
+                    url: waimaiurl + "/riderOrderDetails",
+                    data: {
+                        "orderNum": orderNum
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.result == "0") {
+                            var length = response.dataList.length;
+                            // orderDetails2={}
+                            console.log(that.starList)
+                            that.dataObj.length = length;
+                            var list = JSON.stringify(that.starList)
+                            for (var i = 0; i < response.dataList.length; i++) {
+                                // response.dataList.push(orderDetails2)
+                                response.dataList[i].orderDetails2.starList = JSON.parse(list)
+                                comment.push({})
+                            }
+                            that.dataList = response.dataList;
+                            that.dataObj = response.object;
+                            qishou.riderId = response.object.riderId;
+                            console.log(comment)
+
+                        }
+                        console.log(response)
+                    }
+                })
+
+            }
+        })
+
+
+
+
+    }
+</script>

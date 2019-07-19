@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title>我的上级</title>
+
+	<link href="../css/mui.min.css" rel="stylesheet" />
+	<link rel="stylesheet" type="text/css" href="../css/style.css" />
+	<link rel="stylesheet" href="../css/icons-extra.css" />
+	<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+	<link rel="stylesheet" href="../css/swiper.min.css" />
+</head>
+
+<style>
+	html,
+	body {
+		position: relative;
+		background: #fff;
+		height: auto;
+	}
+
+	#app {
+		background: #fff;
+		margin: 2%;
+		width: 96%;
+		margin-top: 54px;
+	}
+
+	.title {
+		width: 100%;
+		text-align: center;
+	}
+
+	.title img {
+		width: 70px;
+		height: 70px;
+		border-radius: 100%;
+	}
+
+	.con p {
+		clear: both;
+		height: 50px;
+		line-height: 50px;
+		border-bottom: 1px solid #f2f2f2;
+		padding: 0 3%;
+	}
+</style>
+
+<body>
+
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		<h1 class="mui-title">我的上级</h1>
+	</header>
+	<div id="app">
+		<div class="title">
+			<!-- <img src="../img/tuiguianggaibao@3x.png" alt="">
+			<p>mingc</p> -->
+		</div>
+		<div class="con">
+			<!-- <p>
+				<span class="fl">性别</span>
+				<span class="fr">性别</span>
+			</p>
+			<p>
+				<span class="fl">电话</span>
+				<span class="fr">3165465465465</span>
+			</p> -->
+		</div>
+
+	</div>
+	<script src="../js/zepto.min.js"></script>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/vue.min.js"></script>
+	<script src="../js/swiper.min.js"></script>
+	<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+</body>
+<script type="text/javascript">
+	window.onload = function () {
+		var salesmanId = localStorage.getItem("salesmanId");
+		var uid = localStorage.getItem("UID");
+
+		$.ajax({
+			type: "get",
+			url: waimaiurl + "/mySuperior",
+			data: { "salesmanId": salesmanId },
+			dataType: "json",
+			success: function (response) {
+				console.log(response)
+
+				// < img src = "../img/tuiguianggaibao@3x.png" alt = "" >
+				// <p>mingc</p>
+				var title ="";
+				title += '<img src = "'+ response.object.icon +'" alt = "" >'+
+				'<p>'+ response.object.nickName +'</p>';
+				
+				$(".title").append(title);
+
+
+
+
+				var sex = "";
+				if (response.object.sex != "undefined") {
+
+					if (response.object.sex == 1) {
+						sex = "男";
+					} else if (response.object.sex == 2) {
+						sex = "女";
+					} else {
+						sex = "未知";
+					}
+
+				}
+				// < p >
+				// 	<span class="fl">性别</span>
+				// 	<span class="fr">性别</span>
+				// </p >
+				// <p>
+				// 	<span class="fl">电话</span>
+				// 	<span class="fr">3165465465465</span>
+				// </p>
+				var con = "";
+				con += '<p>' +
+					'<span class="fl">性别</span>' +
+					'<span class="fr">' + sex + '</span>' +
+					'</p >' +
+					'<p>' +
+					'<span class="fl">电话</span>' +
+					'<span class="fr">' + response.object.phone + '</span>' +
+					'</p>';
+
+				$(".con").append(con);
+
+
+			}
+		});
+
+
+	}
+</script>

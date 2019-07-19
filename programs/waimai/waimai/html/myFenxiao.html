@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title>我的业务员</title>
+
+	<link href="../css/mui.min.css" rel="stylesheet" />
+	<link rel="stylesheet" type="text/css" href="../css/style.css" />
+	<link rel="stylesheet" href="../css/icons-extra.css" />
+	<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+	<link rel="stylesheet" href="../css/swiper.min.css" />
+</head>
+
+<style>
+	html,
+	body {
+		position: relative;
+		background: #fff;
+		height: auto;
+	}
+
+	#app {
+		margin-top: 44px;
+	}
+
+	#app input {
+		background: #f7f7f7;
+	}
+
+	.title {
+		font-size: 14px;
+		color: #333;
+		font-weight: 600;
+		height: 40px;
+		line-height: 2.5;
+	}
+
+	.msg {
+		padding: 0 3%;
+
+	}
+
+	.msg .sikb {
+		position: relative;
+		height: 210px;
+	}
+
+	.sik {
+		height: 153px;
+		border-bottom: 1px solid #f2f2f2;
+		padding: 3% 0;
+	}
+
+	.sik img {
+		width: 40px;
+		height: 40px;
+		border-radius: 100%;
+		float: left;
+	}
+
+	.sik+div p {
+		margin-bottom: 5px;
+	}
+
+	.msg p {
+		color: #1a1a1a;
+		font-size: 13px;
+	}
+
+	.over {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+	}
+
+	.top {
+		height: 40px;
+		background: #F2F2F2;
+		text-align: center;
+	}
+
+	.top p {
+		color: #000;
+		font-size: 14px;
+		font-weight: 600;
+	}
+
+	.msg .daishen {
+		color: #E60012;
+	}
+
+	.sikb button {
+		position: absolute;
+		right: 0;
+		top: 18%;
+		background: #FDD100;
+		border: none;
+	}
+</style>
+
+<body>
+
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		<h1 class="mui-title">我的业务员</h1>
+	</header>
+
+	<div id="app">
+		<div class="top">
+			<!-- <p>累计分销商数量11人</p> -->
+		</div>
+		<div class="msg" id="shenhe">
+			<p class="daishen" id="shtitle" style=""></p>
+			<!-- <div class="sik sikb" id="shenhe">
+				<p class="daishen">待审核一人</p>
+				<div id="审核">
+					<img src="../img/jieguo@3x.png" />
+					<p class="title">业务员名称</p>
+					<button class="fr">审核</button>
+				</div>
+
+				<p>真实姓名：男</p>
+				<p>手机号:13265465546654</p>
+				<p class="over">备注:；时代峻峰了会计师的脸孔发就拉卡三等奖弗兰克斯离开的发起进攻(　 ´-ω ･)▄︻┻┳══━一乐山大佛就看看惊世毒妃</p>
+			</div>
+			<div class="sik">
+				<div>
+					<img src="../img/jieguo@3x.png" />
+					<p class="title">业务员名称</p>
+				</div>
+
+				<p>真实姓名：男</p>
+				<p>手机号:13265465546654</p>
+				<p class="over">备注:；时代峻峰了会计师的脸孔发就拉卡三等奖弗兰克斯离开的发起进攻(　 ´-ω ･)▄︻┻┳══━一乐山大佛就看看惊世毒妃</p>
+			</div> -->
+		</div>
+
+	</div>
+
+	<script src="../js/zepto.min.js"></script>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/vue.min.js"></script>
+	<script src="../js/swiper.min.js"></script>
+	<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+</body>
+<script type="text/javascript">
+	window.onload = function () {
+		var uid = localStorage.getItem("UID");
+		$.ajax({
+			type: "get",
+			url: waimaiurl + "/myDistributor",
+			data: { "uid": uid, "switchState": 0 },
+			dataType: "json",
+			success: function (response) {
+				console.log(response)
+				var top = "";
+				top += '<p>累计业务员数量'+ response.object +'人</p>';
+				$(".top").append(top);
+				var dshCount=0;
+				if (response.dataList != "undefinde") {
+
+					
+					for (var i = 0; i < response.dataList.length; i++) {
+						var shenhe = "";
+
+						var sex = "";
+						if (response.dataList[i].sex != "undefined") {
+
+							if (response.dataList[i].sex == 1) {
+								sex = "男";
+							} else if (response.dataList[i].sex == 2) {
+								sex = "女";
+							} else {
+								sex = "未知";
+							}
+
+						}
+
+						if (response.dataList[i].distributorStatus == 0) {
+
+							shenhe += '<div class="sik sikb" >' +
+								
+								'<div id="审核">' +
+								'<img src="' + response.dataList[i].icon + '" />' +
+								'<p class="title">' + response.dataList[i].nickName + '</p>' +
+								'<button class="fr12" style="right: 65px;"  data-id="' + response.dataList[i].id + '">通过</button>' +
+								'<button class="fr1"  data-id="' + response.dataList[i].id + '">拒绝</button>' +
+								'</div>' +
+								'<p>性别：' + sex + '</p>' +
+								'<p>手机号:'+response.dataList[i].phone+'</p>' +
+								'<p class="over">' + response.dataList[i].remark + '</p>' +
+								'</div>';
+							dshCount++;
+						} else {
+
+							shenhe += '<div class="sik">' +
+								'<div>' +
+								'<img src="' + response.dataList[i].icon + '" />' +
+								'<p class="title">' + response.dataList[i].nickName + '</p>' +
+								'</div>' +
+								'<p>性别：' + sex + '</p>' +
+								'<p>手机号:'+response.dataList[i].phone+'</p>' +
+								'<p class="over">' + response.dataList[i].remark + '</p>' +
+								'</div>';
+
+						}
+						$("#shenhe").append(shenhe);
+						
+					
+
+						$(".fr12").on("tap", function () {
+							var ids = $(this).attr("data-id")
+							$.ajax({
+								type: "get",
+								url: waimaiurl + "/auditDistributor",
+								data: { "distributorId": ids, "distributorStatus": 1 },
+								dataType: "json",
+								success: function (response) {
+									location.reload();
+								}
+							});
+						})
+
+						$(".fr1").on("tap", function () {
+							var id = $(this).attr("data-id")
+								window.location.href = "../html/examine.html?distributorId=" + id;
+							})
+
+					}
+					$("#shtitle").html("待审核"+dshCount+"人");
+
+				}
+
+
+
+
+			}
+		});
+
+
+
+
+
+	}
+</script>

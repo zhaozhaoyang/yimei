@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>申请退款</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <!--标准mui.css-->
+    <link rel="stylesheet" href="css/mui.min.css">
+    <!--App自定义的css-->
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+<style type="text/css">
+    .mui-bar-nav {
+        border-bottom: 1px solid #EBEBEB;
+    }
+    
+    body {
+        background: #fff;
+    }
+    
+    .userInput {
+        position: relative;
+    }
+    
+    .userInput img {
+        height: 5rem;
+        width: 23%;
+        margin-bottom: -5rem;
+    }
+    
+    #oneImg {
+        position: absolute;
+        bottom: 5%;
+        width: 90%;
+        left: 5%;
+    }
+    
+    #oneImg input {
+        height: 5rem;
+        width: 23%;
+        opacity: 0;
+        z-index: 99;
+    }
+    
+    .userInput textarea {
+        height: 19.65rem;
+        width: 94%;
+        margin: 3%;
+    }
+    
+    .mui-content {
+        background: #fff;
+    }
+    
+    #send {
+        width: 90%;
+        margin: 10% 5%;
+        height: 2.8rem;
+        background: #1EA0F6;
+        color: #fff;
+    }
+</style>
+
+<body>
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">意见反馈</h1>
+    </header>
+    <div class="mui-content">
+        <!-- <form id="uploadForm" enctype="multipart/form-data"> -->
+        <div class="userInput">
+            <textarea name="a" rows="" id="contenta" cols="" placeholder="请输入您的宝贵意见(200字以内)......." maxlength="200"></textarea>
+            <div id="oneImg">
+                <img id="one" src="img/ruzhu-tianjia@3x.png" alt="" />
+                <img id="two" src="img/ruzhu-tianjia@3x.png" alt="" />
+                <img id="three" src="img/ruzhu-tianjia@3x.png" alt="" />
+                <img id="four" src="img/ruzhu-tianjia@3x.png" alt="" />
+                <input type="file" class="aa1">
+                <input type="file" class="aa2">
+                <input type="file" class="aa3">
+                <input type="file" class="aa4">
+            </div>
+        </div>
+        <button id="send"> 提交</button>
+        <!-- </form> -->
+    </div>
+
+</body>
+<script src="js/mui.min.js"></script>
+<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/zepto.min.js"></script>
+<script src="js/base.js"></script>
+<script>
+    window.onload = function() {
+        var uid = localStorage.getItem("UID");
+        $("#two").css("visibility", "hidden;");
+        $("#three").css("visibility", "hidden;");
+        $("#four").css("visibility", "hidden;");
+        // $("#three").hide();
+        // $("#four").hide();
+
+        var uid = localStorage.getItem("UID");
+        // url: http: //47.93.253.91/mapshop/api/addFeedback
+        //     uid: ""
+        // content: "" //意见描述:
+        // imageFile[]: ""
+        // 文件数组(最多4张)
+        var fileList = [];
+        var file1 = "",
+            file2 = "",
+            file3 = "",
+            file4 = "";
+        $("#oneImg input").on("change", function(param) {
+            console.log($(this)[0].files[0])
+            var reads = new FileReader();
+            var f = $(this)[0].files[0];
+
+            reads.readAsDataURL(f);
+            // var formData = new FormData();
+
+            if ($(this)[0].classList.value == "aa1") {
+                var formData = new FormData();
+                fileList[0] = formData.append('file', f);
+                $("#two").css("visibility", "");
+                imgFile(formData, 0)
+                reads.onload = function(e) {
+                    document.getElementById('one').src = this.result;
+                };
+            } else if ($(this)[0].classList.value == "aa2") {
+                $("#three").css("visibility", "");
+                var formData = new FormData();
+                fileList[1] = formData.append('file', f);
+                imgFile(formData, 1)
+                reads.onload = function(e) {
+                    document.getElementById('two').src = this.result;
+                };
+            } else if ($(this)[0].classList.value == "aa3") {
+                $("#four").css("visibility", "");
+                var formData = new FormData();
+                fileList[2] = formData.append('file', f);
+                // fileList[2] = new FormData(f);
+                imgFile(formData, 2)
+
+                reads.onload = function(e) {
+                    document.getElementById('three').src = this.result;
+                };
+            } else if ($(this)[0].classList.value == "aa4") {
+                var formData = new FormData();
+                fileList[3] = formData.append('file', f);
+                imgFile(formData, 3)
+                    // fileList[3] = new FormData(f);
+                reads.onload = function(e) {
+                    document.getElementById('four').src = this.result;
+                };
+            }
+
+            function imgFile(formdataa, ids) {
+                $.ajax({
+                    url: baseID + 'api/addimg',
+                    type: 'post',
+                    cache: false, //上传文件不需要缓存
+                    data: formdataa,
+                    processData: false, // 告诉jQuery不要去处理发送的数据
+                    contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+                    dataType: "json",
+                    success: function(data) {
+                        console.log(data)
+                        if (data.result == "0") {
+                            // fileList[ids] = data.object 
+                            if (ids == 0) {
+                                file1 = data.object;
+                            } else if (ids == 1) {
+                                file2 = data.object;
+                            } else if (ids == 2) {
+                                file3 = data.object;
+                            } else if (ids == 3) {
+                                file4 = data.object;
+                            }
+                        } else {
+                            mui.toast(data.resultNote);
+                        }
+                    },
+                    error: function(data) {
+                        console.log(data)
+                    }
+                })
+            }
+            console.log($(this)[0].classList.value)
+                // $('#file')
+        })
+        $("#send").on("tap", function(param) {
+            console.log(file1)
+            console.log(file2)
+            console.log(file3)
+            console.log(file4)
+
+            var content = $("#contenta").val();
+            var formData = new FormData();
+            if (!content) {
+                mui.toast("请输入反馈内容");
+            } else {
+                formData.append("file1", file1);
+                formData.append("file2", file2);
+                formData.append("file3", file3);
+                formData.append("file4", file4);
+                formData.append("uid", uid);
+                formData.append("content", content);
+
+                console.log(formData)
+                $.ajax({
+                    type: "post",
+                    processData: false,
+                    contentType: false,
+                    url: baseID + "api/addFeedback",
+                    // url: "http://192.168.3.52:8080/51bang/api/addFeedback",
+                    data: formData,
+                    dataType: "json",
+                    success: function(response) {
+                        console.log(response)
+                        if (response.result == "0") {
+                            return;
+                            setTimeout("window.location.href='my.html',2000");
+                        }
+                        mui.toast(response.resultNote)
+                    }
+                });
+            }
+        })
+    }
+</script>
+
+</html>

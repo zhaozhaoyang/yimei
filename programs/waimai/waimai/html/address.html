@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>地址管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.2/style/weui.min.css">
+    <link rel="stylesheet" href="../css/jquery-weui.min.css">
+    <!--标准mui.css-->
+    <link rel="stylesheet" href="../css/mui.min.css">
+    <!--App自定义的css-->
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <style>
+        body {
+            background: #f7f7f7 !important;
+        }
+
+        .mui-content {
+            background: #fff;
+        }
+
+        .mui-content>.mui-table-view:first-child,
+        .mui-table h4,
+        .mui-table h5,
+        .mui-table .mui-h5,
+        .mui-table .mui-h6,
+        .mui-table p {
+            margin-top: 0;
+        }
+
+        .mui-table-view:after,
+        .mui-table-view-cell:after {
+            background: none;
+        }
+
+        .mui-bar-nav {
+            background: #fff;
+            box-shadow: none;
+        }
+
+        .mui-checkbox input[type=checkbox],
+        .mui-radio input[type=radio] {
+            top: 20%;
+        }
+
+        .mui-checkbox input[type=checkbox]:before,
+        .mui-radio input[type=radio]:before {
+            font-size: 20px;
+        }
+
+        .mui-checkbox input[type=checkbox]:checked:before,
+        .mui-radio input[type=radio]:checked:before {
+            color: #E60012;
+            content: '\e442';
+        }
+
+        .mui-ios .mui-table-view-cell {
+            border-top: 8px solid #f7f7f7;
+        }
+
+        .mui-table-view-cell {
+            padding: 11px 10px;
+            background: #fff;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .mui-table h4 {
+            line-height: 21px;
+            font-weight: 500;
+            font-size: 1em;
+            color: #000;
+        }
+
+        .mui-table .oa-icon {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+        }
+
+        .mui-table .oa-icon-star-filled {
+            color: #f14e41;
+        }
+
+        .mui-input-row label {
+            font-size: 14px;
+            color: #5a5a5a;
+        }
+
+        .mui-btn .mui-icon {
+            font-size: 20px;
+        }
+
+        .mui-input-row .mui-btn+input,
+        .mui-input-row label+input,
+        .mui-input-row:last-child {
+            left: -18%;
+        }
+
+        .mui-checkbox.mui-left label {
+            padding-left: 43px;
+        }
+
+        .mui-bar .mui-btn-link {
+            color: #32B7FB;
+        }
+
+        .mui-table-view-cell {
+            padding-left: 5%;
+          
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            height: 3rem;
+            background: #E60012;
+            line-height: 3rem;
+            color: #fff;
+            width: 100%;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .addsri button {
+            padding: 5px 18px;
+            border-color: #f0f0f0;
+            color: #666;
+        }
+
+        .mui-bar-nav {
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        #pull {
+            margin-top: 0px;
+            margin-bottom: 3rem;
+        }
+
+        .weui-pull-to-refresh__layer {
+            line-height: 3;
+        }
+
+        .mui-table-view:before {
+            background: #f7f7f7;
+        }
+
+        #app {
+            margin-top: 21px;
+        }
+
+        .addressa {
+            width: 70%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="mui-bar mui-bar-nav">
+        <a id="tomy" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">地址管理</h1>
+
+    </header>
+    <div id="pull" ontouchstart>
+        <div class="weui-pull-to-refresh__layer">
+            <div class='weui-pull-to-refresh__arrow'></div>
+            <div class='weui-pull-to-refresh__preloader'></div>
+            <div class="down">下拉刷新</div>
+            <div class="up">释放刷新</div>
+            <div class="refresh">正在刷新</div>
+        </div>
+        <div class="mui-content" id="app" v-cloak>
+            <ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="adslist">
+                <li class="mui-table-view-cell" v-for="(item,index) in addList">
+                    <a class="mui-navigate-right"  >
+                        <div class="mui-table">
+                            <div class="mui-table-cell mui-col-xs-12" >
+                                <h4  @tap='verdict(item.addressId)' class="mui-ellipsis"><span class="name">{{item.username}}</span>&nbsp;&nbsp;
+                                    <span class="number">{{item.userPhone}}</span></h4>
+                                <h5 class="addressa"  @tap='verdict(item.addressId)'>{{item.city+item.address}}</h5>
+                                <p class="mui-h6 mui-ellipsis">
+                                    <div class="fl">
+                                        <div class="mui-input-row mui-radio mui-left">
+                                            <label class="size" @tap='check(item.addressId,item.username,item.userPhone,item.city,item.address,item.isdefault)'>设为默认</label>
+                                            <input name="radio" @tap='check(item.addressId,item.username,item.userPhone,item.city,item.address,item.isdefault)' :checked="item.isdefault==1"
+                                                class="radio" :value="item.isdefault" type="radio" v-model="onchecked">
+                                        </div>
+                                    </div>
+                                    <div class="fr addsri">
+                                        <button type="button" class="mui-btn bian" onclick="return false;" @tap='change(item.addressId)'>编辑</button>&nbsp;&nbsp;
+                                        <button type="button" class="mui-btn shan" onclick="return false;" @tap='dele(item.addressId)'>删除</button>
+                                    </div>
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+        <div class="weui-loadmore">
+            <i class="weui-loading"></i>
+            <span class="weui-loadmore__tips">正在加载</span>
+        </div>
+    </div>
+    <div class="footer">
+        <span class="mui-icon mui-icon-plus"></span> 添加新地址
+    </div>
+</body>
+<script src="../js/mui.min.js"></script>
+<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/vue.min.js"></script>
+<script src="../js/zepto.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdn.bootcss.com/jquery-weui/1.2.0/js/jquery-weui.min.js"></script>
+
+<script type="text/javascript">
+       var totalPage;
+    window.onload = function () {
+
+        function getQueryString(name) {
+            var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            }
+            return null;
+        }
+
+        var loading = false;
+
+        var nowPage = 1,
+            pageCount = 10,
+            
+            addList = [];
+       
+        var str = location.href; //取得整个地址栏
+        var num = str.indexOf("?");
+        str = str.substr(num + 1); //取得所有参数  stringvar.substr(start [, length ]
+        var arr = str.split("&"); //各个参数放到数组里
+        console.log(num)
+        localStorage.removeItem("ADDRESSID");
+        var addressid = localStorage.getItem("ADDRESSID");
+        var uid = localStorage.getItem("UID");
+        var dizhi = getQueryString('dizhi');
+        var foodsId = getQueryString('foodsId');
+        var differentiate = getQueryString('differentiate');
+        var coupoId =  getQueryString('coupoId');
+        var goodsType =  getQueryString('goodsType');
+        
+		
+        var list = [];
+        for (var i = 0; i < arr.length; i++) {
+            num = arr[i].indexOf("=");
+            name = arr[i].substring(0, num);
+            value = arr[i].substr(num + 1);
+            list.push(value)
+        }
+        console.log(list)
+        getData();
+        $("#pull").pullToRefresh(function () {
+
+            nowPage = 1,
+                addList = [];
+            setTimeout(function () {
+                $('#pull').pullToRefreshDone();
+                getData();
+            }, 1500);
+        });
+        $(document.body).infinite().on("infinite", function () {
+            if (loading) return;
+            loading = true;
+            setTimeout(function () {
+                nowPage++;
+                if(nowPage>totalPage){
+                    mui.toast("暂无数据")
+                }else{
+                     getData();
+                }
+               
+                loading = false;
+                console.log(addList)
+            }, 1500);
+        });
+        //获取
+        function getData() {
+            $(".weui-loadmore").show();
+            console.log("我执行了")
+            $.ajax({
+                type: "get",
+                // url: baseIP + '?json={"cmd":"getUserAddressList","nowPage":"' + nowPage + '","pageCount":"' + 10 + '","uid":"' + uid + '"}',
+                url: waimaiurl + "/getUserAddressList",
+                data: { "uid": uid },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    console.log(data)
+                    totalPage=data.totalPage;
+                    if (data.result == "0") {
+                        //							nowPage++;
+                        setTimeout("$('.weui-loadmore').hide()", 1500)
+                        if (data.dataList == undefined) {
+                            data.dataList = [];
+                            mui.toast("暂无地址！");
+
+                        }
+                        for (var i = 0; i < data.dataList.length; i++) {
+                            addList.push(data.dataList[i])
+                            if (data.dataList[i].isdefault == 1) {
+                                localStorage.setItem("ADDRESSID", data.dataList[i].addressId);
+                            }
+                        }
+                    } else {
+                        mui.toast(data.resultNote);
+                    }
+
+                }
+            });
+        }
+        //删除地址
+        function deleteAddress(id) {
+            console.log(111)
+            $.ajax({
+                type: "get",
+                // url: baseIP + '?json={"cmd":"delUserAddress","addressId":"' + id + '","uid":"' + uid + '"}',
+                url: waimaiurl + "/delUserAddress",
+                data: { "uid": uid, "addressId": id },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    console.log(data)
+                    if (data.result == "0") {
+                        mui.toast(data.resultNote);
+                        setTimeout('location.reload()', 1000);
+                    } else {
+                        mui.toast(data.resultNote);
+                    }
+                }
+            });
+        }
+        //判断是跳哪个页面
+        function verdict(id) {
+            console.log(dizhi)
+            if(dizhi==1){
+            console.log(id)
+               window.location.href = "sendOrder.html?addressId="+id + "&foodsId="+foodsId +"&differentiate="+differentiate+"&goodsType="+goodsType+"&coupoId="+coupoId;
+            }
+        }
+
+        var app = new Vue({
+            el: '#app',
+            data: {
+                addList: addList,
+                onchecked: 1,
+                isDisable: false
+            },
+            methods: {
+                check: function (id, name, phone, city, address, isdefault) {
+                    console.log(isdefault)
+                    if (isdefault == "1") {
+                        return;
+                    } else {
+                        $.ajax({
+                            type: "get",
+                            // url: baseIP + '?json={"cmd":"editUserAddress","city":"' + city + '","isdefault":"1","address":"' + address + '","username":"' + name + '","userPhone":"' + phone + '","uid":"' + uid + '","addressId":"' + id + '"}',
+
+                            url: waimaiurl + "/editUserAddress",
+                            data: { "uid": uid, "city": city, "isdefault": 1, "address": address, "username": name, "userPhone": phone, "addressId": id },
+                            dataType: "json",
+                            async: false,
+                            success: function (data) {
+                                if (data.result == "0") {
+
+                                    
+                                    // app.addList = []
+                                    mui.toast("设置成功");
+                                    // getData()
+                                    location.reload()
+                                } else {
+                                    mui.toast(data.resultNote);
+
+                                }
+
+                            }
+                        });
+                    }
+                },
+                dele: function (id) {
+                    deleteAddress(id)
+                },
+                verdict :function(id){
+                    verdict(id)
+                },
+                change: function (id) {
+                    console.log(id);
+                    var ids = JSON.stringify(id);
+
+                    window.location = 'addAddress.html?addressId=' + id + "&type=1"+"&differentiate="+differentiate+"&dizhi="+dizhi+"&foodsId="+foodsId +"&coupoId="+coupoId+"&goodsType="+goodsType;
+                },
+                back: function (id, name, phone, city, address, isdefault) {
+                    // mui.back()
+                    $.ajax({
+                        type: "get",
+                        url: waimaiurl + "/editUserAddress",
+                        data: { "uid": uid, "city": city, "isdefault": 1, "address": address, "username": name, "userPhone": phone, "addressId": id },
+                        dataType: "json",
+                        // url: baseIP + '?json={"cmd":"editUserAddress","city":"' + city + '","isdefault":"1","address":"' + address + '","username":"' + name + '","userPhone":"' + phone + '","uid":"' + uid + '","addressId":"' + id + '"}',
+                        async: false,
+                        success: function (data) {
+                            if (data.result == "0") {
+                                localStorage.setItem("ADDRESSID", id);
+                                mui.toast("设置成功");
+                                if (num != -1) {
+                                    location.href = "orderSure.html?num1=" + list[0] + '&num2=' + list[1] + '&num3=' + list[2];
+                                }
+                            } else {
+                                mui.toast(data.resultNote);
+                            }
+
+                        }
+                    });
+                }
+            },
+            mounted() {
+                $("#tomy").on("tap", function (param) {
+                    // window.location = "my.html"
+                    console.log(list)
+                    console.log(num)
+                    // if (num == "-1") {
+                    //     window.location = "my.html"
+                    // } else {
+                    //     location.href = "orderSure.html?num1=" + list[0] + '&num2=' + list[1] + '&num3=' + list[2];
+                    // }
+                })
+            },
+        })
+        $(".footer").on("tap", function () {
+            localStorage.setItem("username", "");
+            localStorage.setItem("userphone", "");
+            localStorage.setItem("address", "");
+            localStorage.setItem("city", "");
+            window.location.href = 'addAddress.html?type=-1&dizhi=' + dizhi + "&differentiate=" + differentiate+"&foodsId="+foodsId +"&coupoId="+coupoId+"&goodsType="+goodsType;
+        })
+    }
+</script>
+
+</html>

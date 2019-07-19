@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>订单详情</title>
+
+    <link href="../css/mui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/icons-extra.css" />
+    <link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+    <link rel="stylesheet" href="../css/swiper.min.css" />
+</head>
+
+<style>
+    html,
+    body {
+        position: relative;
+        background: #fff;
+        height: auto;
+    }
+    
+    .mui-nav {
+        background: #F2F2F2
+    }
+    
+    #app {
+        margin-top: 44px;
+        background: #eee;
+    }
+    
+    .cmdy {
+        background: #fff;
+    }
+    
+    .map {
+        position: relative;
+        height: 300px;
+        background: url("../img/ditudatu@3x.png");
+        background-clip: cover;
+        width: 100%;
+    }
+    
+    .mapMsg {
+        position: relative;
+        height: 130px;
+        width: 100%;
+        /* border: 1px solid #181818; */
+        background: #fff;
+        bottom: 5px;
+        text-align: center;
+        padding: 5% 3%;
+      /*  box-shadow: 0px 1px 6px 0px rgba(24, 24, 24, 0.25);*/
+    }
+    
+    .title {
+        height: 44px;
+        padding-left: 2%;
+        border-bottom: 1px solid #e6e6e6;
+        line-height: 41px;
+    }
+    
+    .title p span {
+        font-size: 14px;
+        font-family: PingFang-SC-Bold;
+        padding-left: 3%;
+        color: rgba(51, 51, 51, 1);
+        border-left: 3px solid #EB2932;
+    }
+    
+    .cmdyList {
+        padding: 4%;
+        height: 110px;
+        border-bottom: 1px solid #e2e2e2;
+    }
+    
+    .cmdy .cmdIcon {
+        width: 28%;
+    }
+    
+    .cmdyList .cmdIcon img {
+        width: 83px;
+        height: 77px;
+    }
+    
+    .cmdyList .same {
+        width: 65%;
+    }
+    
+    .cmdyList .same p:first-child {
+        font-size: 13px;
+        color: #242424;
+        font-weight: 600;
+        margin-bottom: 20px;
+        margin-top: 10px;
+    }
+    
+    .same .price span:first-child {
+        font-size: 13px;
+        color: #F12132;
+        font-weight: 600;
+    }
+    
+    .sameMoney {
+        background: #fff;
+        height: 70px;
+        padding: 2% 4%;
+        border-bottom: 1px solid #e2e2e2;
+    }
+    
+    .sameMoney p {
+        clear: both;
+        height: 21px;
+    }
+    
+    .sameMoney p {
+        font-size: 13px;
+        color: #333;
+    }
+    
+    .sameMoney .reduce .fr {
+        color: #F12132;
+    }
+    
+    .add {
+        height: 43px;
+        padding: 4%;
+    }
+    
+    .add span:first-child {
+        color: #333;
+    }
+    
+    .add span:last-child {
+        color: #F12132;
+    }
+    
+    .toThis {
+        height: 75px;
+        padding-top: 20px;
+        text-align: center;
+    }
+    
+    .toThis button {
+        margin: 0 auto;
+        border-color: #e6e6e6;
+        padding: 6px 15px;
+    }
+    
+    .mui-icon-phone {
+        color: #F12132;
+    }
+    
+    .mui-table-view-cell .msg {
+        color: #242424;
+    }
+    
+    .refund {
+        height: 40px;
+        margin: 3%;
+    }
+    
+    .more {
+        height: 53px;
+        background: #eee;
+        width: 100%;
+        clear: both;
+        text-align: center;
+        padding: 5%;
+    }
+    
+    .refund .fr {
+        color: #F12132;
+        border-color: #F12132;
+    }
+    
+    .mapMsg li {
+        float: left;
+        width: 33%;
+    }
+    
+    .mapMsg .hr {
+        position: absolute;
+        top: 42%;
+        width: 65%;
+        margin-left: 13%;
+        height: 5px;
+        background: #f5f5f5;
+        border: none;
+    }
+    
+    .mapMsg img {
+        position: relative;
+        width: 16px;
+        height: 16px;
+        z-index: 99;
+    }
+    
+    .mapMsg .tittle {
+        color: #333;
+        font-size: 13px;
+        font-weight: 600;
+    }
+    
+    .mapMsg .time {
+        color: #333;
+        font-size: 12px;
+        margin-top: 10px;
+    }
+    
+    .saH .fl {
+        font-weight: 600;
+    }
+    
+    .mui-table-view-chevron .mui-table-view-cell {
+        padding-right: 15px;
+    }
+</style>
+
+<body>
+
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">订单详情</h1>
+    </header>
+    <div id="app" v-cloak>
+        <div class="mapMsg">
+            <div class="hr"></div>
+            <li>
+                <p class="tittle">退款申请</p>
+                <!-- <img src="../img/xuanze01@3x.png" alt=""> -->
+                <img src="../img/xuanze02@3x.png" alt="" v-show="dataObj.status==20||dataObj.status==21">
+                <p class="time">{{dataObj.refundshenTime}}</p>
+            </li>
+            <li>
+                <p class="tittle">商家审核中</p>
+                <!-- <img src="../img/xuanze01@3x.png" alt=""> -->
+                <img src="../img/xuanze02@3x.png" alt="" v-show="dataObj.status==20||dataObj.status==21">
+                <p class="time">{{dataObj.refundshenTime}}</p>
+            </li>
+            <li>
+                <p class="tittle">退款成功</p>
+                <p class="tittle" v-show="dataObj.status==22||dataObj.status==23">退款拒绝</p>
+                <img src="../img/xuanze01@3x.png" alt="" v-show="dataObj.status==20">
+                <img src="../img/xuanze02@3x.png" alt="" v-show="dataObj.status==21">
+                <p class="time">{{dataObj.refundTime}}</p>
+            </li>
+        </div>
+
+        <div class="sameMoney saH">
+            <p class="reduce"> <span class="fl">退回总金额</span> <span class="fr">-{{dataObj.oderPrice}}</span> </p>
+            <p> <span class="fl">退回方式</span> <span class="fr" v-if="dataObj.payType==1">微信</span> <span class="fr" v-if="dataObj.payType==3">余额</span> </p>
+           
+        </div>
+        <div class="cmdy">
+            <div class="title" v-if="goodsType==0">
+                <p> <span>{{dataObj.shopName}}</span> </p>
+            </div>
+            <li class="cmdyList" v-for="(item,index) in dataList">
+                <div class="cmdIcon fl">
+                    <img :src="item.orderDetails2.goodsImage" alt="">
+                </div>
+                <div class="fl same">
+                    <p>{{item.orderDetails2.goodsName}}</p>
+                    <p class="price"> <span>¥{{item.orderDetails2.price}}</span> <span class="fr">x{{item.orderDetails2.goodsNum}}</span></p>
+                </div>
+            </li>
+            <div class="sameMoney">
+                <p class="reduce"  v-if="goodsType==0"> <span class="fl">优惠券</span> <span class="fr">-￥{{dataObj.couponPrice}}</span> </p>
+                <p> <span class="fl">配送费</span> <span class="fr">￥{{dataObj.freight}}</span> </p>
+            </div>
+            <p class="add fr">
+                <span>共{{dataObj.length}}种商品  小计：</span>
+                <span>￥{{dataObj.oderPrice}}</span>
+            </p>
+            <div class="back4"></div>
+            <div class="toThis">
+                <button  @tap="tel(dataObj.shopPhone)"><span class="mui-icon mui-icon-phone"></span>联系商家</button>
+            </div>
+            <div class="back4"></div>
+            <div class="order">
+                <div class="title">
+                    <p> <span>订单信息</span> </p>
+                </div>
+                <ul class="mui-table-view mui-table-view-chevron mylist">
+                    <li class="mui-table-view-cell">
+                        <p class="msg fl">订单号</p>
+                        <p class="tittle fr">{{dataObj.orderNum}}</p>
+
+                    </li>
+                    <li class="mui-table-view-cell">
+                        <p class="msg fl">退款时间</p>
+                        <p class="tittle fr">{{dataObj.useraddress}}</p>
+                    </li>
+
+                    <li class="mui-table-view-cell">
+                        <p class="tittle fr">{{dataObj.createTime}}</p>
+                        <p class="msg fl">下单时间</p>
+                    </li>
+                    <li class="mui-table-view-cell beizhu">
+                        <p class="msg fl">退款原因</p>
+                        <p class="tittle fr"><span class=" reduce">{{dataObj.refundReason}}</span></p>
+
+                    </li>
+                    <!-- <li class="mui-table-view-cell">
+                        <p class="tittle fr">{{dataObj.shopReceiveTime}}</p>
+                        <p class="msg fl">审核时间</p>
+                    </li> -->
+                </ul>
+            </div>
+            <div class="back4"></div>
+
+            <div class="back4"></div>
+            <!-- 去评价 -->
+            <!-- <div class="refund">
+                <button class="fr">去评价</button>
+            </div> -->
+            <div class="more">
+                没有更多了~
+            </div>
+
+        </div>
+    </div>
+
+    <script src="../js/zepto.min.js"></script>
+    <script src="../js/mui.min.js"></script>
+    <script src="../js/vue.min.js"></script>
+    <script src="../js/swiper.min.js"></script>
+    <script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+</body>
+<script type="text/javascript">
+    window.onload = function() {
+        var uid = localStorage.getItem("UID");
+
+        function getQueryString(name) {
+            var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            }
+            return null;
+        }
+        var orderNum = getQueryString('orderNum');
+          var goodsType = getQueryString('goodsType');
+        var app = new Vue({
+            el: "#app",
+            data: {
+                dataObj: {},
+                dataList: [],
+                goodsType:goodsType
+            },
+            methods: {
+                  // 拨打电话
+            tel:function(phone){
+                 window.location.href = "tel:"+phone;
+            }
+            },
+            mounted() {
+                var that = this;
+                $.ajax({
+                    type: "get",
+                    url: waimaiurl + "/riderOrderDetails",
+                    data: {
+                        "orderNum": orderNum
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.result == "0") {
+                            that.dataObj = response.object;
+                            that.dataList = response.dataList;
+                            var length = response.dataList.length;
+                            that.dataObj.length = length;
+
+
+                        }
+                        console.log(response)
+                    }
+                })
+
+            }
+        })
+    }
+</script>

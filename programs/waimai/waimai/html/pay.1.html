@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>支付方式</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link rel="stylesheet" href="../css/mui.min.css">
+    <link rel="stylesheet" href="../css/style.css" />
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+    <style>
+        label img {
+            width: 25px;
+            height: 25px;
+        }
+        
+        body {
+            background: #f7f7f7;
+        }
+        
+        .mui-content {
+            margin-top: 44px;
+            background: #fff;
+        }
+        
+        label {
+            position: relative;
+        }
+        
+        label span {
+            position: absolute;
+            top: 35%;
+            left: 20%;
+        }
+        
+        #header {
+            border-bottom: 1px solid #f5f5f5;
+            background: #fff;
+        }
+        
+        .mui-card {
+            box-shadow: none;
+            margin: 0;
+        }
+        
+        .mui-input-group .mui-input-row:after {
+            background: #fff
+        }
+        
+        .mui-checkbox input[type=checkbox],
+        .mui-radio input[type=radio] {
+            top: 15px;
+        }
+        
+        .mui-input-group .mui-input-row {
+            height: 60px
+        }
+        
+        .mui-radio input[type=radio]:checked:before {
+            right: 15px;
+            color: #32B7FB;
+            content: '\e442';
+        }
+        
+        #footer {
+            position: fixed;
+            font-size: 1rem;
+            bottom: 0;
+            width: 100%;
+            padding: 0 5%;
+            height: 50px;
+            background: #fff;
+            line-height: 3.5;
+        }
+        
+        #footer button {
+            height: 35px;
+            background: #EC1D3A;
+            color: #fff;
+            width: 80px;
+            margin-top: 10px;
+            border-radius: 6px;
+        }
+        
+        #footer p {
+            color: #333;
+        }
+        
+        #footer span {
+            font-size: 1rem;
+            color: #EC1D3A;
+        }
+    </style>
+</head>
+
+<body>
+    <header id="header" class="mui-bar mui-bar-transparent">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">支付</h1>
+    </header>
+    <div class="mui-content">
+        <div class="mui-card">
+            <form class="mui-input-group">
+             
+                <div class="mui-input-row mui-radio">
+                    <label><img src="../img/denglu-weixin@3x.png" alt=""><span>微信支付</span></label>
+                    <input name="radio1" type="radio" checked>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <div id="footer">
+        <p class="fl">总计<span id="money">￥</span></p>
+        <button class="fr  pay">付款</button>
+
+    </div>
+</body>
+<script src="../js/mui.min.js "></script>
+<script src="../js/base.js"></script>
+<script src="../js/zepto.min.js"></script>
+<script src="../js/pingpp_ui.js" type="text/javascript"></script>
+<script src="../js/beecloud.js"></script>
+<script src="../js/ap.js" type="text/javascript"></script>
+<script>
+    var timeStamp, nonceStr, package, signType, paySign, json;
+    var goSu;
+    window.onload = function() {
+        var num = localStorage.getItem("NUM");
+        var prc = localStorage.getItem("PRC");
+        $("#money").html("￥" + prc);
+       
+        if (num == null) {
+            num = getParmVal("num");
+        }
+        if(prc == null){
+            prc = getParmVal("prc");
+        }
+        json = JSON.parse(getParmVal("json"));
+        //alert(getParmVal("json"));
+        
+		
+        $("#money").html("￥" + prc);
+        var local = window.localStorage;
+
+
+
+        $("#footer .pay").on("tap", function(param) {
+             callpay();
+        });
+    }
+
+    function jsApiCall() {
+        var datas_ = {
+            //以下参数的值由BCPayByChannel方法返回来的数据填入即可
+            "appId": "wxa042c1a1f0998b76",
+            "timeStamp": json.timeStamp,
+            "nonceStr": json.nonceStr,
+            "package": json.package,
+            "signType": json.signType,
+            "paySign": json.paySign
+        };
+        //alert("提交：" + JSON.stringify(datas_));
+        WeixinJSBridge.invoke(
+            'getBrandWCPayRequest',
+            datas_,
+            function(res) {
+
+                // alert("css1:" + res.err_msg);
+                WeixinJSBridge.log(res.err_msg);
+                // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。 
+                if (res.err_msg == "get_brand_wcpay_request:ok") {
+                    window.location = "http://cqmxsm.com/duoshangcheng/webpage/modules/waimai/html/rechargeSucess.html";
+                } else {
+                    window.location = "http://cqmxsm.com/duoshangcheng/webpage/modules/waimai/index.html";
+                }
+            }
+        );
+    }
+
+    function callpay() {
+        if (typeof WeixinJSBridge == "undefined") {
+            if (document.addEventListener) {
+                document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+            } else if (document.attachEvent) {
+                document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+                document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+            }
+        } else {
+            jsApiCall();
+        }
+    }
+
+    function getOrderStates() {
+        $.ajax({
+            type: "POST", //提交方式  
+            url: "weixin/bank/getOrderStates.do", //路径  
+            data: {
+                "orderNo": orderNo
+            }, //数据，这里使用的是Json格式进行传输  
+            async: true, //使用同步的方式,true为异步方式
+            success: function(result) { //返回数据根据结果进行相应的处理  
+                if (result.state == "1") {
+                    window.clearInterval(goSu);
+                    window.location = "http://cqmxsm.com/duoshangcheng/webpage/modules/waimai/html/rechargeSucess.html";
+                }
+            }
+        });
+    }
+</script>
+
+</html>

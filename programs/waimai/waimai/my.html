@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>个人中心</title>
+    <link href="css/mui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+
+    <style>
+        .mui-content {
+            background-color: #fff;
+        }
+        
+        .topBar {
+            width: 100%;
+            height: 188px;
+            background: url(img/gerenzhiongxinbj@3x.png);
+            background-size: cover;
+            text-align: center;
+        }
+        
+        .userIcon {
+            height: 70px;
+            width: 70px;
+            border-radius: 100%;
+            background: rgba(244, 244, 244, 1);
+            margin-top: 31px;
+        }
+        
+        .topBar p {
+            color: #fff;
+            margin-bottom: 8px;
+            margin-top: 15px
+        }
+        
+        .topBar .name {
+            font-family: PingFang-SC-Bold;
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+        
+        .mui-table-view:before,
+        .mui-table-view:after {
+            background: #fff;
+        }
+        
+        .myList {
+            width: 100%;
+            padding: 3%;
+            height: 250px;
+            margin-top: 50px;
+        }
+        
+        .myList li {
+            width: 32.3%;
+            float: left;
+            height: 125px;
+            text-align: center;
+        }
+        
+        .myList li p {
+            color: #333;
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        
+        .myList li img {
+            width: 30px;
+            height: 30px;
+        }
+        
+        .mui-icon-gear {
+            color: #fff;
+            position: absolute;
+            top: 60px;
+            right: 5%;
+            font-size: 28px;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="mui-bar mui-bar-nav" style="padding-right: 15px;">
+        <h1 class="mui-title">个人中心</h1>
+    </header>
+    <div class="mui-content">
+        <div class="topBar" id="touxiang">
+            <!-- <img src="img/wodeshangji@3x.png" class="userIcon" alt="" />
+            <p class="name">微信名称</p>
+            <span class="mui-icon mui-icon-gear"></span> -->
+        </div>
+        <div class="myList">
+            <!-- <li id ="qianbao">
+                <img src="./img/qianbao@3x.png" alt="">
+                <p>我的钱包</p>
+            </li>
+            <li id="youhui" ontap="reff()">
+                <img src="./img/youhuiquan@3x.png" alt="">
+                <p>优惠券</p>
+            </li>
+            <li>
+                <img src="./img/wodetuiguang@3x.png" alt="">
+                <p>我的推广</p>
+            </li>
+            <li id="dizhi">
+                <img src="./img/dizhiguanli@3x.png" alt="">
+                <p>地址管理</p>
+            </li>
+            <li>
+                <img src="./img/chengweihehuoren@2x.png" alt="">
+                <p>成为合伙人</p>
+            </li>
+            <li id="shoucang">
+                <img src="./img/wodeshoucang@3x.png" alt="">
+                <p>我的收藏</p>
+            </li> -->
+        </div>
+        <!--内容部分的结束-->
+    </div>
+    <div id="appTaber">
+
+    </div>
+    <script src="js/zepto.min.js"></script>
+    <script src="js/mui.min.js"></script>
+    <script src="js/swiper.min.js"></script>
+    <script src="./js/tab.js"></script>
+    <script src="js/base.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+        window.onload = function() {
+            changeColor(4);
+            var uid = localStorage.getItem("UID");
+
+            function getQueryString(name) {
+                var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+                var r = window.location.search.substr(1).match(reg);
+                if (r != null) {
+                    return unescape(r[2]);
+                }
+                return null;
+            }
+
+            $.ajax({
+                type: "get",
+                url: waimaiurl + "/personalCenter",
+                data: {
+                    "uid": uid
+                },
+                dataType: "json",
+                success: function(response) {
+                    console.log(response)
+                    var topBar = "";
+                    // 
+                    topBar += '<img src="' + response.object.icon + '" class="userIcon" alt="" />' +
+                        //  topBar += '<img src="./img/wodeshangji@3x.png" class="userIcon" alt="" />' + 
+                        '<p class="name">' + response.object.nickName + '</p>' +
+                        ' <span class="mui-icon mui-icon-gear" id ="shezhi"></span>';
+                    $(".topBar").append(topBar);
+
+                    $(".userIcon").on("tap", function() {
+
+                        window.location.href = "../waimai/html/account.html?nickName=" + response.object.nickName + "&icon=" + response.object.icon + "&phone=" + response.object.phone;
+
+                    })
+
+                    localStorage.setItem("balance", response.object.balance); //金额
+                    localStorage.setItem("nickName", response.object.nickName);
+
+                    localStorage.setItem("salesmanId", response.object.salesmanId);
+                    localStorage.setItem("distributorId", response.object.distributorId);
+                    localStorage.setItem("score", response.object.score); //积分
+                    localStorage.setItem("qrcode", response.object.qrcode); //二维码
+
+                    var fenxi = "";
+                    if (response.object.userType == 0 || response.object.distributorStatus == 0) {
+                        fenxi += '<li id ="qianbao">' +
+                            '<img src="./img/qianbao@3x.png" alt="">' +
+                            '<p>我的钱包</p>' +
+                            '</li>' +
+                            '<li id="youhui" ontap="reff()">' +
+                            '<img src="./img/youhuiquan@3x.png" alt="">' +
+                            '<p>优惠券</p>' +
+                            '</li>' +
+                            '<li id ="tuiguang">' +
+                            ' <img src="./img/wodetuiguang@3x.png" alt="">' +
+                            '<p>我的推广</p>' +
+                            '</li>' +
+                            '<li id="dizhi">' +
+                            '<img src="./img/dizhiguanli@3x.png" alt="">' +
+                            '<p>地址管理</p>' +
+                            '</li>' +
+                            '<li id ="fenxiao">' +
+                            ' <img src="./img/chengweihehuoren@2x.png" alt="">' +
+
+                            ' <p>成为合伙人</p>' +
+                            '</li>' +
+                            '<li id="shoucang">' +
+                            ' <img src="./img/wodeshoucang@3x.png" alt="">' +
+                            ' <p>我的收藏</p>' +
+                            '</li>';
+                        $(".myList").append(fenxi);
+
+
+                        //成为合伙人
+                        $(".myList #fenxiao").on("tap", function() {
+                            window.location.href = "../waimai/html/notes.html";
+
+                        })
+
+                    } else if (response.object.userType == 2 && response.object.distributorStatus == 1) {
+
+                        fenxi += '<li id ="qianbao">' +
+                            '<img src="./img/qianbao@3x.png" alt="">' +
+                            '<p>我的钱包</p>' +
+                            '</li>' +
+                            '<li id="youhui" ontap="reff()">' +
+                            '<img src="./img/youhuiquan@3x.png" alt="">' +
+                            '<p>优惠券</p>' +
+                            '</li>' +
+                            '<li id ="tuiguang">' +
+                            ' <img src="./img/wodetuiguang@3x.png" alt="">' +
+                            '<p>我的推广</p>' +
+                            '</li>' +
+                            '<li id="dizhi">' +
+                            '<img src="./img/dizhiguanli@3x.png" alt="">' +
+                            '<p>地址管理</p>' +
+                            '</li>' +
+                            '<li id = "fenxiao">' +
+                            ' <img src="./img/chengweihehuoren@2x.png" alt="">' +
+
+                            ' <p>业务员</p>' +
+                            '</li>' +
+                            '<li id="shoucang">' +
+                            ' <img src="./img/wodeshoucang@3x.png" alt="">' +
+                            ' <p>我的收藏</p>' +
+                            '</li>';
+                        $(".myList").append(fenxi);
+
+                        //分销商
+                        $(".myList #fenxiao").on("tap", function() {
+                            window.location.href = "../waimai/html/distribution.html";
+
+                        })
+
+                    } else if (response.object.userType == 1) {
+
+                        fenxi += '<li id ="qianbao">' +
+                            '<img src="./img/qianbao@3x.png" alt="">' +
+                            '<p>我的钱包</p>' +
+                            '</li>' +
+                            '<li id="youhui" ontap="reff()">' +
+                            '<img src="./img/youhuiquan@3x.png" alt="">' +
+                            '<p>优惠券</p>' +
+                            '</li>' +
+                            '<li id ="tuiguang">' +
+                            ' <img src="./img/wodetuiguang@3x.png" alt="">' +
+                            '<p>我的推广</p>' +
+                            '</li>' +
+                            '<li id="dizhi">' +
+                            '<img src="./img/dizhiguanli@3x.png" alt="">' +
+                            '<p>地址管理</p>' +
+                            '</li>' +
+                            '<li id = "fenxiao">' +
+                            ' <img src="./img/chengweihehuoren@2x.png" alt="">' +
+                            ' <p>招商经理</p>' +
+                            '</li>' +
+                            '<li id="shoucang">' +
+                            ' <img src="./img/wodeshoucang@3x.png" alt="">' +
+                            ' <p>我的收藏</p>' +
+                            '</li>';
+                        $(".myList").append(fenxi);
+
+                        //业务员
+                        $(".myList #fenxiao").on("tap", function() {
+                            window.location.href = "../waimai/html/salesman.html";
+                        })
+                    }
+                    //我的钱包
+                    $(".myList #qianbao").on("tap", function() {
+                        window.location.href = "../waimai/html/myCollect.html";
+                    })
+
+                    //优惠券页面
+                    $(".myList #youhui").on("tap", function() {
+                        window.location.href = "../waimai/html/coupon.html";
+                    })
+
+                    //地址页面
+                    $(".myList #dizhi").on("tap", function() {
+                        window.location.href = "../waimai/html/address.html";
+                    })
+
+                    //我的收藏
+                    $(".myList #shoucang").on("tap", function() {
+                        window.location.href = "../waimai/html/myCollection.html";
+                    })
+
+                    //推广
+                    $(".myList #tuiguang").on("tap", function() {
+                        window.location.href = "../waimai/html/myExtension.html?qrcode=" + response.object.qrcode;
+                    })
+
+
+                    // <li id ="qianbao">
+                    //     <img src="./img/qianbao@3x.png" alt="">
+                    //     <p>我的钱包</p>
+                    // </li>
+                    // <li id="youhui" ontap="reff()">
+                    //     <img src="./img/youhuiquan@3x.png" alt="">
+                    //     <p>优惠券</p>
+                    // </li>
+                    // <li>
+                    //     <img src="./img/wodetuiguang@3x.png" alt="">
+                    //     <p>我的推广</p>
+                    // </li>
+                    // <li id="dizhi">
+                    //     <img src="./img/dizhiguanli@3x.png" alt="">
+                    //     <p>地址管理</p>
+                    // </li>
+                    // <li>
+                    //     <img src="./img/chengweihehuoren@2x.png" alt="">
+                    //     <p>成为合伙人</p>
+                    // </li>
+                    // <li id="shoucang">
+                    //     <img src="./img/wodeshoucang@3x.png" alt="">
+                    //     <p>我的收藏</p>
+                    // </li>
+                    //我的收藏
+                    $(".topBar #shezhi").on("tap", function() {
+                        window.location.href = "../waimai/html/setting.html";
+
+                    })
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

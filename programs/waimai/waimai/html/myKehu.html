@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>我的客户</title>
+
+    <link href="../css/mui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/icons-extra.css" />
+    <link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+    <link rel="stylesheet" href="../css/swiper.min.css" />
+</head>
+
+<style>
+    html,
+    body {
+        position: relative;
+        background: #fff;
+        height: auto;
+    }
+
+    #app {
+        margin-top: 44px;
+    }
+
+    #app input {
+        background: #f7f7f7;
+    }
+
+    .title {
+        font-size: 14px;
+        color: #333;
+        font-weight: 600;
+        margin-bottom: 0;
+    }
+
+    .msg {
+        padding: 0 3%;
+    }
+
+    .msg .sikb {
+        position: relative;
+        height: 210px;
+    }
+
+    .sik {
+        height: 75px;
+        border-bottom: 1px solid #f2f2f2;
+        padding: 3% 0;
+    }
+
+    .sik img {
+        width: 40px;
+        height: 40px;
+        border-radius: 100%;
+        float: left;
+    }
+
+    .sik+div p {
+        margin-bottom: 5px;
+    }
+
+    .msg p {
+        color: #1a1a1a;
+        font-size: 13px;
+    }
+
+    .over {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+
+    .top {
+        height: 40px;
+        background: #F2F2F2;
+        text-align: center;
+    }
+
+    .top p {
+        color: #000;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .msg .daishen {
+        color: #E60012;
+    }
+</style>
+
+<body>
+
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">我的客户</h1>
+    </header>
+
+    <div id="app">
+        <div class="top">
+            <!-- <p>累计客户数量11人</p> -->
+        </div>
+        <div class="msg">
+            <p class="title">客户信息</p>
+
+             <!-- <div class="sik">
+                 <div class="fl">
+                    <img src="../img/jieguo@3x.png" />
+                </div>
+                <div class="fl">
+                    <p class="title">业务员名称</p>
+                    <p>真实姓名：男</p>
+                </div>
+
+            </div>
+           <div class="sik">
+                <div class="fl">
+                    <img src="../img/jieguo@3x.png" />
+                </div>
+                <div class="fl">
+                    <p class="title">业务员名称</p>
+                    <p>真实姓名：男</p>
+                </div>
+
+            </div> -->
+        </div>
+
+    </div>
+
+    <script src="../js/zepto.min.js"></script>
+    <script src="../js/mui.min.js"></script>
+    <script src="../js/vue.min.js"></script>
+    <script src="../js/swiper.min.js"></script>
+    <script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+</body>
+<script type="text/javascript">
+    window.onload = function () {
+        var uid = localStorage.getItem("UID");
+        console.log(uid)
+        $.ajax({
+            type: "get",
+            url: waimaiurl + "/myClient",
+            data: { "uid": uid },
+            dataType: "json",
+            success: function (response) {
+                console.log(response)
+                if (response.dataList != "undefined") {
+                    var top = "";
+                    top += ' <p>累计客户数量' + response.dataList.length + '人</p>';
+                    $(".top").append(top);
+
+                    for (var i = 0; i < response.dataList.length; i++) {
+                        // <div class="sik">
+                        //     <div class="fl">
+                        //         <img src="../img/jieguo@3x.png" />
+                        //     </div>
+                        //     <div class="fl">
+                        //         <p class="title">业务员名称</p>
+                        //         <p>真实姓名：男</p>
+                        //     </div>
+                        // </div>
+                        var sex = "";
+                        if (response.dataList[i].sex == 1) {
+                            sex = "男";
+                        } else if (response.dataList[i].sex == 2) {
+                            sex = "女";
+                        } else {
+                            sex = "未知";
+                        }
+
+                        var msg = "";
+                        msg += '<div class="sik">' +
+                            '<div class="fl">' +
+                            '<img src="' + response.dataList[i].icon + '" />' +
+                            '</div>' +
+                            '<div class="fl">' +
+                            '<p class="title">' + response.dataList[i].nickName + '</p>' +
+                            '<p>性别：' + sex + '</p>' +
+                            '</div>' +
+                            '</div>';
+
+                        $(".msg").append(msg);
+
+
+
+                    }
+                }
+            }
+        });
+
+
+    }
+</script>

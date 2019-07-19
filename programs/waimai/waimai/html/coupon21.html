@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>优惠券中心</title>
+    <script src="../js/mui.min.js"></script>
+    <script src="../js/vue.min.js"></script>
+    <link href="../css/mui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/icons-extra.css" />
+    <link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+    <link rel="stylesheet" href="../css/swiper.min.css" />
+</head>
+
+<style>
+    #app {
+        margin-top: 50px;
+        text-align: center;
+    }
+
+    body,
+    html {
+        background: #fff;
+    }
+
+    .tab {
+        border-bottom: 1px solid #DBDBDB;
+        height: 50px;
+    }
+
+    .tab>div {
+        float: left;
+        text-align: center;
+        padding-bottom: 13px;
+        margin-top: 11px;
+        margin-left: 15%;
+    }
+
+    .bored {
+        border-bottom: 3px solid #F12132;
+    }
+
+    .list>div {
+        width: 90%;
+        margin: 0 auto;
+        border: 1px solid #f1efef;
+        margin-top: 20px;
+    }
+
+    .line {
+        height: 64px;
+        border-right: 1px dashed #E6E6E6;
+        margin-left: 15px;
+        margin-top: 30px;
+    }
+
+    .price {
+        padding-top: 30px;
+        font-size: 12px;
+    }
+
+    .red {
+        color: #F12132;
+    }
+
+    .price .ft26 {
+        font-size: 26px;
+    }
+
+    .blod {
+        color: #000;
+        font-size: 14px;
+    }
+
+    .left {
+        margin-left: 10px;
+        padding-bottom: 20px;
+    }
+
+    .right {
+        width: 67%;
+    }
+
+    .mt20 {
+        margin-top: 20px;
+        margin-bottom: 25px;
+    }
+
+    .black {
+        color: #000;
+    }
+</style>
+
+<body>
+
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">优惠券中心</h1>
+    </header>
+    <div id="app">
+
+        <div class="list" id="list">
+            <!-- <div class="clearfix">
+                <div class="fl clearfix left" >
+                    <div class="fl">
+                        <p class="price red">￥<span class="ft26">100</span></p>
+                        <p class="blod">(满200可用)</p>
+                    </div>
+                    <div class="line fl"></div>
+
+                </div>
+                <div class="fr right">
+                    <p class="mt20 black"> 全场通用</p>
+                    <p>有效期至：2018-04-28</p>
+                </div>
+            </div>
+            <div class="clearfix">
+                <div class="fl clearfix left">
+                    <div class="fl">
+                        <p class="price">￥<span class="ft26">100</span></p>
+                        <p class="blod">(满200可用)</p>
+                    </div>
+                    <div class="line fl"></div>
+
+                </div>
+                <div class="fr right">
+                    <p class="mt20 black"> 全场通用</p>
+                    <p>有效期至：2018-04-28</p>
+                </div>
+            </div> -->
+        </div>
+    </div>
+    <script src="../js/zepto.min.js"></script>
+    <script src="../js/swiper.min.js"></script>
+    <script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+</body>
+<script type="text/javascript">
+    window.onload = function () {
+        var uid = localStorage.getItem("UID");
+
+        function getQueryString(name) {
+            var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            }
+            return null;
+        }
+
+        var goodsMoney = getQueryString('goodsMoney');
+        var foodsId = getQueryString('foodsId');
+        var goodsType = getQueryString('goodsType');
+        var differentiate = getQueryString('differentiate');
+        var addressId = getQueryString('addressId');
+        var shopId = getQueryString('shopId');
+        var lon = getQueryString('lon');
+        var lat = getQueryString('lat');
+        var goodsMoney = getQueryString('goodsMoney');
+
+        $.ajax({
+            type: "get",
+            url: waimaiurl + "/getcCoupons",
+            data: { "couponsType": 1, uid: uid, "goodsMoney": goodsMoney },
+            dataType: "json",
+            success: function (response) {
+                console.log(response)
+                //     <div class="clearfix">
+                //     <div class="fl clearfix left">
+                //         <div class="fl">
+                //             <p class="price red">￥<span class="ft26">100</span></p>
+                //             <p class="blod">(满200可用)</p>
+                //         </div>
+                //         <div class="line fl"></div>
+
+                //     </div>
+                //     <div class="fr right">
+                //         <p class="mt20 black"> 全场通用</p>
+                //         <p>有效期至：2018-04-28</p>
+                //     </div>
+                // </div>
+                if (response.dataList != undefined) {
+                    for (var i = 0; i < response.dataList.length; i++) {
+                        var list = "";
+                        list += '<div class="clearfix" id="clear" data-id ="'+ response.dataList[i].id +'">' +
+                            ' <div class="fl clearfix left" >' +
+                            ' <div class="fl">' +
+                            ' <p class="price red">￥<span class="ft26">' + response.dataList[i].amount + '</span></p>' +
+                            '<p class="blod">(满' + response.dataList[i].price + '可用)</p>' +
+                            '</div>' +
+                            ' </div>' +
+                            '<div class="fr right">' +
+                            ' <p class="mt20 black"> 全场通用</p>' +
+                            ' <p>有效期至：' + response.dataList[i].endDate + '</p>' +
+                            ' </div>' +
+                            '</div>'
+                        $("#list").append(list);
+                    }
+                    
+                    $(".clearfix").on("tap", function () {
+                            var id = $(this).attr("data-id")
+                            console.log(id)
+                            window.location.href = "../html/sendOrder1.html?foodsId=" + foodsId + "&goodsType=" + goodsType + "&dizhi=1" + "&differentiate=" + differentiate + "&lat=" + lat + "&lon=" + lon +"&shopId="+shopId +"&goodsMoney=" + goodsMoney +"&coupoId="+id;
+                        })
+                }
+            }
+        });
+
+
+    }
+</script>

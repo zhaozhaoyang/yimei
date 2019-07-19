@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>意见反馈</title>
+    <script src="../js/mui.min.js"></script>
+    <script src="../js/vue.min.js"></script>
+    <link href="../css/mui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/icons-extra.css" />
+    <link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+    <link rel="stylesheet" href="../css/swiper.min.css" />
+</head>
+
+<style>
+    #app {
+        margin-top: 50px;
+        text-align: center;
+        padding: 5%;
+    }
+    
+    body,
+    html {
+        background: #fff;
+    }
+    
+    .dfea {
+        text-align: left;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+    
+    textarea {
+        height: 329px;
+        background-color: #F8FAFC;
+        border: 1px solid #E0E0E0;
+    }
+    
+    .sub {
+        line-height: 44px;
+        background-color: #E60012;
+        width: 310px;
+        color: #fff;
+        border-radius: 10px;
+        margin: 13% auto;
+    }
+</style>
+
+<body>
+
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">申请退款</h1>
+    </header>
+    <div id="app">
+        <div class="dfea">退款描述：</div>
+        <textarea placeholder=" 300字以内" id="txtarea"></textarea>
+        <div class="sub">提交</div>
+    </div>
+    <script src="../js/zepto.min.js"></script>
+    <script src="../js/swiper.min.js"></script>
+    <script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+</body>
+<script type="text/javascript">
+    window.onload = function() {
+        function getQueryString(name) {
+            var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            }
+            return null;
+        }
+        var orderNum = getQueryString('orderNum');
+        var uid = localStorage.getItem("UID");
+
+        $(".sub").on("tap", function() {
+            var c = $("#txtarea").val();
+            if (c == "") {
+                mui.toast("请输入内容！")
+            } else {
+                $.ajax({
+                    type: "get",
+                    url: waimaiurl + "/applicationDrawback",
+                    data: {
+                        "uid": uid,
+                        "type": 0,
+                        "reasonCancellation": c,
+                        "orderNum": orderNum
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        console.log(response)
+                        if (response.result == 0) {
+                            window.location.href = "../order.html";
+                        }
+                    }
+                })
+            }
+
+
+        });
+
+
+
+    }
+</script>

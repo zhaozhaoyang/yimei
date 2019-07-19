@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <link href="../css/mui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/style.css" />
+
+    <style>
+        .mui-content {
+            background-color: #F2F2F2;
+        }
+
+        .mui-table-view:before,
+        .mui-table-view:after {
+            background: #fff;
+        }
+
+        .mui-table-view-cell {
+            padding: 12px 15px;
+        }
+
+        .mylist li p {
+            line-height: 1.9;
+            font-size: 14px;
+            font-family: PingFang-SC-Bold;
+            color: rgba(26, 26, 26, 1);
+        }
+
+        .mui-table-view-cell img {
+            width: 35px;
+            height: 35px;
+            margin-right: 10px;
+            margin-top: 5px;
+        }
+
+        .mui-table-view-chevron .mui-table-view-cell {
+            padding-right: 10px;
+        }
+
+        .tittle {
+            width: 100%;
+            height: 30px;
+        }
+
+        .tittle .fl {
+            font-weight: 600;
+            font-size: 15px;
+            font-family: PingFang-SC-Bold;
+            color: rgba(51, 51, 51, 1);
+        }
+
+        .msg {
+            font-size: 13px;
+            font-family: PingFang-SC-Medium;
+            color: rgba(51, 51, 51, 1);
+        }
+
+        .tittle .fr {
+            font-size: 12px;
+            font-family: PingFang-SC-Regular;
+            color: rgba(153, 153, 153, 1);
+        }
+    </style>
+</head>
+
+<body>
+    <header class="mui-bar mui-bar-nav" style="padding-right: 15px;">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">消息</h1>
+    </header>
+    <div class="mui-content">
+        <div>
+            <ul class="mui-table-view mui-table-view-chevron mylist">
+                <!-- <li class="mui-table-view-cell" hr="0">
+                    <div class="mui-slider-right mui-disabled" @tap="deal(pduct.cartId,pduct.count)" style="z-index: 99">
+                        <a class="mui-btn mui-btn-red">删除</a>
+                    </div>
+                    <div class="mui-slider-handle">
+                        <img class="fl" src="../img/xiaoxi.png" alt="" />
+                        <p class="tittle"> <span class="fl">订单提醒</span> <span class="fr">今天9:00</span></p>
+                        <p class="msg fl">您成功抢单xxx订单</p>
+
+                    </div>
+                </li> -->
+
+            </ul>
+        </div>
+
+
+        <!--内容部分的结束-->
+    </div>
+    <script src="../js/swiper.min.js"></script>
+
+    <script src="../js/mui.min.js"></script>
+    <script src="../js/base.js"></script>
+    <script src="../js/zepto.min.js"></script>
+    <script src="../js/mui.previewimage.js"></script>
+    <script src="../js/mui.zoom.js"></script>
+    <script>
+    </script>
+</body>
+<script type="text/javascript">
+    window.onload = function () {
+
+        var uid = localStorage.getItem("UID");
+
+        $.ajax({
+            type: "post",
+            url: waimaiurl + "/message",
+            data: { uid: uid },
+            dataType: "json",
+            success: function (response) {
+                console.log(response)
+
+                var msg = '';
+                if (response.dataList != undefined) {
+                    for (var i = 0; i < response.dataList.length; i++) {
+                        //拼接消息内容
+                        msg += '<li class="mui-table-view-cell" hr="0">' +
+                            '<div class="mui-slider-right mui-disabled" style="z-index: 99" data-id="' + response.dataList[i].id + '">' +
+                            '<a class="mui-btn mui-btn-red">删除</a>' +
+                            '</div>' +
+                            '<div class="mui-slider-handle">' +
+                            '<img class="fl" src="../img/xiaoxi.png" alt="" />' +
+                            '<p class="tittle"> <span class="fl">' + response.dataList[i].title + '</span> <span class="fr">' + response.dataList[i].createTime + '</span></p>' +
+                            '<p class="msg fl">' + response.dataList[i].content + '</p>' +
+                            '</div>' +
+                            '</li>';
+
+                    }
+                    $(".mylist").append(msg);
+                }
+
+                //删除消息
+                $(".mui-disabled").on("tap", function () {
+
+                    var id = $(this).attr("data-id")
+                   
+                    $.ajax({
+                        type: "post",
+                        url: waimaiurl + "/deleteMessage",
+                        data: { "messageId": id },
+                        dataType: "json",
+                        success: function (response) {
+                            console.log(response)
+                            console.log(response.result)
+                            if(response.result=="0"){
+                                mui.toast("删除成功")
+                                window.location.reload();
+                               
+                                
+                            }
+                        }
+                    });
+                })
+
+
+
+            }
+        });
+
+
+    }
+</script>
+
+</html>

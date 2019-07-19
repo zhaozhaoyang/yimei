@@ -1,0 +1,172 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>取消订单</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="../css/mui.min.css" rel="stylesheet" />
+    <!-- <link href="../css/jquery-weui.min.css" rel="stylesheet" /> -->
+    <link rel="stylesheet" href="../css/style.css" />
+</head>
+<style>
+    body {
+        background-color: #eee;
+    }
+
+    .mui-bar-nav {
+        background-color: #f2f2f2;
+    }
+
+    .container {
+        background: #fff;
+        margin: 2%;
+        margin-top: 60px;
+        height: auto;
+    }
+
+    .tips span {
+        color: #D40F3D;
+        margin: 2%;
+        font-size: 21px;
+    }
+
+    .mui-table-view-radio .mui-table-view-cell .mui-navigate-right:after {
+        color: #D40F3D;
+    }
+
+    #sure {
+        width: 90%;
+        margin-left: 5%;
+        height: 44px;
+        background: #EB2932;
+        border-radius: 6px;
+        color: #fff;
+    }
+</style>
+
+
+<body>
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">取消订单</h1>
+    </header>
+    <div class="container">
+        <ul class="mui-table-view mui-table-view-radio">
+            <!-- <li class="mui-table-view-cell">
+                <a class="mui-navigate-right">
+                    计划有变
+                </a>
+            </li>
+            <li class="mui-table-view-cell mui-selected">
+                <a class="mui-navigate-right">
+                    地址不在服务范围内
+                </a>
+            </li>
+            <li class="mui-table-view-cell">
+                <a class="mui-navigate-right">
+                    计划有变
+                </a>
+            </li>
+            <li class="mui-table-view-cell">
+                <a class="mui-navigate-right">
+                    计划有变
+                </a>
+            </li>
+            <li class="mui-table-view-cell">
+                <a class="mui-navigate-right">
+                    计划有变
+                </a>
+            </li>
+            <li class="mui-table-view-cell">
+                <a class="mui-navigate-right">
+                    计划有变
+                </a>
+            </li> -->
+        </ul>
+    </div>
+    <p class="tips"><span class="mui-icon mui-icon-info"></span>订单成功取消后无法恢复</p>
+    <button id="sure" data-id="1">确定</button>
+
+</body>
+<script src="../js/zepto.min.js"></script>
+<script src="../js/jquery-weui.min.js"></script>
+<script src="../js/base.js"></script>
+<script src="../js/mui.min.js"></script>
+
+<script>
+    window.onload = function () {
+        var uid = localStorage.getItem("UID");
+        function getQueryString(name) {
+            var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            }
+            return null;
+        }
+
+        var orderNum = getQueryString('orderNum');
+
+        mui.init({
+            swipeBack: true //启用右滑关闭功能
+        });
+        var info = document.getElementById("info");
+        document.querySelector('.mui-table-view.mui-table-view-radio').addEventListener('selected', function (e) {
+            // info.innerHTML = "当前选中的为：" + e.detail.el.innerText;
+        });
+        $.ajax({
+            type: "get",
+            url: waimaiurl + "/cancelReasonList",
+            data: {},
+            dataType: "json",
+            success: function (response) {
+                console.log(response)
+                if (response.result == 0) {
+                    var reasonCancellation = "";
+                    for (var i = 0; i < response.dataList.length; i++) {
+                        var inner = "";
+                        inner += '<li class="mui-table-view-cell" data-id="' + response.dataList[i].cancelReson + '">' +
+                            ' <a class="mui-navigate-right"> ' + response.dataList[i].cancelReson + ' ' +
+                            '</a>' +
+                            '</li>';
+
+                        $(".mui-table-view-radio").append(inner);
+                    }
+                    document.querySelector('.mui-table-view.mui-table-view-radio').addEventListener('selected', function (e) {
+                        // info.innerHTML = "当前选中的为："+e.detail.el.innerText;
+                        reasonCancellation = e.detail.el.innerText;
+                    });
+                    $("#sure").on("tap", function () {
+                        // var reasonCancellation = $(this).attr("data-id")
+                        console.log(reasonCancellation)
+                        if(reasonCancellation=='null' || reasonCancellation=='' || !reasonCancellation || reasonCancellation=='undefined'){
+                           mui.toast("请选择取消订单理由");
+                         
+                        }else{
+                           $.ajax({
+                            type: "get",
+                            url: waimaiurl + "/addcancelReason",
+                            data: { "orderNum": orderNum, "reasonCancellation": reasonCancellation },
+                            dataType: "json",
+                            success: function (response) {
+                                if (response.result == 0) {
+                                   window.location.href = "../order.html";
+                                }
+                            }
+                        });
+                        }
+
+                       
+
+
+                    })
+
+                }
+            }
+        });
+
+
+
+    }
+</script>

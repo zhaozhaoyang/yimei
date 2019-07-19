@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>秒杀活动</title>
+    <script src="../js/mui.min.js"></script>
+    <script src="../js/vue.min.js"></script>
+    <link href="../css/mui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/icons-extra.css" />
+    <link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+    <link rel="stylesheet" href="../css/swiper.min.css" />
+</head>
+
+<style>
+    #tuijian {
+        margin-top: 50px;
+    }
+
+    body,
+    html {
+        background: #f2f2f2;
+    }
+
+    .list li {
+        margin: 1%;
+        width: 48%;
+        height: 266px;
+        background: #fff;
+        border-radius: 5px;
+        float: left;
+    }
+
+    .list li img {
+        width: 100%;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        height: 175px;
+    }
+
+    .list li p {
+        padding: 2%;
+    }
+
+    .list li:last-child {
+        margin-bottom: 80px;
+    }
+
+    .list .tittle {
+        margin-bottom: 5px;
+        font-size: 14px;
+        font-family: PingFang-SC-Medium;
+        color: rgba(26, 26, 26, 1);
+    }
+
+    .list .price .fl {
+        font-size: 13px;
+        font-family: PingFang-SC-Medium;
+        color: rgba(230, 0, 19, 1);
+        font-weight: 600;
+    }
+
+    .list .price .fr {
+        font-size: 12px;
+        font-family: PingFang-SC-Medium;
+        color: rgba(153, 153, 153, 1);
+    }
+</style>
+
+<body>
+
+    <header class="mui-bar mui-bar-nav">
+        
+    </header>
+    <div id="app">
+
+        <div id="tuijian">
+
+            <div class="list">
+                <!--<li>
+                    <img src="../img/tejia.png" alt="">
+                    <p class="tittle">吴小帅的厨房中餐厅 鸡蛋番茄</p>
+                    <p class="price"> <span class="fl">￥200</span><span class="fr">已售200</span></p>
+                </li>
+                <li>
+                    <img src="../img/tejia.png" alt="">
+                    <p class="tittle">吴小帅的厨房中餐厅 鸡蛋番茄</p>
+                    <p class="price"> <span class="fl">￥200</span><span class="fr">已售200</span></p>
+                </li>
+                <li>
+                    <img src="../img/tejia.png" alt="">
+                    <p class="tittle">吴小帅的厨房中餐厅 鸡蛋番茄</p>
+                    <p class="price"> <span class="fl">￥200</span><span class="fr">已售200</span></p>
+                </li> -->
+
+            </div>
+        </div>
+    </div>
+    <script src="../js/zepto.min.js"></script>
+    <script src="../js/swiper.min.js"></script>
+    <script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+</body>
+<script type="text/javascript">
+    window.onload = function () {
+        function getQueryString(name) {
+            var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            }
+            return null;
+        }
+        var uid = localStorage.getItem("UID");
+        var activeType = getQueryString('activeType');
+
+        
+
+        if(activeType == 0){
+        //    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a> 
+        //      <h1 class="mui-title">秒杀活动</h1>
+            var titles = '<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a> <h1 class="mui-title">天天特价</h1>';
+            $(".mui-bar-nav").append(titles);
+        }else{
+            var titles = '<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a> <h1 class="mui-title">秒杀活动</h1>';
+            $(".mui-bar-nav").append(titles);
+        }
+
+        $.ajax({
+            type: "post",
+            url: waimaiurl + "/active",
+            data: { "activeType": activeType },
+            dataType: "json",
+            success: function (response) {
+                console.log(response)
+                if (response.result == 0) { //成功
+                    if (response.dataList != undefined) {
+                        var foods = '';
+                        for (var i = 0; i < response.dataList.length; i++) {
+
+                            
+
+                            //  <li>
+                            //     <img src="../img/tejia.png" alt="">
+                            //     <p class="tittle">吴小帅的厨房中餐厅 鸡蛋番茄</p>
+                            //     <p class="price"> <span class="fl">￥200</span>
+                            //     <span class="fr">已售200</span></p>
+                            // </li>
+
+                            //  first += '<li> <img src="' + response.firstList[j].categoryImage + '" alt=" " /><span>' + response.firstList[j].categoryName + '</span></li>';
+                           
+                            if (response.dataList[i].foodsImage == '') {
+
+                                foods += '<li class="swiper-slide"  data-id="' + response.dataList[i].foodsId + '" data-price="' + response.dataList[i].promotionPrice + '"> <img src="../img/tejia.png" alt=" " />' +
+                                    '<p class="tittle">' + response.dataList[i].foodsTitle + '</p>' +
+                                    '<p class="price"> <span class="fl">￥' + response.dataList[i].promotionPrice + '</span>' +
+                                    '<span class="fr">已售' + response.dataList[i].foodsSales + '</span></p>' +
+                                    '</li>';
+                            } else {
+                                foods += '<li  class="swiper-slide" data-id="' + response.dataList[i].foodsId + '" data-price="' + response.dataList[i].promotionPrice + '">' +
+                                    '<img src="' + response.dataList[i].foodsImage + '" alt=" " /> ' +
+                                    '<p class="tittle">' + response.dataList[i].foodsTitle + '</p>' +
+                                    '<p class="price"> <span class="fl">￥' + response.dataList[i].promotionPrice + '</span>' +
+                                    '<span class="fr">已售' + response.dataList[i].foodsSales + '</span></p></li>';
+                            }
+
+                        }
+
+                        $(".list").append(foods);
+                        //点击跳转详情页
+                         $(".swiper-slide").on("tap", function () {
+                            console.log(this)
+                            var id = $(this).attr("data-id");
+                            var promotionPrice = $(this).attr("data-price");
+                            
+                            localStorage.setItem("promotionPrice", promotionPrice);
+                            window.location.href = "../html/productDetail.html?id=" + id +"&goodsType=0";
+                        })
+                    }
+
+
+                } else {//失败
+
+                }
+                // <li>
+                //     <img src="../img/tejia.png" alt="">
+                //     <p class="tittle">吴小帅的厨房中餐厅 鸡蛋番茄</p>
+                //     <p class="price"> <span class="fl">￥200</span><span class="fr">已售200</span></p>
+                // </li>
+            }
+        });
+
+
+    }
+</script>

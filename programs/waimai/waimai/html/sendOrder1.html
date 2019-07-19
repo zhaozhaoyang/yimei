@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+
+    <title>提交订单</title>
+
+    <link href="../css/mui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/icons-extra.css" />
+    <link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+    <link rel="stylesheet" href="../css/swiper.min.css" />
+
+</head>
+
+<style>
+    html,
+    body {
+        position: relative;
+        background: #fff;
+        height: auto;
+    }
+
+    .mui-nav {
+        background: #F2F2F2
+    }
+
+    #app {
+        margin-top: 44px;
+        background: #eee;
+    }
+
+    .cmdy {
+        background: #fff;
+    }
+
+    .title {
+        clear: both;
+        height: 44px;
+        padding-left: 2%;
+        border-bottom: 1px solid #e6e6e6;
+        line-height: 41px;
+    }
+
+    .title p {
+        margin-bottom: 0;
+    }
+
+    .title p span {
+        font-size: 14px;
+        font-family: PingFang-SC-Bold;
+        padding-left: 3%;
+        color: rgba(51, 51, 51, 1);
+        border-left: 3px solid #EB2932;
+    }
+
+    .cmdyList {
+        padding: 4%;
+        height: 110px;
+        border-bottom: 1px solid #e2e2e2;
+    }
+
+    .cmdyList p {
+        color: #333;
+        font-size: 13px;
+    }
+
+    .same .price span:first-child {
+        font-size: 13px;
+        color: #F12132;
+        font-weight: 600;
+    }
+
+    .mui-table-view-cell .msg {
+        color: #242424;
+    }
+
+    .refund {
+        height: 40px;
+        margin: 3%;
+    }
+
+    .titleb p {
+        float: left;
+        width: 50%;
+    }
+
+    .titleb #showUserPicker {
+        width: 40%;
+        margin: 0;
+        padding: 11px 0;
+        font-size: 14px;
+        float: left;
+        border: 0;
+    }
+
+    .titleb #showUserPickera {
+        width: 40%;
+        margin: 0;
+        padding: 11px 0;
+        font-size: 14px;
+        float: left;
+        border: 0;
+    }
+
+    .cmdyList {
+        height: 100px;
+        padding: 2%;
+        border-bottom: 1px solid #f2f2f2;
+    }
+
+    .cmdyList .cmdIcon img {
+        width: 83px;
+        height: 77px;
+    }
+
+    .cmdyList .same {
+        margin-left: 5%;
+        width: 65%;
+    }
+
+    .cmdyList .same p:first-child {
+        font-size: 13px;
+        color: #242424;
+        font-weight: 600;
+        margin-bottom: 20px;
+        margin-top: 10px;
+    }
+
+    .same .price span:first-child {
+        font-size: 13px;
+        color: #F12132;
+        font-weight: 600;
+    }
+
+    .end {
+        clear: both;
+        color: #333;
+        line-height: 0.8;
+        height: 2.8rem;
+    }
+
+    .end .fl,
+    .end .fr {
+        color: #333;
+        font-size: 13px;
+    }
+
+    .mui-icona {
+        line-height: 2;
+        font-size: 22px;
+        width: 10%;
+        float: left;
+    }
+
+    #app .mui-card:last-child .ordercard {
+        margin-bottom: 40px;
+        padding: 2.5%;
+        padding-right: 0;
+    }
+
+    .mui-table-view:before {
+        background: #fff;
+    }
+
+    #orderNum {
+        -webkit-user-select: auto;
+    }
+
+    .mui-media-body {
+        height: 5rem;
+        padding: 3%;
+        position: relative;
+    }
+
+    .mui-media-body img {
+        width: 1.1rem;
+        height: 1.5rem;
+        position: absolute;
+        top: 20%;
+    }
+
+    .mui-bar-nav~.mui-content {
+        padding-top: 30px;
+    }
+
+    .mui-card {
+        box-shadow: none;
+        margin: 0;
+    }
+
+    .mui-media-body span {
+        line-height: 2;
+        padding-left: 8%;
+        font-size: 1rem;
+    }
+
+    .mui-media-body #address {
+        padding-left: 8%;
+        text-overflow: -o-ellipsis-lastline;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+
+    .mui-bar-nav {
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .mui-col-xs-12 {
+        padding: 5%;
+        padding-bottom: 0;
+    }
+
+    .mui-card-header {
+        position: relative;
+    }
+
+    .mui-card-header .name {
+        position: absolute;
+        left: 15%;
+    }
+
+    .mui-card-header>img:first-child {
+        width: 1.6rem;
+        height: 1.4rem;
+    }
+
+    .bck4 {
+        height: 5px;
+        background: #f7f7f7;
+        width: 100%;
+    }
+
+    .product img {
+        height: 5rem;
+        width: 5rem;
+        float: left;
+    }
+
+    .productName {
+        font-size: 1rem;
+        color: #242424;
+        font-weight: 600;
+    }
+
+    .price {
+        margin-bottom: 5px;
+    }
+
+    .price .pricea {
+        color: #EC1D3A;
+        font-size: 1rem;
+        margin-right: 9%;
+    }
+
+    .price .pricea+span {
+        color: #333;
+        font-size: 0.8rem;
+    }
+
+    .price button {
+        border-radius: 1rem;
+        height: 30px;
+        border-color: #dbdbdb;
+        margin-top: -0.4rem;
+    }
+
+    .product {
+        height: 7.8rem;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .end {
+        clear: both;
+        color: #333;
+        line-height: 0.8;
+        height: 2.8rem;
+    }
+
+    .end .fl,
+    .end .fr {
+        color: #333;
+        font-size: 13px;
+    }
+
+    #contact {
+        margin-right: 5%;
+        border-radius: 1rem;
+        width: 6.95rem;
+        border-color: #DBDBDB;
+    }
+
+    #all span {
+        color: #EC1D3A;
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+    .gopay {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 3rem;
+    }
+
+    #app {
+        margin-bottom: 50px;
+    }
+
+    .enda {
+        border-bottom: 1px solid #f4f4f4;
+    }
+
+    .enda .fr {
+        color: #F12132;
+    }
+
+    .gopay p span {
+        font-size: 17px;
+        font-weight: 600;
+        font-family: PingFang-SC-Bold;
+        color: rgba(241, 33, 50, 1);
+    }
+
+    .gopay p {
+        background: #fff;
+        color: #333;
+        width: 60%;
+        float: left;
+        line-height: 50px;
+        text-align: center;
+    }
+
+    #gopay {
+        width: 40%;
+        height: 3rem;
+        border: none;
+        border-radius: 0;
+        color: #fff;
+        background: #F12132;
+        font-weight: 600;
+    }
+
+    .endc input {
+        height: 25px;
+        width: 75%;
+        border: none;
+    }
+
+    .endc {
+        margin-bottom: 20px;
+    }
+
+    .endc .fl {
+        margin-top: 8px;
+    }
+
+     ::-webkit-input-placeholder {
+        /* WebKit, Blink, Edge */
+        font-size: 12px;
+    }
+
+    .mui-navigate-right:after,
+    .mui-push-right:after {
+        top: 12%;
+    }
+.mui-table-view-chevron .mui-table-view-cell{padding-right: 0px;}
+.mui-table-view-cell>a:not(.mui-btn) {margin: 0px;padding: 0px;}
+.mui-table-view-chevron .mui-table-view-cell>a:not(.mui-btn){margin-right: 0px;}
+    
+</style>
+
+
+<body>
+
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">提交订单</h1>
+    </header>
+    <div id="app">
+
+        <div class="cmdy">
+            <div class="title">
+                <p> <span>收货人信息</span> </p>
+            </div>
+            <li class="cmdyList" id="cmdyList">
+                <!-- <a class="mui-navigate-right" onclick="js_method()" href="../html/address.html?dizhi=1&foodsId='foodsId'" + foodsId> -->
+                <a class="mui-navigate-right" id="js_method">
+                    <!-- // <p> <span>李帅</span> <span>15837197037</span> </p>
+                    //     <p>
+                    //         河南省郑州市金水区商都路通展路商都世贸中心D座 2202室
+                    //     </p> -->
+                </a>
+            </li>
+            <div class="title titleb" id="dianpu">
+                <!-- <p> <span>选择订餐店铺</span> </p> -->
+            </div>
+            <!-- <div class="title titleb" id="dianpu">
+                <p> <span>选择订餐店铺</span> </p>
+                <p id='showUserPicker' class="mui-btn mui-btn-block">选择店铺</p><span class="mui-icon mui-icon-arrowdown"></span>
+                 <input id='showUserPicker' class="mui-btn mui-btn-block" type='button'>选择店铺 </button><span class="mui-icon mui-icon-arrowdown"></span>
+            </div> -->
+            <div class="title titleb" id="shijian" name="shijian">
+                <!-- <p> <span>选择送达时间</span> </p>
+                <input id='showUserPicker' class="mui-btn mui-btn-block" type='button' placeholder="送达时间"> <span class="mui-icon mui-icona mui-icon-arrowdown"></span> -->
+            </div>
+            <div class="title">
+                <p> <span>商品列表</span> </p>
+            </div>
+            <div id="caipin">
+
+            </div>
+            <!-- <li class="cmdyList " id="caipin"> -->
+            <!-- <div class="cmdIcon fl">
+                    <img src="../img/01@3x.png" alt="">
+                </div>
+                <div class="fl same">
+                    <p>原味养生汤</p>
+                    <p class="price"> <span>¥320.00</span> <span class="fr">x1</span></p>
+                </div> -->
+            <!-- </li> -->
+            <div class="mui-col-xs-12 end" id="shippingFee">
+                <!-- // <p class="fl">配送费用:&nbsp;&nbsp;</p>
+                // <p class="fr" id="orderNum">¥60</p> -->
+            </div>
+            <div class="mui-col-xs-12 end enda" id="discounts">
+                <!-- <p class="fl">优惠券:&nbsp;&nbsp;</p>
+                <p class="fr" id="orderNum">-¥20</p> -->
+            </div>
+            <div class="mui-col-xs-12 end endc">
+                <p class="fl">买家留言:&nbsp;&nbsp;</p>
+                <input id="liuyan" type="text" placeholder="如有需要请留言">
+
+            </div>
+            <div class="back4"></div>
+            <div class="ordercard">
+                <ul class="mui-table-view mui-table-view-chevron">
+                    <li class="mui-table-view-cell">
+                        <a class="mui-navigate " id="jisuan">
+                            <!-- <p class="fl"></p>
+                            <p class="fr" id="all">共1件商品，小计：<span class="money">¥200</span></p> -->
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="gopay" id="gopay1">
+            <!-- <p>合计 <span>￥320</span></p> -->
+            <button id="gopay" @tap="goPay()">立即支付</button>
+        </div>
+    </div>
+    </div>
+
+
+
+    <script src="../js/zepto.min.js"></script>
+    <script src="../js/mui.min.js"></script>
+    <script src="../js/vue.min.js"></script>
+    <script src="../js/mui.picker.min.js"></script>
+    <script src="../js/swiper.min.js"></script>
+    <script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+</body>
+<script type="text/javascript">
+var flg=0;
+var leix;
+var send = '' //运费
+    window.onload = function() {
+
+        var uid = localStorage.getItem("UID");
+        localStorage.setItem("typa", 0);
+        /* var uid = 2 */
+        localStorage.getItem("ADDRESSID");
+
+        function getQueryString(name) {
+            var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            }
+            return null;
+        }
+        var promotionPrice = localStorage.getItem("promotionPrice");
+
+
+        var dataList = localStorage.getItem("dataList");
+        var allprice = localStorage.getItem("allprice");
+
+        localStorage.getItem("ADDRESSID");
+
+        var datalis = JSON.parse(dataList);
+        var allpric = JSON.parse(allprice);
+
+       leix=getQueryString("leix");
+        var foodsId = getQueryString('foodsId');
+        var goodsType = getQueryString('goodsType');
+        var differentiate = getQueryString('differentiate');
+        var addressId = getQueryString('addressId');
+        var shopId = getQueryString('shopId');
+        var carType = localStorage.getItem("carType");
+        var gou_type = localStorage.getItem("gou_type");
+        console.log(carType)
+        // if (carType != undefined) {
+        //     console.log("为啥走这个判断")
+        //     goodsType = carType
+        // }
+console.log(goodsType)
+        // mui.back = function () {
+        //     location.href = "productDetail.html?id=" + foodsId + "&goodsType=" + goodsType
+
+
+        // }
+
+        var address = "";
+
+        console.log(shopId)
+        var coupoId = getQueryString('coupoId');
+        console.log(typeof coupoId +'++++')
+        var jinqian = ''; //总金额
+        
+        var goodsImage = ''; //图片
+        var title = ''; //商品名字
+        var price = ''; //商品金额
+
+        var lon = getQueryString('lon');
+        console.log(lon+'***')
+        var lat = getQueryString('lat');
+        var all = 0;
+        var time = "";
+
+// //获取附近店铺的
+            function fuji(lon,lat){
+              $.ajax({
+                type: "get",
+                 async:false,
+                url: waimaiurl + "/calculateInsideShop",
+                data: {
+                    "lat": lat,
+                    "lon":lon ,
+                    "foodsId": foodsId
+                },
+                dataType: "json",
+                success: function(response) {
+                    console.log(lat, lon, foodsId)
+                    console.log(response)
+
+                    if(response.result == 0) {
+                        if(response.dataList != undefined) {
+                            for(var i = 0; i < response.dataList.length; i++) {
+                                  shop_name=response.dataList[0].name;
+                                  shopId=response.dataList[0].id;
+                                  send=response.dataList[0].send;
+                                  console.log(response.dataList[0].id);
+                            }
+                            console.log(shopId)
+                            
+
+                        } else {
+                            mui.toast(response.resultNote)
+                        }
+                    } else { //失败
+
+                    }
+
+                }
+            });
+            }
+ console.log("优惠劵id"+foodsId)
+        $.ajax({
+            type: "post",
+            url: waimaiurl + "/sendOrder",
+            data: {
+                "uid": uid,
+                "foodsId": foodsId,
+                "differentiate": differentiate,
+                "addressId": addressId,
+                "shopId": shopId,
+                "lon": lon,
+                "lat": lat,
+                "coupoId": coupoId,
+                "differentiate": 1,
+                "allprice": allprice,
+                "goodsType": goodsType
+            },
+            dataType: "json",
+            success: function(response) {
+                console.log(response)
+                console.log(1205)
+                lons = response.object.lon;
+                    lats = response.object.lat;
+                    if(goodsType==0){
+                        if(!leix){
+                        console.log("最开始应该走")
+                         fuji(lons,lats);
+                       }
+                    }
+                console.log(goodsType)
+                if (goodsType == 0 || goodsType == undefined) {
+                    console.log("走了没")
+                    var dianpu = "";
+                    var dianpu2 = response.object.shopName;
+                    if (response.object != undefined) {
+                        console.log("二")
+                        if (response.object.shopName == undefined) {
+                            dianpu += '<p> <span>选择订餐店铺</span> </p>' +
+                                ' <p id="showUserPickera" class="mui-btn mui-btn-block">选择店铺</p><span class="mui-icon mui-icon-arrowdown"></span>';
+
+                        } else {
+                            dianpu += '<p> <span>选择订餐店铺</span> </p>' +
+                                ' <p id="showUserPickera" class="mui-btn mui-btn-block">' + response.object.shopName + '</p><span class="mui-icon mui-icon-arrowdown"></span>';
+                        }
+                    } else {
+                        dianpu += '<p> <span>选择订餐店铺</span> </p>' +
+                            ' <p id="showUserPickera" class="mui-btn mui-btn-block">选择店铺</p><span class="mui-icon mui-icon-arrowdown"></span>';
+                    }
+
+                    $("#dianpu").append(dianpu);
+                }else {
+                        $('#dianpu').hide();
+                        $('#shijian').hide();
+                    }
+
+                //      <p> <span>选择送达时间</span> </p>
+                // <input id='showUserPicker' class="mui-btn mui-btn-block" type='button' placeholder="送达时间"> <span class="mui-icon mui-icona mui-icon-arrowdown"></span>
+                var shijian = "";
+                console.log(goodsType)
+                if (goodsType == 0) {
+                    shijian += '<p> <span>选择送达时间</span> </p>' +
+                        '<input id="showUserPicker" name="showUserPicker" class="mui-btn mui-btn-block" type="button" placeholder="送达时间" value=""> <span class="mui-icon mui-icona mui-icon-arrowdown"></span>';
+                }
+                $("#shijian").append(shijian);
+                var options = {};
+                var now = new Date();
+                options.beginYear = now.getFullYear();
+                options.beginMonth = now.getMonth() + 1;
+                options.type = "time";
+                options.beginDay = now.getDate();
+                options.beginHours = now.getHours();
+                options.beginMinutes = now.getMinutes() + 30;
+                //   var mm = now.getMinutes();          //分
+
+                //   $(&quot;#serverTime&quot;).on('tap', function() {picker.show(function(rs) {$(&quot;#serverTime&quot;).val(rs.y.text+'-'+rs.m.text+'-'+rs.d.text);});}, false);
+                $("#showUserPicker").on("tap", function(param) {
+                    var now = new Date();
+                    var picker = new mui.DtPicker(options);
+
+                    console.log(now.getHours() + 1)
+
+                    picker.show(function(selectItems) {
+                        var now = new Date();
+
+                        var sdate1 = new Date();
+                        var m = parseInt(sdate1.getMinutes() + 30);
+                        if (m > 60) {
+                            var m1 = parseInt(sdate1.getHours() + 1)
+                            var m2 = m - 60;
+                        }
+                        var sdate2 = m1 + "" + m2;
+                        var p = parseInt(selectItems.h.value + "" + selectItems.i.value);
+                        if (sdate2 > p) {
+
+                            mui.toast("请选择当前时间30分钟之后的时间！")
+                        }
+
+
+                        console.log(selectItems)
+                            /*  if (now.getHours() < sdate1.getHours()) {
+                            mui.toast("请选择当前时间之后的时间！")
+                        }
+                        if (now.getMinutes + 30 < selectItems.y.value) {
+                            mui.toast("请选择当前时间之后的时间！")
+                        }
+ */
+                        time = selectItems.value;
+                        $("#showUserPicker").val(time)
+                        console.log(selectItems.value); //xuyao传的
+                        console.log(selectItems.h); //{text: "2016",value: 2016}
+                        console.log(selectItems.y); //{text: "2016",value: 2016}
+                        // console.log(selectItems.m); //{text: "05",value: "05"}
+
+                    }, false);
+                });
+                if (response.object != undefined) {
+                    address = response.object.addressId
+                }
+                $("#showUserPickera").on("tap", function() {
+                   // window.location.href = "shops.html?foodsId=" + foodsId + "&goodsType=" + goodsType + "&dizhi=1" + "&differentiate=" + differentiate + "&lat=" + lat + "&lon=" + lon + "&coupoId=" + coupoId + "&addressId=" + address + "&shopId=" + shopId+'&gou_type=1';
+
+                   window.location.href = "shops1.html?foodsId=" + foodsId + "&goodsType=" + goodsType + "&dizhi=1" + "&differentiate=" + differentiate + "&lat=" + lat + "&lon=" + lon + "&coupoId=" + coupoId + "&addressId=" + address + "&shopId=" + shopId;
+
+                })
+                if (response.object != undefined) {
+
+
+                    lon = response.object.lon;
+                    lat = response.object.lat;
+                    var inner = "";
+                    console.log(response)
+
+                    if (response.object.username) {
+                        inner += '<p> <span>' + response.object.username + '</span> <span>' + response.object.userphone + '</span> </p>' +
+                            '<p>' + response.object.city + '</p>';
+                    } else {
+
+                        inner += '<p> <span></span> <span></span> </p>' +
+                            '<p></p>';
+                    }
+
+
+                } else {
+                    var inner = "";
+                    inner += '<p> <span></span> <span></span> </p>' +
+                        '<p></p>';
+                }
+                $("#js_method").append(inner);
+                //  <div class="cmdIcon fl">
+                //     <img src="../img/01@3x.png" alt="">
+                // </div>
+                // <div class="fl same">
+                //     <p>原味养生汤</p>
+                //     <p class="price"> <span>¥320.00</span> <span class="fr">x1</span></p>
+                // </div>
+
+                var caipin = "";
+                for (var i = 0; i < datalis.length; i++) {
+
+                    caipin += '' +
+                        ' <li class="cmdyList"><div class="cmdIcon fl">' +
+                        ' <img src="' + datalis[i].goodsImage + '" alt="">' +
+                        '</div>' +
+                        '<div class="fl same">' +
+                        '<p>' + datalis[i].goodsTitle + '</p>' +
+                        ' <p class="price"> <span>¥' + datalis[i].price + '</span> <span class="fr">x' + datalis[i].count + '</span></p>' +
+                        '</div></li>';
+
+                }
+                $("#caipin").append(caipin);
+
+                // <p class="fl">配送费用:&nbsp;&nbsp;</p>
+                // <p class="fr" id="orderNum">¥60</p>
+                //配送
+                var shippingFee = "";
+                if (response.object != undefined) {
+                    if (response.object.send != undefined) {
+                        shippingFee += '<p class="fl">配送费用:&nbsp;&nbsp;</p>' +
+                            ' <p class="fr" id="orderNum">¥' + response.object.send + '</p>';
+                    } else {
+                        shippingFee += '<p class="fl">配送费用:&nbsp;&nbsp;</p>' +
+                            ' <p class="fr" id="orderNum">¥' + "" + '</p>';
+                    }
+                    send = response.object.send
+                    shopId = response.object.shopId
+                } else {
+                    shippingFee += '<p class="fl">配送费用:&nbsp;&nbsp;</p>' +
+                        ' <p class="fr" id="orderNum">¥' + "" + '</p>';
+                }
+
+                $("#shippingFee").append(shippingFee);
+                //优惠券
+                if (goodsType == 0 ) {
+                    var discounts = "";
+                    if (response.object != undefined) {
+                        var price1 = response.object.price
+                            //
+                            // <p class="fr" id="orderNum">-¥20</p>
+                        if (response.object.userAmount != undefined) {
+                            discounts += '<p class="fl">优惠券:&nbsp;&nbsp;</p>' +
+                                '<p class="fr" id="orderNum">-¥' + response.object.userAmount + '</p>';
+                                coupoId=response.object.coupoId;
+                        } else {
+                            discounts += '<p class="fl">优惠券:&nbsp;&nbsp;</p>' +
+                                '<p class="fr" id="orderNum">-¥0</p>';
+                        }
+                    } else {
+                        discounts += '<p class="fl">优惠券:&nbsp;&nbsp;</p>' +
+                            '<p class="fr" id="orderNum">-¥0</p>';
+                    }
+                    $("#discounts").append(discounts);
+                    $("#discounts").on("tap", function() {
+
+
+                        window.location.href = "coupon21.html?foodsId=" + foodsId + "&goodsType=" + goodsType + "&dizhi=1" + "&differentiate=" + differentiate + "&lat=" + lat + "&lon=" + lon + "&shopId=" + shopId + "&goodsMoney=" + allpric + "&coupoId=" + coupoId + "&couponsType=1";
+
+                    })
+                }else{
+                    $("#discounts").hide();
+                }
+
+                if (response.object != undefined) {
+                    price = response.object.price;
+                    goodsImage = response.object.goodsImage;
+                    title = response.object.title;
+                    addressId = response.object.addressId;
+                    //总计金额
+                    var jisuan = "";
+                    if(leix==1){
+                           console.log("这个是选择店铺了")
+                            send = response.object.send
+                        }else{
+                            console.log("没有走else")
+                            send=send;
+                        }
+
+                    console.log(allprice)
+                    if (response.object.send != undefined && allprice != undefined && response.object.userAmount != undefined) {
+                        jinqian = Number(response.object.send) + Number(allprice) - Number(response.object.userAmount)
+                    } else if (allprice != undefined && response.object.userAmount != undefined) {
+                        jinqian = Number(allprice) - Number(response.object.userAmount)
+                    } else if (allprice != undefined && response.object.send != undefined) {
+                        jinqian = Number(response.object.send) + Number(allprice)
+                    } else {
+                        jinqian = Number(allprice)
+                    }
+                     
+					var ss = jinqian.toFixed(2);
+
+                    jisuan +=
+                        '<p class="fr" id="all" style="margin-right: 10px;">共1件商品，小计：<span class="money">¥' + ss + '</span></p>';
+                    $("#jisuan").append(jisuan);
+                    //合计
+                    var gopay1 = "";
+                    gopay1 += ' <p>合计 <span>￥' + ss + '</span></p>';
+                } else {
+                    var jisuan = "";
+                    allprice=allprice.toFixed(2)
+                    // ' <p class="fl"></p>' +
+                    jisuan +=
+                        '<p class="fr" id="all">共1件商品，小计：<span class="money">¥' + allprice + '</span></p>';
+                    $("#jisuan").append(jisuan);
+                    //合计
+                    var gopay1 = "";
+                    gopay1 += ' <p>合计 <span>￥' + allprice + '</span></p>';
+                }
+                $("#gopay1").append(gopay1);
+
+            }
+
+            // }
+        });
+
+
+
+
+        $("#cmdyList").on("tap", function() {
+
+            window.location.href = "address1.html?foodsId=" + foodsId + "&goodsType=" + goodsType + "&dizhi=1" + "&differentiate=" + differentiate + "&coupoId=" + coupoId;
+
+        })
+
+
+
+        //生成订单
+        $("#gopay1").on("tap", function() {
+            if(flg==0){
+                flg=1;
+            if (goodsType == 0) {
+                var a = send;
+                if (send == undefined) {
+                    mui.toast("请先选择商铺");
+                } else {
+                    if (time == "") {
+                        mui.toast("请选择时间");
+                        return;
+                    }
+                }
+
+                /* if (goodsType == 0) {
+                    if (send == undefined) {
+                        mui.toast("您的运费不能为空");
+                    } */
+
+            }
+
+
+            var mobi = $("#liuyan").val();
+         console.log("优惠劵id|"+coupoId+'|')
+            if(typeof(coupoId)=="object" || coupoId =='null'){
+                console.log("没有优惠劵")
+               $.ajax({
+                type: "get",
+                url: waimaiurl + '/orderGenerated?json={"userCar":' + dataList + ' ,"oderPrice" : "' + jinqian + '","addressId" : "' + addressId + '","uid" : "' + uid + '","freight" : "' + send + '","shopId":"' + shopId + '","goodsType" :"' + goodsType + '" ,"goodsType" :"' + goodsType + '","message":"","time":"' + time + '","message":"' + mobi + '","securitiesid":""}',
+                // url: waimaiurl + '/orderGenerated1?json={"oderPrice" : "' + jinqian + '","addressId" : "' + address + '","uid" : "' + uid + '","freight" : "' + send + '","foodsId":"' + foodsId + '","shopId":"' + shopId + '","price":"' + price + '","goodsImage":"' + goodsImage + '","title":"' + title + '" ,"goodsType" :"' + goodsType + '","message":"","time":"' + time + '","message":"' + mobi + '"}',
+                //   data: { ,  ,},
+                dataType: "json",
+                success: function(response) {
+                    
+                    if (response.result == 0) {
+                        flg=0;
+                        localStorage.setItem("NUM", response.object.orderNum);
+                        localStorage.setItem("PRC", response.object.money);
+                        localStorage.setItem("CZ", 0);
+                        // alert("http://cqmxsm.com/duoshangcheng/vip/pay?prc=" + response.object.money + "&num=" + response.object.orderNum)
+                        window.location.href = "http://cqmxsm.com/duoshangcheng/vip/pay?prca=" + response.object.money + "&num=" + response.object.orderNum + "&prc=" + response.object.money + "&cz=0";
+                    }
+
+                }
+            });
+            }else{
+            	 console.log("22222")
+               $.ajax({
+                type: "get",
+                url: waimaiurl + '/orderGenerated?json={"userCar":' + dataList + ' ,"oderPrice" : "' + jinqian + '","addressId" : "' + addressId + '","uid" : "' + uid + '","freight" : "' + send + '","shopId":"' + shopId + '","goodsType" :"' + goodsType + '" ,"goodsType" :"' + goodsType + '","message":"","time":"' + time + '","message":"' + mobi + '","securitiesid":"'+coupoId+'"}',
+                // url: waimaiurl + '/orderGenerated1?json={"oderPrice" : "' + jinqian + '","addressId" : "' + address + '","uid" : "' + uid + '","freight" : "' + send + '","foodsId":"' + foodsId + '","shopId":"' + shopId + '","price":"' + price + '","goodsImage":"' + goodsImage + '","title":"' + title + '" ,"goodsType" :"' + goodsType + '","message":"","time":"' + time + '","message":"' + mobi + '"}',
+                //   data: { ,  ,},
+                dataType: "json",
+                success: function(response) {
+                    if (response.result == 0) {
+                        localStorage.setItem("NUM", response.object.orderNum);
+                        localStorage.setItem("PRC", response.object.money);
+                        localStorage.setItem("CZ", 0);
+                        flg=0;
+                        // alert("http://cqmxsm.com/duoshangcheng/vip/pay?prc=" + response.object.money + "&num=" + response.object.orderNum)
+                        window.location.href = "http://cqmxsm.com/duoshangcheng/vip/pay?prca=" + response.object.money + "&num=" + response.object.orderNum + "&prc=" + response.object.money + "&cz=0";
+                    }
+
+                }
+            });
+            }
+          }
+
+        })
+
+
+
+
+    }
+</script>

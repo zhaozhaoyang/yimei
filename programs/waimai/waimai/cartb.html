@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <title>购物车</title>
+    <script src="js/mui.min.js"></script>
+    <script src="js/vue.min.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+    <link rel="stylesheet" href="css/icons-extra.css"/>
+    <link rel="stylesheet" type="text/css" href="css/mui.picker.min.css"/>
+    <link rel="stylesheet" href="css/swiper.min.css"/>
+</head>
+
+<style>
+    html,
+    body {
+    }
+
+    .mui-pull-right {
+        line-height: 2.7;
+        color: #333;
+    }
+
+    .topList {
+        height: 50px;
+        line-height: 41px;
+        /*border-bottom: 1px solid #dbdbdb;*/
+    }
+
+    .topList .active span {
+        padding-bottom: 15px;
+        border-bottom: 4px solid #F12132;
+        color: #F12132;
+    }
+
+    .topList li {
+        float: left;
+        width: 50%;
+        color: #333;
+        font-size: 15px;
+        text-align: center;
+        font-weight: 600;
+    }
+
+    #app {
+        z-index: 99;
+        margin-top: 44px;
+        height: auto;
+        /* overflow: scroll; */
+        width: 100%;
+        left: 0;
+        right: 0;
+    }
+
+    .mui-title {
+        font-weight: 600;
+    }
+
+    .mui-col-xs-2 {
+        width: 10%;
+    }
+
+    .mui-bar-nav {
+        border-bottom: 1px solid #e6e6e6;
+    }
+
+    .container {
+        margin-top: 44px;
+    }
+
+    .mui-table-view:after,
+    .mui-table-view-cell:after {
+        background: #fff
+    }
+
+    .mui-card {
+        box-shadow: none;
+        height: 6.1rem;
+        margin-bottom: 0
+    }
+
+    .mui-checkbox input[type=checkbox]:checked:before,
+    .mui-radio input[type=radio]:checked:before {
+        color: #F12132;
+    }
+
+    .mui-card .mui-checkbox {
+        height: 6.1rem;
+        line-height: 6.1rem;
+    }
+
+    .mui-checkbox.mui-left input[type=checkbox] {
+        top: 1.8rem;
+        left: 0;
+    }
+
+    .mui-col-xs-10 img {
+        width: 5rem;
+        height: 5rem;
+    }
+
+    .name {
+        color: #242424;
+        font-size: 1rem;
+        font-weight: 600;
+        overflow: hidden;
+        margin-bottom: 27px !important;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .nmae + p {
+        color: #999999
+    }
+
+    .price span:first-child {
+        color: #EC1D3A;
+        font-size: 1rem;
+    }
+
+    .price .fr {
+        color: #333;
+        font-size: 0.9rem;
+    }
+
+    .mui-checkbox input[type=checkbox]:before,
+    .mui-radio input[type=radio]:before {
+        font-size: 1.5rem;
+    }
+
+    .mui-numbox {
+        top: -15px;
+        height: 1.8rem;
+    }
+
+    .footer {
+        height: 3rem;
+        background: #f7f7f7;
+        width: 100%;
+        left: 0;
+        z-index: 99999;
+    }
+
+    .footer .mui-input-row {
+        height: 3rem;
+        line-height: 3.3rem;
+        text-align: right;
+    }
+
+    .footer .mui-input-row p {
+        color: #333;
+    }
+
+    .footerb {
+        bottom: 0
+    }
+
+    .mui-table-view-cell {
+        padding: 0
+    }
+
+    .makd {
+        width: 100%;
+    }
+
+    .topTiele {
+        height: 44px;
+        font-size: 16px;
+        padding: 3%;
+    }
+
+    .topTiele img {
+        width: 18px;
+        height: 16px;
+        margin-right: 5px;
+        margin-top: 3px;
+    }
+
+    #change .shopAll:last-child #OA_task_1 li:last-child {
+        margin-bottom: 120px;
+    }
+
+    .mui-table-view-cell > .mui-slider-handle {
+        border-bottom: 1px solid #e6e6e6;
+    }
+
+    .mui-checkboxa {
+        height: 44px;
+    }
+
+    .mui-checkboxa .checa {
+        top: 10px !important;
+        left: 23% !important;
+    }
+
+    .footer p {
+        color: #333;
+    }
+
+    .footPrice p {
+        margin-top: 5px;
+        margin-left: 18px;
+    }
+
+    #send {
+        height: 48px;
+        background: #F12132;
+        width: 120px;
+        color: #fff;
+    }
+
+    .footPrice .fl span {
+        color: #F12132;
+        font-size: 17px;
+    }
+
+    .mui-icon-trash {
+        position: absolute;
+        top: 20%;
+        right: -8%;
+    }
+
+    .mui-table-view:before {
+        background: #fff;
+    }
+
+    #OA_task_1 li:last-child {
+        /* margin-bottom: 40px; */
+    }
+
+    .kong {
+        text-align: center;
+        margin-top: 40px;
+    }
+
+    .kong img {
+        width: 91px;
+        height: 60px;
+    }
+
+    #mabtm {
+        margin-bottom: 120px;
+    }
+
+    .tabs,
+    .mui-bar {
+        z-index: 99999;
+        left: 0;
+    }
+
+    .tabs {
+        margin-top: 0;
+    }
+
+    #appTaber {
+        position: fixed;
+        bottom: 0;
+        line-height: 2.5rem;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        height: 100px;
+        background: #fff;
+        z-index: 9999;
+        left: 0;
+    }
+
+    .tabs {
+        position: absolute;
+        bottom: 0;
+        line-height: 2.5rem;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        height: 3.5rem;
+        background: #fff;
+        z-index: 9999;
+        left: 0;
+    }
+</style>
+
+<body>
+<header class="mui-bar mui-bar-nav">
+    <!-- <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a> -->
+    <h1 class="mui-title">购物车</h1>
+    <span class="mui-pull-right samemsg">编辑</span>
+</header>
+<div id="app" v-cloak>
+
+    <div id="mabtm">
+        <div class="topList">
+            <!--<li class="active" data-type="0"><span>同城购物车</span></li>
+            <li data-type="1"><span>商城购物车</span></li>-->
+        </div>
+        <!-- 空 -->
+        <div class="kong" v-show="has==0">
+            <img src="./img/zanwu@3x.png" alt="">
+            <p>去逛逛</p>
+        </div>
+        <div class="shopAll" v-for="(item,index) in dataList">
+            <!--<div class="mui-input-row mui-checkbox mui-checkboxa mui-left mui-col-xs-2 fl">
+            <input class="chec checa" :checked="item.onche" name="checkbox" value="Item1" type="checkbox">
+        </div>-->
+            <div>
+                <div id="cartList">
+                    <div class="listDetail">
+                        <ul id="OA_task_1" class="mui-table-view">
+                            <li class="mui-table-view-cell">
+                                <!-- <div class="mui-slider-right mui-disabled" style="z-index: 99">
+                            <a class="mui-btn mui-btn-red">删除</a>
+                        </div> -->
+                                <div class="mui-card mui-slider-handle">
+                                    <div class="mui-input-row mui-checkbox mui-left mui-col-xs-2 fl">
+                                        <input class="chec" class="chcek" name="checkbox" value="Item1" type="checkbox"
+                                               :checked="item.onche" @change="dan(index)">
+                                    </div>
+                                    <div class="mui-col-xs-10 fl">
+                                        <img :src="item.goodsImage" class="fl mui-col-xs-4" alt=""/>
+                                        <div class="fr mui-col-xs-8">
+                                            <p class="name">{{item.goodsTitle}}</p>
+                                            <p class="price"><span>¥{{item.price}}</span>
+                                                <span class="fr" v-show="show==0">x{{item.count}}</span>
+                                                <!-- 编辑 -->
+                                                <span class="mui-icon mui-icon-trash" v-show="show==1"
+                                                      @tap="del(item.id)"></span>
+                                            <div class="mui-numbox fr" v-show="show==1">
+                                                <button class="mui-btn mui-btn-numbox-minus" type="button"
+                                                        @tap="reduce(index,item.count,item.id)">-
+                                                </button>
+                                                <input class="mui-input-numbox" type="number"
+                                                        v-model="item.count" @input="format(index)"/>
+                                                <button class="mui-btn mui-btn-numbox-plus" type="button"
+                                                        @tap="add(index,item.count,item.id)">+
+                                                </button>
+                                                 <!-- <button class="mui-btn mui-btn-numbox-plus" type="button"
+                                                        @tap="add(types,item.goodsId)">+
+                                                </button> -->
+                                            </div>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+            <div class="back4"></div>
+        </div>
+
+    </div>
+
+    <div id="appTaber">
+        <div class="footer">
+            <div class="mui-input-row mui-checkbox mui-left mui-col-xs-2 fl">
+                <input name="checkbox" class="checkAlla" value="Item1" type="checkbox" style="top:0.9rem;left: 10%;"
+                       @change="checkAll($event)" :checked="isAll">
+            </div>
+            <p class="fl" style="line-height: 3.8;">全选</p>
+            <div class="footPrice">
+                <p class="fl">合计：<span> ¥{{allprice}}</span></p>
+                <button id="send" v-show="is=='编辑'" class="fr send">结算</button>
+                <button v-show="is=='完成'" id="send" @tap="delall" class="fr delete">删除</button>
+            </div>
+        </div>
+        <ul class="tabs">
+            <li class="li-tab">
+                <a href="index.html"><img src="img/shouye@3x.png"> <span class="">首页</span></a>
+            </li>
+            <li class="li-tab">
+                <a href="find.html"><img src="img/sahngcheng@3x.png"> <span class="">商城</span></a>
+            </li>
+            <li class="li-tab">
+                <a href="cartb.html"><img src="img/gouwuches@3x.png"> <span class="active">购物车</span></a>
+            </li>
+            <li class="li-tab">
+                <a href="order.html"><img src="img/dingdan@3x.png"> <span class="">订单</span></a>
+            </li>
+            <li class="li-tab">
+                <a href="my.html"><img src="img/wode@3x.png"> <span class="">我的</span></a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script src="js/zepto.min.js"></script>
+<script src="js/swiper.min.js"></script>
+<script src="./js/tab.js"></script>
+
+<script src="js/base.js" type="text/javascript" charset="utf-8"></script>
+</body>
+<script type="text/javascript">
+var uid 
+	window.onload = function () {
+		// alert(1)
+		 uid = localStorage.getItem("UID");
+		var carType = "1";
+
+		//      var uid=localStorage.getItem("UID");
+		var app = new Vue({
+			el: "#app",
+			data: {
+				dataList: [],
+                dataList_xin:[],
+				has: "0",
+				show: "0",
+				is: "编辑",
+				allprice: 0,
+				isAll: false,
+                types:'1',
+                deltype:"1"
+			},
+			methods: {
+				format(index){
+					if(this.dataList[index].count>10000){
+						this.dataList[index].count =9999
+					}
+				},
+                //单选效果
+				dan: function (idx) {
+					
+					if (app.dataList[idx].onche) {
+						app.dataList[idx].onche = false;
+					} else {
+						app.dataList[idx].onche = true;
+					}
+                    console.log(app.dataList[idx].onche)
+					app.priceAll();
+				},
+                //加数量
+				add: function (idx1, count, cId) {
+                    console.log(app.dataList[idx1].onche)
+                    console.log(app.dataList)
+					console.log(idx1)
+					app.dataList[idx1].count++;
+					//          		console.log(app.dataList[idx1].goodsList[idx2].count)
+					app.upDataCar(0, app.dataList[idx1].count, cId)
+                    console.log(app.dataList[idx1].onche)
+					app.priceAll();
+				},
+				delall: function () {
+					console.log(app.dataList)
+					// var datal=
+					for (var i = 0; i < app.dataList.length; i++) {
+						if (app.dataList[i].onche) {
+							app.upDataCar(app.types, 0, app.dataList[i].id)
+							// location.reload();
+						}
+					}
+                    app.deltype=0;
+					app.priceAll();
+				},
+                //减数量
+				reduce: function (idx1, count, cId) {
+					console.log(idx1)
+					console.log(cId)
+					app.dataList[idx1].count--;
+					if (count == 1) {
+						mui.toast("不能在少了");
+						app.dataList[idx1].count = 1
+					}
+					app.upDataCar(0, app.dataList[idx1].count, cId)
+					app.priceAll();
+				},
+				del: function (id) {
+					app.upDataCar(0, 0, id)
+				//	location.reload();
+					app.priceAll();
+                    app.deltype=0;
+				},
+				checkAll: function (event) {
+
+					console.log(app.isAll)
+					if (app.isAll) {
+						app.isAll = false;
+						for (var i = 0; i < app.dataList.length; i++) {
+							app.dataList[i].onche = false
+						}
+					} else {
+						app.isAll = true;
+						for (var i = 0; i < app.dataList.length; i++) {
+							app.dataList[i].onche = true
+						}
+					}
+					app.priceAll();
+				},
+				upDataCar: function (type, count, carId) {
+					$.ajax({
+						type: "post",
+						url: waimaiurl + "/delUserCart",
+						data: {
+							uid: uid,
+							"carstatus": type,
+							"carCount": count,
+							"carId": carId,
+						},
+						dataType: "json",
+						success: function (response) {
+                            console.log(response)
+							if (response.result == "0") {
+                        //        mui.toast(response.resultNote)
+                                console.log(localStorage.getItem("carType"))
+                            //   location.reload();
+                               console.log(app.deltype)
+                               if(app.deltype==0){
+                                console.log("走了吗")
+                                mui.toast("删除成功")
+                                app.getData(app.types);
+                               }else{
+
+                               }
+                               // if(app.types==1){
+                               //   app.types=1
+                               // }else if(app.types==0){
+                               //    app.types=0
+                               // }
+								// app.getData(localStorage.getItem("carType"))
+							}
+						}
+					});
+					app.priceAll();
+				},
+				priceAll: function () {
+					app.allprice = 0
+					var con = 0;
+					for (var i = 0; i < app.dataList.length; i++) {
+						if (app.dataList[i].onche == true) {
+							con += (Math.floor(app.dataList[i].price * app.dataList[i].count * 100) / 100);
+						} else {
+
+						}
+
+					}
+					app.allprice = con.toFixed(2);
+				},
+    //             //这个也是调购物车数据（首次加载数据调用的购物车）
+				getData: function (carType) {
+					$.ajax({
+						type: "post",
+						url: waimaiurl + "/myCar",
+						data: {
+							uid: uid,
+							"carType": carType
+						},
+						dataType: "json",
+						success: function (response) {
+							console.log(response)
+                             if(app.deltype==0){
+
+                             }
+							if (response.result == "0") {
+                                if(response.dataList){
+                                 for (var i = 0; i < response.dataList.length; i++) {
+                                    response.dataList[i].onche = false;
+                                  }
+                                }else{
+                                    app.dataList=[]
+                                }
+								
+								app.dataList = response.dataList;
+								console.log(app.dataList)
+								if (response.dataList.length >= 1) {
+									app.has = "1"
+								}
+							} else {
+								mui.toast(response.resultNote)
+							}
+						}
+					});
+				}
+			},
+			mounted: function () {
+				var that = this;
+				var carType = "0"
+				$(".mui-pull-right").on("tap", function () {
+					if (that.is == "编辑") {
+						that.is = "完成";
+						that.show = "1"
+						$(".samemsg").html("完成")
+					} else {
+						that.is = "编辑";
+						that.show = "0"
+						$(".samemsg").html("编辑")
+
+					}
+				})
+                 //不知道为啥这个也是调购物车数据(点击事件里面切换调用的购物车)
+				function getData(carType) {
+					localStorage.setItem("carType", carType);
+					$.ajax({
+						type: "post",
+						url: waimaiurl + "/myCar",
+						data: {
+							uid: uid,
+							"carType": carType
+						},
+						dataType: "json",
+						success: function (response) {
+							console.log(response)
+							if (response.result == "0") {
+								for (var i = 0; i < response.dataList.length; i++) {
+									response.dataList[i].onche = false;
+									//                              	for(var j=0;j<response.dataList[i].goodsList.length;j++){
+									//                              		response.dataList[i].goodsList[j].onchec=false;
+									//                              	}
+
+								}
+								that.dataList = response.dataList;
+								console.log(that.dataList)
+								if (response.dataList.length >= 1) {
+									that.has = "1"
+								}
+							} else {
+								mui.toast(response.resultNote)
+							}
+						}
+					});
+				}
+
+				$(".delete").on("tap", function (param) {
+				})
+				$(".send").on("tap", function () {
+					var list = JSON.stringify(that.dataList);
+					$.ajax({
+						type: "get",
+						url: waimaiurl + '/processingSettlement?json={"userCar":' + list + '}',
+						//data: {"userCar": list ,"userCar1" : list},
+						dataType: "json",
+						success: function (response) {
+							console.log(response)
+							if (response.dataList != undefined) {
+								localStorage.setItem("dataList", JSON.stringify(response.dataList)); //总计金额
+								localStorage.setItem("allprice", response.object);
+                                console.log(app.types)
+								window.location.href = "../waimai/html/sendOrder1.html?goodsType="+app.types;
+							} else {
+								console.log(11)
+								mui.toast("请选择购物车商品");
+							}
+						}
+					});
+
+				})
+			 // getData(0);
+				$(".topList li").on("tap", function () {
+					app.allprice = 0;
+
+					$(".topList li").removeClass("active");
+					$(this).addClass("active");
+					that.dataList = [];
+                    app.types=$(this).attr("data-type");
+					var type = $(this).attr("data-type");
+					console.log(type)
+					getData(type)
+					for (var i = 0; i < app.dataList.length; i++) {
+						if (app.dataList[i].onche == true) {
+							app.allprice += (app.dataList[i].price * app.dataList[i].count).toFixed(2);
+						} else {
+						}
+					}
+
+				})
+
+			}
+		})
+       app.getData(app.types);
+	}
+</script>

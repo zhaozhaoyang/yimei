@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <link href="../css/mui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/style.css" />
+
+    <style>
+        .mui-content {
+            background-color: #fff;
+        }
+
+        .mui-table-view:before,
+        .mui-table-view:after {
+            background: #fff;
+        }
+
+        html,
+        body {
+            background: #fff;
+        }
+
+        .mui-table-view-cell {
+            padding: 12px 15px;
+        }
+
+        .mylist li p {
+            line-height: 1.9;
+            font-weight: 600;
+            font-size: 14px;
+            font-family: PingFang-SC-Bold;
+        }
+
+        .mui-content>.mui-table-view:first-child {
+            margin-top: 0;
+            background-color: #fff;
+        }
+
+        .mui-table-view-cell p {
+            color: #333;
+        }
+
+        .mui-table-view-cell .fr {
+            font-size: 15px;
+            font-family: PingFang-SC-Medium;
+            color: rgba(19, 130, 222, 1);
+        }
+    </style>
+</head>
+
+<body>
+    <header class="mui-bar mui-bar-nav" style="padding-right: 15px;">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">联系我们</h1>
+    </header>
+    <div class="mui-content">
+        <ul class="mui-table-view" id="uslist">
+            <!-- <li class="mui-table-view-cell">
+                <p class="fl">电话</p>
+                <p class="fr">10086</p>
+            </li>
+            <li class="mui-table-view-cell">
+                <p class="fl">微信客服</p>
+                <p class="fr">10086</p>
+            </li>
+            <li class="mui-table-view-cell">
+                <p class="fl">QQ客服</p>
+                <p class="fr">10086</p>
+            </li>
+            <li class="mui-table-view-cell">
+                <p class="fl">企业客服</p>
+                <p class="fr">10086</p>
+            </li>
+            <li class="mui-table-view-cell">
+                <p>公司地址：河南省郑州市金水区商都路通泰路交叉口商都世贸中 心D座2202
+                </p>
+
+            </li> -->
+        </ul>
+
+        <!--内容部分的结束-->
+    </div>
+    <script src="../js/zepto.min.js"></script>
+    <script src="../js/swiper.min.js"></script>
+    <script src="../js/mui.min.js"></script>
+    <script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+    </script>
+</body>
+<script type="text/javascript">
+    window.onload = function () {
+
+         var uid = localStorage.getItem("UID");
+
+
+        console.log(111)
+        $.ajax({
+            type: "get",
+            url: waimaiurl + "/customer",
+            data: { "uid": uid, "type": 0 },
+            dataType: "json",
+            success: function (response) {
+                console.log(response)
+                if (response.result == 0) {
+           
+                    var uslist = "";
+                    uslist += '<li class="mui-table-view-cell">' +
+                        ' <p class="fl">电话</p>' +
+                        ' <p class="fr">'+response.phone+'</p> ' +
+                        '</li>' +
+                        '<li class="mui-table-view-cell">' +
+                        ' <p class="fl">微信客服</p>' +
+                        ' <p class="fr">'+response.weixin+'</p>' +
+                        ' </li>' +
+                        '<li class="mui-table-view-cell">' +
+                        ' <p class="fl">QQ客服</p>' +
+                        '<p class="fr">'+response.qq+'</p>' +
+                        ' </li>' +
+                        '  <li class="mui-table-view-cell">' +
+                        ' <p class="fl">企业客服</p>' +
+                        ' <p class="fr">'+response.entrepreneurCustomer+'</p>' +
+                        ' </li>' +
+                        '<li class="mui-table-view-cell">' +
+                        ' <p>'+response.address+'</p>' +
+                        ' </p>' +
+                        ' </li>';
+                    $("#uslist").append(uslist);
+
+
+                }
+            }
+        })
+
+
+
+
+
+    }
+</script>

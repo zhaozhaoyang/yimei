@@ -1,0 +1,215 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>个人信息</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="../css/mui.min.css" rel="stylesheet" />
+    <link href="../css/jquery-weui.min.css" rel="stylesheet" />
+    <link href="../css/weui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/style.css" />
+</head>
+<style>
+    body {
+        background-color: #fff;
+    }
+
+    .container {
+        margin-top: 44px;
+        background: #fff;
+        height: auto;
+    }
+
+    .weui-tabbar {
+        position: fixed;
+        height: 50px;
+    }
+
+    .weui-tabbar__icon {
+        width: 25px;
+        height: 25px;
+    }
+
+    .mui-bar-nav a {
+        color: #333;
+    }
+
+    .mui-bar-nav {
+        box-shadow: none;
+        border-bottom: 1px solid #E5E5E5;
+        background: #eee;
+    }
+
+    .list {
+        height: auto;
+        width: 100%;
+        padding-top: 1px;
+        padding-bottom: 60px;
+    }
+
+    .mui-pull-right {
+        line-height: 2.7;
+        color: #fff;
+    }
+
+    .urerIcon {
+        height: 75px;
+        border-bottom: 1px solid #EEFAFE;
+        padding: 5%;
+        position: relative;
+    }
+
+    .urerIcon input {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 75px;
+        opacity: 0;
+    }
+
+    .urerIcon p,
+    .mui-table-view-cell .fl {
+        font-size: 15px;
+        margin-top: 5px;
+        font-family: PingFang-SC-Bold;
+        color: rgba(51, 51, 51, 1);
+        font-weight: 600;
+    }
+
+    .mui-table-view-cell .fr {
+        margin-right: 19px;
+        margin-top: 5px;
+    }
+
+    .urerIcon img {
+        width: 35px;
+        height: 35px;
+        border-radius: 100%;
+    }
+
+    .mui-table-view-cell:after {
+        background: #fff;
+    }
+
+    .mui-table-view-cell {
+        clear: both;
+        height: 40px;
+        border-bottom: 1px solid #EEFAFE;
+        padding: 2% 5%;
+        line-height: 0.8;
+    }
+</style>
+
+
+<body>
+    <header class="mui-bar mui-bar-nav">
+        <a href="javascript:history.back(-1);" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">个人信息</h1>
+    </header>
+    <div class="container">
+        <div class="list">
+            <!-- <div class="urerIcon">
+                <p class="fl">头像</p>
+                <img class="fr userIcon" src="../img/faxian-touxiang@3x.png" alt="">
+                <input class="userIconIn" type="file">
+            </div>
+            <div class="mui-table-view-cell">
+                <a class="mui-navigate-right">
+                    <p class="fl">姓名</p>
+                    <p class="fr userName"></p>
+                </a>
+            </div>
+            <div class="mui-table-view-cell">
+                <a class="mui-navigate-right">
+                    <p class="fl">微信号</p>
+                    <p class="fr code"></p>
+                </a>
+            </div>
+            <div class="mui-table-view-cell">
+                <a class="mui-navigate-right">
+                    <p class="fl">电话</p>
+                    <p class="fr code"></p>
+                </a>
+            </div> -->
+        </div>
+    </div>
+
+
+</body>
+<script src="../js/zepto.min.js"></script>
+<script src="../js/mui.min.js"></script>
+<script src="../js/jquery-weui.min.js"></script>
+<script src="../js/base.js"></script>
+<script>
+    window.onload = function () {
+
+        var uid = localStorage.getItem("UID");
+        var uid = 1;
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return decodeURI(r[2]);
+            return null;
+        }
+
+        var nickName = getQueryString('nickName');
+        var icon = getQueryString('icon');
+        var phone = getQueryString('phone');
+        if (phone == "undefined") {
+            phone = ' ';
+        }
+        //  <div class="urerIcon">
+        //         <p class="fl">头像</p>
+        //         <img class="fr userIcon" src="../img/faxian-touxiang@3x.png" alt="">
+        //         <input class="userIconIn" type="file">
+        //     </div>
+        //     <div class="mui-table-view-cell">
+        //         <a class="mui-navigate-right">
+        //             <p class="fl">姓名</p>
+        //             <p class="fr userName"></p>
+        //         </a>
+        //     </div>
+        //     <div class="mui-table-view-cell">
+        //         <a class="mui-navigate-right">
+        //             <p class="fl">微信号</p>
+        //             <p class="fr code"></p>
+        //         </a>
+        //     </div>
+        //     <div class="mui-table-view-cell">
+        //         <a class="mui-navigate-right">
+        //             <p class="fl">电话</p>
+        //             <p class="fr code"></p>
+        //         </a>
+        //     </div>
+
+        var fenxi = "";
+        fenxi += '<div class="urerIcon">' +
+            ' <p class="fl">头像</p>' +
+            '<img class="fr userIcon" src="' + icon + '" alt="">' +
+
+            ' </div>' +
+            '<div class="mui-table-view-cell">' +
+            ' <a class="mui-navigate-right">' +
+            ' <p class="fl">姓名</p>' +
+            '  <p class="fr userName">' + nickName + '</p>' +
+            '</a>' +
+            ' </div>' +
+            ' <div class="mui-table-view-cell" id="dianhua">' +
+            '<a class="mui-navigate-right">' +
+            '<p class="fl">电话</p>' +
+            ' <p class="fr code">' + phone + '</p>' +
+            ' </a>' +
+            ' </div>';
+
+        $(".list").append(fenxi);
+
+        $("#dianhua").on("tap", function () {
+            window.location.href = "../html/bindingPhone.html?phone="+phone;
+            
+        })
+
+
+    }
+</script>

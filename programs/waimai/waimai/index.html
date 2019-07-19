@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>漫呷餐调</title>
+		<script src="js/mui.min.js"></script>
+		<script src="js/vue.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<link rel="stylesheet" href="css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="css/mui.picker.min.css" />
+		<link rel="stylesheet" href="css/swiper.min.css" />
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZSD6fIHciYbtjOiQELiTLuZgqqFanGCj"></script>
+	</head>
+
+	<style>
+		#slider {
+			height: 175px;
+		}
+		
+		#app {
+			margin-top: -44px;
+		}
+		
+		#slider img {
+			width: 100%;
+			height: 175px;
+		}
+		
+		#classification {
+			height: 240px;
+			background: #fff;
+		}
+		
+		.righ {
+			width: 15%;
+			height: 30px;
+			text-align: right;
+		}
+		
+		.righ img {
+			width: 30px;
+			height: 30px;
+			position: relative;
+			top: -5px;
+		}
+		
+		.title {
+			text-align: center;
+		}
+		
+		.title p {
+			padding-top: 15px;
+			font-size: 15px;
+			font-family: PingFang-SC-Bold;
+			color: rgba(178, 152, 115, 1);
+		}
+		
+		#swiper-container1 {
+			height: 200px;
+			padding-left: 2%;
+		}
+		
+		.swiper-slidea li {
+			height: 100px;
+			position: relative;
+			width: 25%;
+			float: left;
+			text-align: center;
+		}
+		
+		.swiper-slidea li span {
+			left: 22%;
+		}
+		
+		.swiper-slidea li img {
+			position: absolute;
+			left: 28%;
+		}
+		
+		#twoList {
+			width: 100%;
+			height: 135px;
+			background: #fff;
+		}
+		
+		#twoList li {
+			width: 50%;
+			float: left;
+			padding: 2%;
+		}
+		
+		#twoList li img {
+			width: 100%;
+			height: 100%;
+		}
+		
+		#tuijian {
+			margin-bottom: 100px;
+		}
+		
+		.list li {
+			margin: 2%;
+			width: 46%;
+			height: 266px;
+			background: #fff;
+			border-radius: 5px;
+			float: left;
+		}
+		
+		.list li img {
+			width: 100%;
+			border-top-left-radius: 5px;
+			border-top-right-radius: 5px;
+			height: 175px;
+		}
+		
+		.list li p {
+			padding: 2%;
+		}
+		
+		.list li:last-child {
+			margin-bottom: 80px;
+		}
+		
+		.list .tittle {
+			margin-bottom: 5px;
+			font-size: 14px;
+			font-family: PingFang-SC-Medium;
+			color: rgba(26, 26, 26, 1);
+		}
+		
+		.list .price .fl {
+			font-size: 13px;
+			font-family: PingFang-SC-Medium;
+			color: rgba(230, 0, 19, 1);
+			font-weight: 600;
+		}
+		
+		.list .price .fr {
+			font-size: 12px;
+			font-family: PingFang-SC-Medium;
+			color: rgba(153, 153, 153, 1);
+		}
+		
+		#model {
+			height: 308px;
+			width: 90%;
+			margin: 0 auto;
+			background: #fff;
+			margin-left: 5%;
+			top: 20%;
+			border-radius: 5px;
+		}
+		
+		#model .mui-content {
+			background: #fff;
+			text-align: center;
+		}
+		
+		#know {
+			clear: both;
+			background: #F12132;
+			color: #fff;
+			width: 129px;
+			height: 46px;
+			font-size: 16px;
+		}
+		
+		.piao {
+			line-height: 45px;
+			margin-top: 25px;
+			height: 115px;
+			border-top: 1px solid #f4f4f4;
+			border-bottom: 1px solid #f4f4f4;
+			margin-bottom: 20px;
+		}
+		
+		.piao .fl {
+			width: 30%;
+			border-right: 1px solid #f4f4f4;
+		}
+		
+		.cole {
+			color: #EB2932;
+			font-size: 30px;
+		}
+		
+		.mui-backdrop-action.mui-backdrop,
+		.mui-bar-backdrop.mui-backdrop {
+			z-index: -1;
+		}
+		/* .mui-acti */
+	</style>
+
+	<body>
+		<div id="app">
+			<div id="same" class="mui-hidden"></div>
+			<div class="topMsg">
+				<div class="address">
+					<img src="./img/dizhi01@3x.png" alt="">
+					<span class="addCity"></span>
+				</div>
+				<div class="search">
+					<img src="img/sousuo@3x.png" alt=" " id="sousuo" />
+					<input type="text" placeholder="请输入检索关键词" id="test" />
+				</div>
+				<div class="righ fr">
+					<img src="./img/ling.png" alt="" id="message">
+				</div>
+			</div>
+			<div id="slider">
+				<div class="swiper-container mui-slider">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide" v-for="(item,index) in bannerList">
+							<div v-show="item.bannerImage == ''" @tap="banner(item.bannerGoodsId)">
+								<img src="img/qianbaobeijing@3x.png">
+							</div>
+							<div v-show="item.bannerImage != ''" @tap="banner(item.bannerGoodsId)">
+								<img :src="item.bannerImage" alt=" " />
+							</div>
+
+						</div>
+
+					</div>
+					<div class="swiper-pagination case"></div>
+				</div>
+			</div>
+			<div id="classification">
+				<img src="img/n.jpg" style="width: 100%;"/>
+				<!--<div class="title">
+					<p>//&nbsp;&nbsp; 贴心550大餐&nbsp;&nbsp; //</p>
+				</div>
+				<div class="swiper-container swiper-container-horizontal" id="swiper-container1">
+					<div class="swiper-wrapper" id="swipList">
+						<div class="swiper-slide swiper-slidea" id="first" v-for="(item,index) in dataList">
+
+							<li v-for="(itema,idx) in item" @tap="clasin(itema.categoryId)">
+								<div v-show="itema.categoryImage ==''">
+									<img src="img/sahngcheng@3x.png" alt=" " />
+									<span>{{itema.categoryName}}</span>
+								</div>
+								<div v-show="itema.categoryImage !=''">
+									<img :src="itema.categoryImage" alt=" " />
+									<span>{{itema.categoryName}}</span>
+								</div>
+							</li>
+						</div>
+
+					</div>
+				</div>-->
+
+			</div>
+			<div class="back4"></div>
+			<div id="twoList">
+				<li>
+					<img src="./img/ws.jpg" alt="" id="tejia">
+				</li>
+				<li>
+					<img src="./img/ws.jpg" alt="" id="miaosha">
+				</li>
+
+			</div>
+			<!--<div id="tuijian">
+				<div class="title">
+					<p>//&nbsp;&nbsp; 为您推荐&nbsp;&nbsp; //</p>
+				</div>
+				<div class="list">
+					<li v-for="(item,index) in goodsList" id="goods" @tap="goods(item.foodId)">
+						<div v-show="item.foodImage ==''">
+							<img src="./img/tejia.png" alt="">
+							<p class="tittle">{{item.foodTitle}}</p>
+							<p class="price"> <span class="fl">￥{{item.foodPrice}}</span><span class="fr">已售{{item.foodSales}}</span></p>
+						</div>
+						<div v-show="item.foodImage !=''">
+							<img :src="item.foodImage" alt="">
+							<p class="tittle">{{item.foodTitle}}</p>
+							<p class="price"> <span class="fl">￥{{item.foodPrice}}</span><span class="fr">已售{{item.foodSales}}</span></p>
+						</div>
+					</li>
+
+				</div>
+			</div>-->
+
+			<div id="model" class="mui-popover mui-popover-action mui-popover-bottom">
+				<div class="mui-content" style="padding: 3%;">
+					<p style="font-size:15px;color:#333;">新用户奖励优惠券</p>
+					<p style="color:#F58612;font-size:14px;">欢迎您来到多商城订餐，送您一张优惠券 聊表心意！</p>
+					<div class="piao">
+						<!--  <div class="fl">
+                        <p class="cole"><span style="font-size:15px;">￥</span>100</p>
+                        <p>满20元可用</p>
+                    </div>
+                    <div class="fl" style="text-align:center;width: 70%;border-right: 0">
+                        <p>全场通用</p>
+                        <p>有效期至：2018-04-28</p>
+                    </div> -->
+					</div>
+					<button id="know">我知道了</button>
+				</div>
+			</div>
+
+		</div>
+		<div id="appTaber">
+
+		</div>
+		<div class="mui-backdrop mui-backdrop-action" style=""></div>
+		<script src="js/zepto.min.js"></script>
+		<script src="js/swiper.min.js"></script>
+		<script src="./js/tab.js"></script>
+		<script src="js/base.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+	<script type="text/javascript">
+	var city="";
+	var local=window.localStorage;
+		window.onload = function() {
+			function getQueryString(name) {
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+				var r = window.location.search.substr(1).match(reg);
+				if(r != null) return decodeURI(r[2]);
+				return null;
+			}
+			//var city = getQueryString('cn');
+			city=sessionStorage['city'];
+			if(city) {
+				console.log(city)
+				$(".addCity").html(city)
+				sessionStorage["city"] = city;
+			} else {
+				 city = sessionStorage["city"];
+				$(".addCity").html(city)
+				var map = new BMap.Map("same");
+				var point = new BMap.Point(116.331398, 39.897445);
+				map.centerAndZoom(point, 12);
+				var point = new BMap.Point(116.331398, 39.897445);
+				var geolocation = new BMap.Geolocation(); //实例化浏览器定位对象。
+				var gc = new BMap.Geocoder();
+				var myCity = new BMap.LocalCity();
+				geolocation.getCurrentPosition(function(r) {
+					console.log(r)
+					//alert(JSON.stringify(r))
+					local.removeItem("jwdlat");
+					local.removeItem("jwdlng")
+                    local.setItem("jwdlat",r.point.lat) //纬度
+                    local.setItem("jwdlng",r.point.lng)  //经度
+					console.log(city)
+					if(!city) {
+						sessionStorage["city"] = r.address.city;
+						$(".addCity").html(r.address.city)
+					} else {
+						$(".addCity").html(city)
+					}
+				})
+			}
+			// $(".mui-backdrop").removeClass
+			// 百度地图API功能
+			if(!city) {
+
+			}
+
+			changeColor(0);
+			var promotionPrice = '';
+			// localStorage.clear();
+			localStorage.setItem("promotionPrice", promotionPrice);
+			var uid = getQueryString('uid');
+			// var uid = "2";
+			console.log(uid)
+			if(!uid) {
+				uid = localStorage.getItem("UID");
+				localStorage.setItem("UID", uid);
+			} else {
+				localStorage.setItem("UID", uid);
+			}
+			var app = new Vue({
+				el: "#app",
+				data: {
+					dataList: [],
+					goodsList: [],
+					bannerList: [],
+				},
+				methods: {
+					banner: function(id) {
+						console.log(id);
+						window.location.href = "html/productDetail.html?id=" + id + "&goodsType=" + 0;
+					},
+					clasin: function(id) {
+						console.log(id);
+						window.location.href = "html/classtion.html?classId=" + id + "&goodsType=" + 0;
+					},
+					goods: function(id) {
+						console.log(id);
+						window.location.href = "html/productDetail.html?id=" + id + "&goodsType=" + 0;
+					},
+					message: function(uid) {
+						console.log(uid);
+						window.location.href = "html/messgae.html?uid=" + uid + "&goodsType=" + 0;
+					},
+					sousuo: function() {
+						// console.log(uid);
+						// window.location.href = "html/allProduct.html?uid=" + uid;
+					},
+					tejia: function() {
+						// console.log(uid);
+						// window.location.href = "html/allProduct.html?uid=" + uid;
+					},
+					miaosha: function() {
+						// console.log(uid);
+						// window.location.href = "html/allProduct.html?uid=" + uid;
+					}
+				},
+				mounted() {
+					$(".address").on("tap", function(param) {
+						// console.log("#")
+						var addCity = $(".addCity").html()
+						location.href = "./html/changeCity.html?cn=" + addCity;
+					})
+					$("#banners").on("tap", function() {
+						var id = $(this).attr("data-id")
+						console.log(id)
+						window.location.href = "../html/productDetail.html?id=" + id + "&goodsType=" + 0;
+					})
+
+					$("#first").on("tap", function() {
+						var id = $(this).attr("data-id")
+						console.log(id)
+
+						window.location.href = "../html/classtion.html?classId=" + id + "&goodsType=" + 0;
+					})
+
+					$("#goods").on("tap", function() {
+						var id = $(this).attr("data-id")
+						console.log(id)
+						window.location.href = "../html/productDetail.html?id=" + id + "&goodsType=" + 0;
+					})
+
+					$("#message").on("tap", function() {
+
+						window.location.href = "../waimai/html/messgae.html?uid=" + uid;
+					})
+					$("#sousuo").on("tap", function() {
+						var sousuo = $("#test").val()
+						window.location.href = "../waimai/html/foodsList.html?content=" + sousuo + "&goodsType=" + 0;
+					})
+					$("#tejia").on("tap", function() {
+
+						window.location.href = "../waimai/html/secondkill.html?activeType=" + 0;
+					})
+					$("#miaosha").on("tap", function() {
+
+						window.location.href = "../waimai/html/secondkill.html?activeType=" + 1;
+					})
+					var that = this;
+					$.ajax({
+						type: "get",
+						url: waimaiurl + "/homePage",
+						data: {
+							"type": 0,
+							"uid": uid
+						},
+						dataType: "json",
+						success: function(response) {
+							console.log(response)
+							if(response.result == 0) {
+								that.dataList = response.firstList;
+								that.goodsList = response.goodsList;
+								that.bannerList = response.bannerList;
+								if(response.object.isFirst == 1) {
+									$("#model").addClass("mui-active");
+									$(".mui-backdrop").addClass("mui-active");
+									// <div class="piao">
+									//     <div class="fl">
+									//         <p class="cole"><span style="font-size:15px;">￥</span>100</p>
+									//         <p>满20元可用</p>
+									//     </div>
+									//     <div class="fl" style="text-align:center;width: 70%;border-right: 0">
+									//         <p>全场通用</p>
+									//         <p>有效期至：2018-04-28</p>
+									//     </div>
+									// </div>
+									for(var u = 0; u < response.dataList.length; u++) {
+										if(u == 0) {
+											var inner = "";
+											inner += '<div class="fl">' +
+												'<p class="cole"><span style="font-size:15px;">￥</span>' + response.dataList[u].amount + '</p>' +
+												'<p>满' + response.dataList[u].price + '元可用</p>' +
+												'</div>' +
+												'<div class="fl" style="text-align:center;width: 70%;border-right: 0">' +
+												'<p>全场通用</p>' +
+												' <p>' + response.dataList[u].endDate + '</p>' +
+												' </div>';
+											$(".piao").append(inner);
+
+											$("#know").on("tap", function() {
+
+												$.ajax({
+													type: "get",
+													url: waimaiurl + "/updateUser",
+													data: {
+														"uid": uid
+													},
+													dataType: "json",
+													success: function(response) {
+														console.log(response)
+														if(response.result == 0) {
+															location.reload()
+														}
+													}
+												});
+
+											})
+
+											return;
+										}
+									}
+
+								} else {
+									$("#model").removeClass("mui-active");
+									$(".mui-backdrop").removeClass("mui-active");
+
+								}
+								console.log(that.bannerList)
+							} else {
+
+							}
+						}
+					});
+
+				},
+
+			})
+			var mySwiper = new Swiper('.mui-slider', {
+				observer: true, //修改swiper自己或子元素时，自动初始化swiper
+				observeParents: true,
+				// autoplay: true,
+				loop: false,
+				// pagination: {
+				//     el: '.swiper-pagination',
+				//     type: 'bullets',
+				// },
+
+			})
+			var mySwiper1 = new Swiper('#swiper-container1', {
+				observer: true, //修改swiper自己或子元素时，自动初始化swiper
+				observeParents: true,
+				autoplay: false,
+				// pagination: {
+				//     el: '.swiper-pagination',
+				//     type: 'bullets',
+				// },
+
+			})
+		}
+	</script>

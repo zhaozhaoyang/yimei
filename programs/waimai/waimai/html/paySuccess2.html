@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>确认收货</title>
+
+    <link href="../css/mui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/icons-extra.css" />
+    <link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+    <link rel="stylesheet" href="../css/swiper.min.css" />
+</head>
+
+<style>
+    html,
+    body {
+        position: relative;
+        background: #fff;
+        height: auto;
+    }
+    
+    #app {
+        margin-top: 44px;
+    }
+    
+    .customer {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .customer img {
+        width: 251px;
+        height: 255px;
+        margin: 27px auto 50px auto;
+    }
+    
+    .customer p {
+        color: #333;
+        font-weight: 600;
+        font-size: 15px;
+    }
+    
+    #send {
+        height: 45px;
+        width: 88%;
+        margin-left: 6%;
+        color: #ffff;
+        background: #F12132;
+        border-radius: 6px;
+        margin-top: 30px;
+    }
+</style>
+
+<body>
+
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">确认收货</h1>
+    </header>
+    <div id="app">
+
+        <div class="customer">
+            <img src="../img/jieguo@3x.png" alt="">
+            <p>确认收货!</p>
+        </div>
+        <button id="send">返回首页</button>
+    </div>
+
+    <script src="../js/zepto.min.js"></script>
+    <script src="../js/mui.min.js"></script>
+    <script src="../js/vue.min.js"></script>
+    <script src="../js/swiper.min.js"></script>
+    <script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+</body>
+<script type="text/javascript">
+    window.onload = function() {
+    	var orderNum = localStorage.getItem("NUM");
+        $("#app").on("tap", function () {
+            window.location.href = "../index.html";
+                                    
+        })
+        
+    }
+</script>

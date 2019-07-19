@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>相关店铺</title>
+
+    <link href="../css/mui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/icons-extra.css" />
+    <link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+    <link rel="stylesheet" href="../css/swiper.min.css" />
+</head>
+
+<style>
+    html,
+    body {
+        position: relative;
+        background: #fff;
+        height: auto;
+    }
+
+    #app {
+        margin-top: 44px;
+    }
+
+    .mui-table {
+        padding: 2%;
+    }
+
+    .mui-table img {
+        width: 6rem;
+        height: 6rem;
+        float: left;
+        margin-right: 0.75rem;
+    }
+
+    .mui-table .mui-ellipsis {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: normal;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+
+    .mui-text-right .mui-h5 {
+        font-size: 0.7rem;
+    }
+
+    .mui-table-view-cell:after {
+        background: #f0f0f0;
+    }
+
+    .list li:last-child {
+        margin-bottom: 2.3rem;
+    }
+
+    .mui-table-view-cell {
+        padding: 9px 0;
+    }
+</style>
+
+<body>
+
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">相关店铺</h1>
+    </header>
+    <div id="app">
+        <div class="list">
+            <ul class="mui-table-view mui-table-view-striped mui-table-view-condensed">
+                <!-- <li class="mui-table-view-cell fl">
+                    <div class="mui-table">
+                        <div class="mui-table-cell mui-col-xs-12">
+                            <img src="../img/tuiguianggaibao@3x.png" alt=" " />
+                            <h4 class="mui-ellipsis" style="padding: 0.5rem;padding-left: 0; ">商品名称</h4>
+                            <p class="detail mui-h6 mui-ellipsis">商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起</p>
+                        </div>
+                        <div class="mui-table-cell mui-col-xs-3 mui-text-right">
+                            <span class="mui-h5">距离：20km</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="mui-table-view-cell fl">
+                    <div class="mui-table">
+                        <div class="mui-table-cell mui-col-xs-12">
+                            <img src="../img/tuiguianggaibao@3x.png" alt=" " />
+                            <h4 class="mui-ellipsis" style="padding: 0.5rem;padding-left: 0; ">商品名称</h4>
+                            <p class="detail mui-h6 mui-ellipsis">商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起</p>
+                        </div>
+                        <div class="mui-table-cell mui-col-xs-3 mui-text-right">
+                            <span class="mui-h5">距离：20km</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="mui-table-view-cell fl">
+                    <div class="mui-table">
+                        <div class="mui-table-cell mui-col-xs-12">
+                            <img src="../img/tuiguianggaibao@3x.png" alt=" " />
+                            <h4 class="mui-ellipsis" style="padding: 0.5rem;padding-left: 0; ">商品名称</h4>
+                            <p class="detail mui-h6 mui-ellipsis">商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起</p>
+                        </div>
+                        <div class="mui-table-cell mui-col-xs-3 mui-text-right">
+                            <span class="mui-h5">距离：20km</span>
+                        </div>
+                    </div>
+                </li> -->
+
+            </ul>
+        </div>
+
+    </div>
+
+    <script src="../js/zepto.min.js"></script>
+    <script src="../js/mui.min.js"></script>
+    <script src="../js/vue.min.js"></script>
+    <script src="../js/swiper.min.js"></script>
+    <script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+</body>
+<script type="text/javascript">
+var local=window.localStorage;
+    window.onload = function () {
+
+        function getQueryString(name) {
+            var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            }
+            return null;
+        }
+
+        var addressid = localStorage.getItem("ADDRESSID");
+        var uid = localStorage.getItem("UID");
+        var dizhi = getQueryString('dizhi');
+        var foodsId = getQueryString('foodsId');
+        var differentiate = getQueryString('differentiate');
+        // var lat = getQueryString('lat');
+        // var lon = getQueryString('lon');
+        var lat=local.getItem("jwdlat")
+        var lon=local.getItem("jwdlng")
+        
+        var goodsType = getQueryString('goodsType');
+        var coupoId =  getQueryString('coupoId');
+        var addressId =  getQueryString('addressId');
+
+         console.log(lat,lon)
+        $.ajax({
+            type: "get",
+            url: waimaiurl + "/calculateInsideShop",
+            data: { "lat": lat, "lon": lon ,"foodsId" : foodsId},
+            dataType: "json",
+            success: function (response) {
+                console.log(lat,lon,foodsId)
+                console.log(response)
+
+               $(".mui-table-view-condensed").empty();
+                if (response.result == 0) {
+                    if (response.dataList != undefined) {
+                        for (var i = 0; i < response.dataList.length; i++) {
+                            //   
+                            //     <div class="mui-table">
+                            //         <div class="mui-table-cell mui-col-xs-12">
+                            //             <img src="../img/tuiguianggaibao@3x.png" alt=" " />
+                            //             <h4 class="mui-ellipsis" style="padding: 0.5rem;padding-left: 0; ">商品名称</h4>
+                            //             <p class="detail mui-h6 mui-ellipsis">商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起商品想起</p>
+                            //         </div>
+                            //         <div class="mui-table-cell mui-col-xs-3 mui-text-right">
+                            //             <span class="mui-h5">距离：20km</span>
+                            //         </div>
+                            //     </div>
+                            // </li>
+                            var inner = "";
+                            inner += '<li class="mui-table-view-cell fl xuanze" data-id="' + response.dataList[i].id + '">' +
+                                '<div class="mui-table">' +
+                                '<div class="mui-table-cell mui-col-xs-12">' +
+                                '<img src="' + response.dataList[i].photo + '" alt=" " />' +
+                                '<h4 class="mui-ellipsis" style="padding: 0.5rem;padding-left: 0; ">' + response.dataList[i].name + '</h4>' +
+                                ' <p class="detail mui-h6 mui-ellipsis">' + response.dataList[i].shopdesc + '</p>' +
+                                ' </div>' +
+                                ' <div class="mui-table-cell mui-col-xs-3 mui-text-right">' +
+                                ' <span class="mui-h5">距离：' + response.dataList[i].distance1 + 'm</span>' +
+                                ' </div>' +
+                                '</div>' +
+                                '</li>';
+                            console.log(response.dataList[i].distance)
+                            $(".mui-table-view-condensed").append(inner);
+
+
+                        }
+
+
+                         $(".xuanze").on("tap", function () {
+                            var id = $(this).attr("data-id")
+                            console.log(id)
+                          window.location.href = "../html/buessDetail.html?shopId=" + id ;
+                        })
+                    }else{
+                        mui.toast(response.resultNote)
+                    }
+                } else {//失败
+
+                }
+
+            }
+        });
+
+
+    }
+</script>

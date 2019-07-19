@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>商城</title>
+    <script src="js/mui.min.js"></script>
+    <script src="js/vue.min.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" href="css/icons-extra.css" />
+    <link rel="stylesheet" type="text/css" href="css/mui.picker.min.css" />
+    <link rel="stylesheet" href="css/swiper.min.css" />
+</head>
+
+<style>
+    #slider {
+        height: 216px;
+        position: relative;
+        top: 44px;
+        text-align: center;
+    }
+    
+    .searcha {
+        position: absolute;
+        top: 7px;
+        z-index: 99;
+        left: 17%;
+    }
+    
+    .searcha input {
+        background: #fff;
+    }
+    
+    #slider .swiper-wrapper img {
+        width: 100%;
+        height: 175px;
+    }
+    
+    #classification {
+        height: 206px;
+        background: #F8F8F8;
+        padding-top: 20px;
+    }
+    
+    .righ {
+        width: 15%;
+        height: 30px;
+        text-align: right;
+    }
+    
+    .righ img {
+        width: 30px;
+        height: 30px;
+        position: relative;
+        top: -5px;
+    }
+    
+    .title {
+        text-align: center;
+    }
+    
+    .title p {
+        padding-top: 15px;
+        font-size: 15px;
+        font-family: PingFang-SC-Bold;
+        color: rgba(178, 152, 115, 1);
+    }
+    
+    #swiper-container1 {
+        height: 200px;
+        background: #fff;
+        padding-left: 3%;
+    }
+    
+    .swiper-slidea li {
+        height: 100px;
+        position: relative;
+        width: 25%;
+        float: left;
+        text-align: center;
+    }
+    
+    .swiper-slidea li span {
+        left: 22%;
+    }
+    
+    .swiper-slidea li img {
+        position: absolute;
+        left: 26%;
+    }
+    
+    .list li {
+        margin: 2%;
+        width: 46%;
+        height: 266px;
+        background: #fff;
+        border-radius: 5px;
+        float: left;
+    }
+    
+    .list li img {
+        width: 100%;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        height: 175px;
+    }
+    
+    .list li p {
+        padding: 2%;
+    }
+    
+    .list li:last-child {
+        margin-bottom: 80px;
+    }
+    
+    .list .tittle {
+        margin-bottom: 5px;
+        font-size: 14px;
+        font-family: PingFang-SC-Medium;
+        color: rgba(26, 26, 26, 1);
+    }
+    
+    .list .price .fl {
+        font-size: 13px;
+        font-family: PingFang-SC-Medium;
+        color: rgba(230, 0, 19, 1);
+        font-weight: 600;
+    }
+    
+    .list .price .fr {
+        font-size: 12px;
+        font-family: PingFang-SC-Medium;
+        color: rgba(153, 153, 153, 1);
+    }
+</style>
+
+<body>
+
+
+    <header class="mui-bar mui-bar-nav">
+        <!-- <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a> -->
+        <h1 class="mui-title">商城</h1>
+    </header>
+    <div id="app">
+
+        <div id="slider">
+            <div class="searcha search">
+                <img src="img/sousuo@3x.png" alt=" " id="sousuo" />
+                <input type="text" placeholder="商品名称" id="test" />
+            </div>
+            <div class="swiper-container mui-slider">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide" v-for="(item,index) in bannerList">
+                        <div v-show="item.bannerImage == ''" @tap="banner(item.bannerGoodsId)">
+                            <img src="img/qianbaobeijing@3x.png">
+                        </div>
+                        <div v-show="item.bannerImage != ''" @tap="banner(item.bannerGoodsId)">
+                            <img :src="item.bannerImage" alt=" " />
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="swiper-pagination case"></div>
+            </div>
+        </div>
+        <div id="classification">
+            <div class="swiper-container swiper-container-horizontal" id="swiper-container1">
+                <div class="swiper-wrapper" id="swipList">
+                    <div class="swiper-slide swiper-slidea" v-for="(item,index) in dataList">
+                        <li v-for="(itema,idx) in item" @tap="clasin(itema.categoryId)">
+                            <div v-show="itema.categoryImage ==''">
+                                <img src="img/sahngcheng@3x.png" alt=" " />
+                                <span>{{itema.categoryName}}</span>
+                            </div>
+                            <div v-show="itema.categoryImage !=''">
+                                <img :src="itema.categoryImage" alt=" " />
+                                <span>{{itema.categoryName}}</span>
+                            </div>
+                        </li>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+        <div class="back4"></div>
+
+        <div id="tuijian">
+            <div class="title">
+                <p>//&nbsp;&nbsp; 热门商品&nbsp;&nbsp; //</p>
+            </div>
+            <div class="list">
+                <li v-for="(item,index) in goodsList" id="goods" @tap="goods(item.foodId)">
+                    <div v-show="item.foodImage ==''">
+                        <img src="./img/tejia.png" alt="">
+                        <p class="tittle">{{item.foodTitle}}</p>
+                        <p class="price"> <span class="fl">￥{{item.foodPrice}}</span><span class="fr">已售{{item.foodSales}}</span></p>
+                    </div>
+                    <div v-show="item.foodImage !=''">
+                        <img :src="item.foodImage" alt="">
+                        <p class="tittle">{{item.foodTitle}}</p>
+                        <p class="price"> <span class="fl">￥{{item.foodPrice}}</span><span class="fr">已售{{item.foodSales}}</span></p>
+                    </div>
+                </li>
+
+
+            </div>
+        </div>
+    </div>
+    <div id="appTaber">
+
+    </div>
+    <script src="js/zepto.min.js"></script>
+    <script src="js/swiper.min.js"></script>
+    <script src="./js/tab.js"></script>
+    <script src="js/base.js" type="text/javascript" charset="utf-8"></script>
+</body>
+<script type="text/javascript">
+    window.onload = function() {
+        changeColor(1);
+        var uid = localStorage.getItem("UID");
+        var app = new Vue({
+            el: "#app",
+            data: {
+                dataList: [],
+                goodsList: [],
+                bannerList: [],
+            },
+            methods: {
+                banner: function(id) {
+                    console.log(id);
+                    window.location.href = "html/productDetail.html?id=" + id + "&goodsType=" + 1;
+                },
+                clasin: function(id) {
+                    console.log(id);
+                    window.location.href = "html/classtion.html?classId=" + id + "&goodsType=" + 1;
+                },
+                goods: function(id) {
+                    console.log(id);
+                    window.location.href = "html/productDetail.html?id=" + id + "&goodsType=" + 1;
+                },
+                message: function(uid) {
+                    console.log(uid);
+                    window.location.href = "html/messgae.html?uid=" + uid;
+                },
+                sousuo: function() {
+                    // console.log(uid);
+                    // window.location.href = "html/allProduct.html?uid=" + uid;
+                },
+                tejia: function() {
+                    // console.log(uid);
+                    // window.location.href = "html/allProduct.html?uid=" + uid;
+                },
+                miaosha: function() {
+                    // console.log(uid);
+                    // window.location.href = "html/allProduct.html?uid=" + uid;
+                }
+            },
+            mounted() {
+                $("#banners").on("tap", function() {
+                    var id = $(this).attr("data-id")
+                    console.log(id)
+                    window.location.href = "../html/productDetail.html?id=" + id + "&goodsType=" + 1;
+                })
+
+                $("#first").on("tap", function() {
+                    var id = $(this).attr("data-id")
+                    console.log(id)
+                    window.location.href = "../html/classtion.html?classId=" + id + "&goodsType=" + 1;
+                })
+
+                $("#goods").on("tap", function() {
+                    var id = $(this).attr("data-id")
+                    console.log(id)
+                    window.location.href = "../html/productDetail.html?id=" + id + "&goodsType=" + 1;
+                })
+
+                $("#message").on("tap", function() {
+
+                    window.location.href = "../waimai/html/messgae.html?uid=" + uid;
+                })
+                $("#sousuo").on("tap", function() {
+                    var sousuo = $("#test").val()
+                    window.location.href = "../waimai/html/foodsList.html?content=" + sousuo + "&goodsType=" + 1;
+                })
+                $("#tejia").on("tap", function() {
+
+                    window.location.href = "../waimai/html/secondkill.html?activeType=" + 0;
+                })
+                $("#miaosha").on("tap", function() {
+
+                    window.location.href = "../waimai/html/secondkill.html?activeType=" + 1;
+                })
+                var that = this;
+                $.ajax({
+                    type: "get",
+                    url: waimaiurl + "/homePage",
+                    data: {
+                        "type": 1
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        console.log(response)
+                        if (response.result == 0) {
+                            that.dataList = response.firstList;
+                            that.goodsList = response.goodsList;
+                            that.bannerList = response.bannerList;
+                            console.log(that.bannerList)
+                        } else {}
+                    }
+                });
+
+            },
+
+        })
+        var mySwiper = new Swiper('.mui-slider', {
+            observer: true, //修改swiper自己或子元素时，自动初始化swiper
+            observeParents: true,
+            autoplay: false,
+
+        })
+        var mySwiper1 = new Swiper('#swiper-container1', {
+            observer: true, //修改swiper自己或子元素时，自动初始化swiper
+            observeParents: true,
+            autoplay: false,
+        })
+
+    }
+</script>

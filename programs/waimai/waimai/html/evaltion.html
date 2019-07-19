@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>评价</title>
+    <script src="../js/mui.min.js"></script>
+    <script src="../js/vue.min.js"></script>
+    <link href="../css/mui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/icons-extra.css" />
+    <link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+    <link rel="stylesheet" href="../css/swiper.min.css" />
+</head>
+
+<style>
+    html,
+    body {
+        position: relative;
+        background: #eee;
+        height: auto;
+    }
+    
+    #app {
+        margin-top: 44px;
+    }
+    
+    .knight {
+        height: 70px;
+        background: #eee;
+        width: 100%;
+        margin: 0;
+        padding: 2%;
+    }
+    
+    .knight .knigIcon {
+        width: 20%;
+        text-align: center;
+    }
+    
+    .knight .knigIcon img {
+        width: 40px;
+        height: 40px;
+        margin: 6% 2%;
+    }
+    
+    .knigMsg .name {
+        margin-top: 5px;
+        font-size: 14px;
+        font-family: PingFang-SC-Bold;
+        color: rgba(51, 51, 51, 1);
+        font-weight: 600;
+        margin-bottom: 0;
+    }
+    
+    .customer {
+        background: #fff;
+        height: 267px;
+        text-align: center;
+        padding: 2%;
+    }
+    
+    .customer p {
+        font-size: 15px;
+        font-weight: 600;
+        font-family: PingFang-SC-Bold;
+        color: rgba(51, 51, 51, 1);
+        margin: 36px 0 12px auto;
+    }
+    
+    .customer .star img {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .textarea {
+        margin-top: 15px;
+        height: 133px;
+        width: 100%;
+        padding: 4px;
+        text-align: left;
+        resize: vertical;
+        overflow: auto;
+        background: #F6F6F7;
+    }
+    
+    .textarea:empty:before {
+        content: attr(placeholder);
+        color: #bbb;
+    }
+    
+    .buiness {
+        margin-top: 10px;
+    }
+    
+    .bine {
+        margin-bottom: 80px;
+        height: 300px;
+    }
+    
+    .textareab {
+        height: 85px;
+    }
+    
+    .textareab+div {
+        background: #F6F6F7;
+        position: relative;
+        height: 75px;
+    }
+    
+    .textareab+div img {
+        width: 75px;
+        height: 75px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
+    
+    .footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 45px;
+    }
+    
+    .footer button {
+        height: 100%;
+        width: 100%;
+        background: #F12132;
+        color: #fff;
+        border: 0;
+        border-radius: 0;
+    }
+</style>
+
+<body>
+
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">评价</h1>
+    </header>
+    <div id="app" v-cloak>
+        <div class="knight">
+            <div class="knigIcon fl">
+                <img src="../img/dingweitubs@3x.png" alt="">
+            </div>
+            <div class="knigMsg fl">
+                <p class="name">骑手：{{dataObj.riderName}}</p>
+                <p>送达时间：{{dataObj.rider_delivery_time}}</p>
+            </div>
+
+        </div>
+        <div class="customer">
+            <p>你好，评价一下我的配送服务吧~</p>
+            <div class="star">
+                <img :src="src.sre" alt="" sizes="" srcset="" @tap="star(idx)" v-for="(src,idx) in starList">
+              
+            </div>
+            <div class="textarea" contenteditable="true" placeholder="您的建议会督促我做的更好~"></div>
+        </div>
+        <div class="knight">
+            <div class="knigIcon fl">
+                <img src="../img/dingweitubs@3x.png" alt="">
+            </div>
+            <div class="knigMsg fl buiness">
+                <p class="name">{{dataObj.shopName}}</p>
+            </div>
+
+        </div>
+        <div class="customer bine">
+            <p>这一单的用餐体验还满意吗？</p>
+            <div class="star">
+                <img :src="src.sre" alt="" sizes="" srcset="" @tap="starb(idx)" v-for="(src,idx) in starListb">
+                <!-- <img src="../img/star01@3x.png" alt="" sizes="" srcset="">
+                <img src="../img/star01@3x.png" alt="" sizes="" srcset="">
+                <img src="../img/star01@3x.png" alt="" sizes="" srcset="">
+                <img src="../img/star01@3x.png" alt="" sizes="" srcset=""> -->
+            </div>
+            <div class="textarea textareab" contenteditable="true" placeholder="请输入您对商品的评价信息~"></div>
+            <div>
+                <img src="../img/jiatu@3x.png" alt="">
+            </div>
+        </div>
+
+    </div>
+    <div class="footer">
+        <button id="send">提交</button>
+    </div>
+
+    <script src="../js/zepto.min.js"></script>
+    <script src="../js/swiper.min.js"></script>
+    <script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+</body>
+<script type="text/javascript">
+    window.onload = function() {
+        var uid = localStorage.getItem("UID");
+        function getQueryString(name) {
+            var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            }
+            return null;
+        }
+        var orderNum = getQueryString('orderNum');
+        var app=new Vue({
+            el:"#app",
+            data:{
+                dataObj:{},
+                starList: [{
+                    sre: "../img/star2@3x.png"
+                }, {
+                    sre: "../img/star2@3x.png"
+                }, {
+                    sre: "../img/star2@3x.png"
+                }, {
+                    sre: "../img/star2@3x.png"
+                }, {
+                    sre: "../img/star2@3x.png"
+                }],
+                starListb: [{
+                    sre: "../img/star2@3x.png"
+                }, {
+                    sre: "../img/star2@3x.png"
+                }, {
+                    sre: "../img/star2@3x.png"
+                }, {
+                    sre: "../img/star2@3x.png"
+                }, {
+                    sre: "../img/star2@3x.png"
+                }],
+
+            },
+            methods:{
+                star:function(idx){
+                    console.log(idx)
+                    // for (var i = 0; i < app.dataList[idx1].orderDetails2.starList.length; i++) {
+                    //     app.dataList[idx1].orderDetails2.starList[i].sre = "../img/star2@3x.png"
+                    //     if (idx2 >= i) {
+                    //         app.dataList[idx1].orderDetails2.starList[i].sre = "../img/star01@3x.png"
+                    //     }
+                    // }
+                    for(var i=0;i<starList.length;i++){
+                        if(i<idx){
+                            app.starList[i].sre = "../img/star01@3x.png"
+                        }
+                    }
+                }
+
+            },
+            mounted() {
+                var that=this;
+                $.ajax({
+                    type: "get",
+                    url: waimaiurl + "/riderOrderDetails",
+                    data: { "orderNum": orderNum },
+                    dataType: "json",
+                    success: function (response) {
+                        console.log(response)
+                        if (response.result == "0") {
+                            that.dataObj = response.object;
+                          
+                            
+                            
+                            $(".toThis").attr("href","tel:"+ response.object.shopPhone)
+                        }
+                        console.log(response)
+                    }
+                })
+            },
+        })
+      
+
+    }
+</script>

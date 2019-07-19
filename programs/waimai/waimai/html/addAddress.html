@@ -1,0 +1,316 @@
+<!doctype html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, user-scalable=0, width=device-width" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta content="telephone=no" name="format-detection">
+    <title>地址管理</title>
+    <link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+</head>
+<style type="text/css">
+    a {
+        color: #686868;
+    }
+
+    .mui-bar-nav~.mui-content {
+        padding-top: 30px;
+    }
+
+    .mui-bar-nav,
+    body {
+        background: #F2F2F2;
+    }
+
+    .mui-bar-nav {
+        box-shadow: none;
+        border-bottom: 5px solid #FAFAFA;
+    }
+
+    .mui-content {
+        background: #fff;
+        height: auto;
+    }
+
+    .mui-input-group:before {
+        background: none;
+    }
+
+    .mui-input-group:after {
+        background: none;
+    }
+
+    .mui-input-group .mui-input-row {
+        text-align: center;
+        border: none;
+        margin-top: 4%;
+        border-bottom: 1px solid #f6f6f6;
+    }
+
+    .mui-input-row label {
+        text-align: left;
+        color: #333;
+        font-weight: 600;
+        font-size: 16px;
+    }
+
+    .mui-input-group .mui-input-row:after {
+        background: none;
+    }
+
+    .mui-input-group input {
+        width: 95%;
+        border: 1px solid #f4f4f4;
+    }
+
+    #changecity input {
+        left: 35%;
+    }
+
+    .mui-switch-blue.mui-active {
+        border: 2px solid #32b7fb;
+        background-color: #32b7fb;
+    }
+
+    #addressbtn {
+        width: 90%;
+        border-radius: 6px;
+        margin-left: 5%;
+        margin-top: 160px;
+        background: #E60012;
+        height: 3rem;
+        border: none;
+        color: #fff;
+        font-weight: 600;
+        font-size: 1.2rem;
+    }
+</style>
+
+<body>
+
+    <script type="text/javascript">
+    </script>
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">添加地址</h1>
+    </header>
+    <div class="bck">
+    </div>
+    <div class="mui-content">
+        <div style="margin-bottom: 40px;">
+            <form class="mui-input-group">
+                <div class="mui-input-row">
+                    <label>姓名：</label>
+                    <input type="text" id="name" class="mui-input-clear" placeholder="请输入您的姓名">
+                </div>
+                <div class="mui-input-row">
+                    <label>联系方式：</label>
+                    <input type="number" id="tel" placeholder="请输入您的联系方式">
+                </div>
+                <div class="mui-input-row" id="changecity">
+                    <label>所在区域：</label>
+                    <input type="text" readonly="readonly" name="city_text" id="cityx" value="" placeholder="请选择区域" />
+
+                </div>
+                <div class="mui-input-row">
+                    <label>详细地址：</label>
+                    <input type="text" id="xiangxi" placeholder="请输入您的详细地址">
+                </div>
+                <!-- <div class="mui-input-row">
+                    <label>设为默认</label>
+                    <div class="mui-switch mui-switch-blue mui-active" id="mySwitch">
+                        <div class="mui-switch-handle"></div>
+                    </div>
+                </div> -->
+
+            </form>
+        </div>
+    </div>
+    <div class="footer">
+        <button id="addressbtn">确定</button>
+    </div>
+</body>
+<script src="../js/mui.min.js"></script>
+<script src="../js/mui.picker.min.js"></script>
+<script src="../js/data.city.js"></script>
+<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/zepto.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    window.onload = function () {
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return decodeURI(r[2]);
+            return null;
+        }
+        var uid = localStorage.getItem("UID");
+        var lng1 = getQueryString('lng');
+        var lat1 = getQueryString('lat');
+        var city = getQueryString('cn');
+        var addressId = getQueryString('addressId');
+        var type = getQueryString('type');
+        var dizhi = getQueryString('dizhi');
+        var differentiate = getQueryString('differentiate');
+        var foodsId = getQueryString('foodsId');
+        var goodsType = getQueryString('goodsType');
+        var coupoId = getQueryString('coupoId');
+        console.log(type)
+
+        $("#tel").val(localStorage.getItem("userphone"))
+        $("#xiangxi").val(localStorage.getItem("address"))
+        $("#city").val(localStorage.getItem("city"))
+        $("#name").val(localStorage.getItem("username"))
+
+     
+
+
+
+
+        var loc = location.href;
+        var n1 = loc.length; //地址的总长度
+        var n2 = loc.indexOf("="); //取得=号的位置
+
+        // var msg = decodeURI(loc.substr(n2 + 1, n1 - n2))
+
+        var cmd = "";
+        var lng = "";
+        var lat = "";
+
+
+
+        if (type != -1) {
+            $.ajax({
+                type: "post",
+                url: waimaiurl + "/viewAddress",
+                data: { "addressId": addressId },
+                dataType: "json",
+                success: function (response) {
+                    console.log(response)
+                    if (response.result == 0) {
+                        if (response.object != undefined) {
+                            $("#name").val(response.object.username);
+                            $("#tel").val(response.object.userphone);
+                            $("#xiangxi").val(response.object.address);
+                            lng = response.object.lon;
+                            lat = response.object.lat;
+                        }
+                        if (city != null) {
+                            $("#cityx").val(city);
+                        } else {
+                            $("#cityx").val(response.object.city);
+                        }
+
+
+                    }
+                }
+            });
+            //判断如果是带回来的城市是不为空的，为空的城市不是跳转百度的
+
+            // msg = JSON.parse(msg)
+            // console.log(msg)
+
+            cmd = "editUserAddress";
+
+        } else {
+            console.log(11)
+            if (city != null) {
+                $("#cityx").val(city);
+            }
+            cmd = "addUserAddress";
+
+        }
+
+        var uid = localStorage.getItem("UID");
+        var addressa;
+        //mui地区选择器
+        // var city_picker2 = new mui.PopPicker({
+        //     layer: 3
+        // });
+        // city_picker2.setData(init_city_picker);
+        // mui(".mui-content").on("tap", '#cityx', function() {
+        //     setTimeout(function() {
+        //         city_picker2.show(function(items) {
+        //             if ((items[2] || {}).text == undefined) {
+        //                 (items[2] || {}).text = "";
+        //             }
+        //             addressa = (items[0] || {}).text + (items[1] || {}).text + (items[2] || {}).text;
+        //             document.getElementById("cityx").value = addressa;
+        //         });
+
+        //     }, 200);
+        // });
+        //调用百度地图
+
+        $("#cityx").on("tap", function () {
+            localStorage.setItem("username", $("#name").val());
+            localStorage.setItem("userphone", $("#tel").val());
+            localStorage.setItem("address", $("#xiangxi").val());
+            localStorage.setItem("city", $("#cityx").val());
+
+
+
+
+            location.href = "baiduMap.html?lng=" + lng + "&lat=" + lat + "&addressId=" + addressId + "&type=" + type + "&dizhi=" + dizhi + "&differentiate=" + differentiate + "&foodsId=" + foodsId + "&coupoId=" + coupoId +"&goodsType="+goodsType;
+
+        })
+
+
+        var isdefault = 1;
+
+        $("#addressbtn").on("tap", function () {
+            $("#mySwitch").hasClass("mui-active") ? isdefault = 1 : isdefault = 0;
+            var username = $("#name").val();
+            var userPhone = $("#tel").val();
+            var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+            if (!myreg.test(userPhone)) {
+                mui.toast("请输入正确的手机号！");
+                return;
+            }
+            var address = $("#xiangxi").val();
+            console.log(cmd)
+            if (cmd == "editUserAddress") {
+                addressa = $("#cityx").val();
+                var url = waimaiurl + "/" + cmd + '?addressId=' + addressId  //'?json={"cmd":"' + cmd + '","city":"' + addressa + '","isdefault":"' + isdefault + '","address":"' + address + '","username":"' + username + '","userPhone":"' + userPhone + '","uid":"' + uid + '","addressId":"' + addressId + '"}'
+            } else {
+                var url = waimaiurl + "/" + cmd //'?json={"cmd":"' + cmd + '","city":"' + addressa + '","isdefault":"' + isdefault + '","address":"' + address + '","username":"' + username + '","userPhone":"' + userPhone + '","uid":"' + uid + '"}'
+            }
+            $.ajax({
+                type: "post",
+                url: url,
+                data: { "uid": uid, "city": city, "isdefault": isdefault, "address": address, "username": username, "userPhone": userPhone, "lon": lng1, "lat": lat1 },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    if (data.result == "0") {
+                        $("#addressbtn").attr('disabled', 'disabled');
+                        mui.toast(data.resultNote);
+                        console.log(JSON.stringify(data) )
+                        if (dizhi == 1) {
+                           
+                            if(addressId){
+                               
+                                addressId = data.object
+                                
+                            }
+                             window.location.href = 'sendOrder.html?dizhi=1&differentiate=' + differentiate + "&foodsId=" + foodsId + "&addressId=" + addressId + "&coupoId=" + coupoId +"&goodsType="+goodsType;
+                        } else {
+                            window.location.href = 'address.html';
+                        }
+
+                    } else {
+                        mui.toast(data.resultNote);
+
+                    }
+
+                }
+            });
+        })
+    }
+</script>
+
+</html>

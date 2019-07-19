@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>会员充值</title>
+    <script src="../js/mui.min.js"></script>
+    <script src="../js/vue.min.js"></script>
+    <link href="../css/mui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/icons-extra.css" />
+    <link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+    <link rel="stylesheet" href="../css/swiper.min.css" />
+</head>
+
+<style>
+    #app {
+        margin-top: 50px;
+        padding: 5%;
+    }
+
+    body,
+    html {
+        background: #fff;
+    }
+
+    .container {
+        width: 96%;
+        margin-left: 2%;
+        padding: 3%;
+        height: 125px;
+        margin-bottom: 50px;
+        background: rgba(255, 255, 255, 1);
+        border-radius: 2px;
+        box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.2);
+    }
+
+    .container p {
+        font-size: 15px;
+        margin-bottom: 25px;
+        font-family: PingFang-SC-Bold;
+        font-weight: 600;
+        color: rgba(51, 51, 51, 1);
+    }
+
+    .container label {
+        font-size: 25px;
+        font-weight: 600;
+    }
+
+    .container input {
+        width: 70%;
+        border: none;
+    }
+
+    #sure {
+        width: 90%;
+        height: 45px;
+        background: rgba(235, 41, 50, 1);
+        border-radius: 6px;
+        margin-left: 5%;
+        color: #fff;
+        font-size: 17px;
+    }
+</style>
+
+<body>
+
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">会员充值</h1>
+    </header>
+    <div id="app">
+        <div class="container">
+            <p>充值金额</p>
+            <label for="">￥</label>
+            <input type="text" id ="jine" placeholder="请输入金额">
+        </div>
+        <button id="sure">确认支付</button>
+    </div>
+    <script src="../js/zepto.min.js"></script>
+    <script src="../js/swiper.min.js"></script>
+    <script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+</body>
+<script type="text/javascript">
+    window.onload = function () {
+        var uid = localStorage.getItem("UID");
+        $("#sure").on("tap", function () {
+            var jine = $("#jine").val();
+
+            $.ajax({
+                type: "get",
+                url: waimaiurl + "/topUp",
+                data: { "uid": uid,"money":jine },
+                dataType: "json",
+                success: function (response) {
+                    console.log(response)
+                    if(response.result == 0){
+                        localStorage.setItem("NUM", response.object.orderNum);
+                        localStorage.setItem("PRC", response.object.money);
+                        localStorage.setItem("CZ", 1);
+                        //  window.location.href = "pay.1.html"; 
+                         window.location.href = "http://cqmxsm.com/duoshangcheng/vip/pay?prca=" + response.object.money + "&num=" + response.object.orderNum + "&prc=" + response.object.money+"&cz=1";
+                        // window.location.href = "rechargeSucess.html"; 
+                    }
+                }
+            });
+        })
+
+
+    }
+</script>

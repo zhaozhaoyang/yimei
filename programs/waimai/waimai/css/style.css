@@ -1,0 +1,190 @@
+.ui-page-login,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    background: #EEEEEE;
+    /* font-size: 17px!important; */
+}
+
+.mui-bar-nav {
+    background: #f2f2f2;
+}
+
+.mui-content {
+    height: 100%;
+}
+
+ul,
+ul li,
+li {
+    list-style: none;
+}
+
+[v-cloak] {
+    display: none;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.mui-bar-nav {
+    box-shadow: none;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.back4 {
+    background: #eee;
+    height: 5px;
+    width: 100%;
+    clear: both;
+}
+
+
+/*//taber*/
+
+.tabs {
+    position: fixed;
+    bottom: 0;
+    line-height: 2.5rem;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    height: 3.5rem;
+    background: #fff;
+    border-top: 1px solid #D6D7DC;
+    margin-top: 3.8rem;
+}
+
+.tabs li {
+    text-align: center;
+    float: left;
+    width: 16%;
+    margin: 0.5rem 2%;
+    height: 3rem;
+}
+
+.tabs li img {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.tabs li span {
+    width: 100%;
+    float: left;
+    margin-top: -1.5rem;
+    font-size: 0.9rem;
+    color: #4d4d4d;
+}
+
+.tabs li .active {
+    color: #E60012;
+}
+
+
+/*//index.html*/
+
+.topMsg {
+    background: #fff;
+    margin-top: 44px;
+    height: 44px;
+    width: 100%;
+    padding: 3%;
+}
+
+a {
+    color: #333;
+}
+
+.address {
+    float: left;
+    width: 15%;
+    line-height: 2;
+    position: relative;
+}
+
+.address img {
+    width: 11px;
+    height: 15px;
+    position: absolute;
+    top: 4px;
+}
+
+.address span {
+    font-size: 12px;
+    float: right;
+}
+
+.search {
+    float: left;
+    width: 70%;
+    position: relative;
+    top: -5px;
+    left: 5px;
+    padding-left: 2%;
+}
+
+.search img {
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    left: 10%;
+    top: 25%;
+}
+
+.search input {
+    border-radius: 15px;
+    background: #EEEEEE;
+    height: 31px;
+    line-height: 31px;
+    font-size: 0.75em;
+    padding-left: 20%;
+    margin-bottom: 0;
+    border: 0;
+}
+
+.col-xs-3 {
+    width: 25%;
+    float: left;
+}
+
+#swiper1 {
+    margin: 0 auto;
+}
+
+.swiper-slidea img {
+    width: 2.3rem;
+    height: 2.3rem;
+    position: absolute;
+    top: 0;
+}
+
+.swiper-slidea span {
+    width: 3rem;
+    position: absolute;
+    color: #333;
+    font-size: 0.75rem;
+    text-align: center;
+    top: 38%;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
+    clear: both;
+}
+
+
+/*//find.html*/
