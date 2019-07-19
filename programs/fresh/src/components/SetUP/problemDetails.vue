@@ -1,0 +1,58 @@
+<template>
+  <div class="problemDetails-box">
+    <main-header :text="text" @back="back"></main-header>
+    <div class="problemDetails-zi">
+      <iframe :src="this.url"></iframe>
+    </div>
+  </div>
+</template>
+
+<script>
+import MainHeader from "@/components/component/mainHeader";
+import { Toast } from "vant";
+import Request from "@/common/js/request";
+export default {
+  data() {
+    return {
+      text: "详情",
+      url: ""
+    };
+  },
+  components: {
+    MainHeader
+  },
+  created() {
+    console.log(this.$route.query.url);
+    this.url = this.$route.query.url;
+  },
+  mounted() {
+    var first = null;
+    mui.back = function() {
+      if (!first) {
+        window.history.go(-1);
+        first = new Date().getTime();
+        setTimeout(function() {
+          first = null;
+        }, 1000);
+      } else {
+        if (new Date().getTime() - first < 1000) {
+          plus.runtime.quit();
+        }
+      }
+    };
+  },
+  methods: {
+    back() {
+      this.$router.go(-1);
+    }
+  }
+};
+</script>
+
+<style scoped lang="stylus" rel="stylesheet/stylus">
+.problemDetails-zi {
+  margin-top: 70px;
+  border-top: 1px solid #dedede;
+  padding: 0 0.4rem;
+}
+</style>
