@@ -1,0 +1,201 @@
+<template>
+    <div class="shopcar">
+        <div class="Title">
+            <p>购物车</p>
+            <div class="finsh" @click="finish">
+                <p v-if="fin">编辑</p>
+                <p v-else>完成</p>
+            </div>
+        </div>
+        <!-- <foot style="margin-top:1.5rem;"></foot> -->
+        <div class="transition">
+          <div class="f1" v-for="(item,index) in items" :key="index" @click="jump">
+            <div @click="taggle($event,index)" class="alone">
+              <img src="../common/images/img/ios/shopcar/椭圆567拷贝6@1x.png" alt style="width:.5rem;height:.5rem;margin-top:1.1rem;margin-left:.25rem;" v-if="show">
+              <img src="../common/images/img/ios/shopcar/组5@1x (2).png" alt style="width:.5rem;height:.5rem;margin-top:1.1rem;margin-left:.25rem;" v-else>
+            </div>
+            <img src="../common/images/img/ios/矩形7拷贝4@2x.png" alt style="margin-left:.1rem;">
+            <div class="Right">
+              <div class="ttitle">4444444444 5555555555555555555</div>
+              <div class="content">
+                <div>22222  3333333333333333333333</div>
+                <div>1111111  22222222222222222222</div>
+              </div>
+              <div class="foot">
+                <span class="money">
+                  ￥
+                  <span class="price">10000</span>
+                </span>
+                <span class="yue">X1</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bottom">
+            <div class="talk">
+                <div v-if="type">
+                    <p style="font-size:.32rem;">预约金：<span style="font-weight:500;color:rgba(255,0,74,1);">￥<span style="font-size:.45rem;">{{items[0].yuyueprice}}</span></span></p>
+                    <p style="font-size:.32rem;">到院再付：￥{{items[0].price-items[0].yuyueprice}}</p>
+                </div>
+                <div class="all" v-else>
+                    <div @click="allchose($event)" class="alls">
+                        <img src="../common/images/img/ios/shopcar/椭圆567拷贝6@1x.png" alt="" v-if="alls">
+                        <img src="../common/images/img/ios/shopcar/组5@1x (2).png" v-else>
+                    </div>
+                    <p>全选</p>
+                </div>
+            </div>
+            <div>
+                <button class="adv" @click="advance" v-if="cont">预购</button>
+                <div class="del" v-else>删除</div>
+            </div>
+        </div>
+        <!-- 弹窗模块 -->
+        <div v-show="popup">
+            <!--这里是要展示的内容层-->
+            <div class="login">
+                <p style="text-align:center;font-size:.4rem;margin-top:.rem;font-weight:500;">预约提示</p>
+                <div class="cr" style="width:8rem;margin-left: .25rem;font-size: .35rem;margin-top:.3rem;color:rgba(0,0,0,1);line-height:.7rem;">
+                    <p>请在预购前仔细阅读<router-link to="" style="text-decoration: none;color:rgba(35,183,172,1);">《平台交易规则》</router-link>，这里特别需要强调的是</p>
+                    1、将预付款交于平台。<br>
+                    2、医生必须在医美机构中进行操作，如果医生在
+                    非医美机构非正规操作的手术室进行操作，消费者
+                    有权拒绝，并向平台举报。<br>
+                </div>
+                <div @click="closepopup" style="width:100%;;height:1.14rem;text-align:center;line-height:1.14rem;color:rgba(35,183,172,1);font-size:.4rem;margin-top:-.1rem;">我已阅读并同意</div>
+            </div>
+            <!--这里是半透明背景层-->
+            <div class="over"></div>
+        </div>
+    </div>
+</template>
+
+<script>
+import axios from '../axios'
+export default {
+    data(){
+        return {
+            popup:0,
+            uid:'',
+            show:true,
+            fin:true,
+            type:true,
+            cont:true,
+            alls:true,
+            items:[]
+        }
+    },
+    beforeRouteLeave:function(to, from, next){
+      console.log(to)  
+    },
+    methods:{
+         //打开预购规则页面
+        advance(){
+            this.popup = 1;
+        },
+        // 关闭预购规则页面
+        closepopup(){
+            this.popup = 0;
+            this.$router.push('/sureorder')
+        },
+        // 请求购物车数据
+        all(){
+            let all = {
+                cmd:'myGoodscar',
+                uid:this.uid
+            }
+            axios(all).then(res=>{
+                if(res.result == '0'){
+                    console.log(res)
+                    this.items = res.dataList
+                }
+            })
+        },
+        // 编辑、完成
+        finish(){
+            if(this.fin){
+                this.fin = false
+                this.type = false
+                this.cont = false
+            }else{
+                this.fin = true
+                this.type = true
+                this.cont = true
+            }
+        },
+        // 全选
+         allchose(event){
+            if(this.alls){
+                this.alls = false
+                var thats = document.querySelectorAll('.alone img');
+                // console.log(thats)
+                console.log(111)
+                for(var i = 0;i<thats.lenght;i++){
+                    console.log(thats)
+                    var that = thats[i]
+                    if(this.alls == 'false'){
+                        that.show = false
+                    }else{
+                        that.show = true
+                    }
+                }
+            }else{
+                this.alls = true
+            }
+        },
+        // 单选
+        taggle(){
+            // if(this.show){
+            //     this.show = false 
+            // }else{
+            //     this.show = true
+            // }
+        },
+        // 总价
+
+        jump(){
+            for(var i = 0;i<this.items.length;i++){
+                this.$router.push({ path: '/detail', query: {proid: this.items[i].proid}})
+            }
+        },
+
+    },
+    mounted(){
+        this.all()
+    },
+    created(){
+        this.uid = localStorage.getItem('uid')
+        // this.goodscarid = this.$route.query.goodscarid
+        // console.log(this.$route.query.goodscarid)
+        // this.proid = this.$route.query.proid
+        // console.log(this.$route.query.proid)
+    }
+}
+</script>
+
+<style>
+*{margin: 0;padding: 0;}
+.shopcar{font-family: 'PingFang-SC-Bold';width: 100%;}
+.shopcar .Title{position: fixed;top:0;left: 0;width: 100%;height: 1.5rem;overflow: hidden;;line-height: 1.5rem;font-size: .5rem;font-weight: bold;color: rgba(17, 17, 17, 1);background: #fff;z-index: 9999;box-shadow:0 .1rem .18rem 0 rgba(227,227,227,0.45);}
+.shopcar .Title p{float: left;    margin-left: 4.5rem;}
+.shopcar .Title .finsh{font-size: .35rem;font-weight: normal;float: left;margin-left: -1.5rem;}
+.shopcar .bottom{width: 100%;height: 1.4rem;background: #fff;position: fixed;top:16.38rem;display: flex;justify-content: space-between;}
+.shopcar .bottom .talk{width: 4rem;height: 1.2rem;line-height: .5rem;margin-left: .25rem;margin-top: .3rem;}
+.shopcar .bottom .talk .all{font-size: .4rem;width:1.5rem;display:flex;justify-content:space-between;line-height: 1rem;}
+.shopcar .bottom .talk .all img{width: .5rem;height: .5rem;margin-top: .25rem;}
+.login {position: fixed;height: 6rem;width: 8.5rem;background-color: #fff;border-radius: 0.15rem;left: 50%;top: 50%;transform: translate(-50%, -50%);z-index: 1000}
+.over {position: fixed;width: 100%;height: 100%;opacity: 0.7;filter: alpha(opacity=70);top: 0;left: 0;z-index: 999;background-color: #111111;}
+
+.transition{margin-top: 1.7rem;}
+.transition .f1{display: flex;justify-content: space-between;margin-top: .4rem;}
+.transition .f1 img{width: 3rem;height: 3rem;}
+.transition .f1 .Right{width: 6.4rem;margin-left: .1rem;}
+.transition .f1 .Right .ttitle{font-size:.38rem;font-family:'PingFang-SC-Medium';font-weight:500;color:rgba(17,17,17,1);}
+.transition .f1 .Right .content{padding-top: .3rem;font-size: .28rem;color:rgba(102,102,102,1);line-height: .65rem;}
+.transition .f1 .Right .foot{padding-top: .3rem;}
+.transition .f1 .Right .foot .money{color:rgba(255,0,0,1);font-size: .28rem;}
+.transition .f1 .Right .foot .money .price{color:rgba(255,0,0,1);font-size: .4rem;}
+.transition .f1 .Right .foot .yue{padding-left: 2.5rem;color:rgba(102,102,102,1);font-size: .28rem;}
+.del{width: 2rem;height: 1rem;border:.05rem solid rgba(35,183,172,1);border-radius:1rem;;font-weight:500;color:rgba(35,183,172,1);font-size:.45rem;line-height:1rem;text-align:center;margin-top:.2rem;}
+.adv{width:2.4rem;background:rgba(254,64,119,1);border:none;font-weight:500;color:rgba(255,255,255,1);font-size:.45rem;height: 1.5rem;}
+</style>
