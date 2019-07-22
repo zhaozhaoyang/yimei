@@ -16,7 +16,7 @@
         .topBar {
             width: 100%;
             height: 188px;
-            background: url(img/gerenzhiongxinbj@3x.png);
+            background: url(img/gerenzhiongxinbj@3x.jpg);
             background-size: cover;
             text-align: center;
         }
@@ -26,7 +26,7 @@
             width: 70px;
             border-radius: 100%;
             background: rgba(244, 244, 244, 1);
-            margin-top: 31px;
+            margin-top: 35px;
         }
         
         .topBar p {
@@ -51,7 +51,7 @@
             width: 100%;
             padding: 3%;
             height: 250px;
-            margin-top: 50px;
+            margin-top: 20px;
         }
         
         .myList li {
@@ -69,8 +69,8 @@
         }
         
         .myList li img {
-            width: 30px;
-            height: 30px;
+            width: 40px;
+            height: 40px;
         }
         
         .mui-icon-gear {
@@ -156,8 +156,8 @@
                     // 
                     topBar += '<img src="' + response.object.icon + '" class="userIcon" alt="" />' +
                         //  topBar += '<img src="./img/wodeshangji@3x.png" class="userIcon" alt="" />' + 
-                        '<p class="name">' + response.object.nickName + '</p>' +
-                        ' <span class="mui-icon mui-icon-gear" id ="shezhi"></span>';
+                        '<p class="name">' + response.object.nickName + '</p>' +'';
+//                      ' <span class="mui-icon mui-icon-gear" id ="shezhi"></span>';
                     $(".topBar").append(topBar);
 
                     $(".userIcon").on("tap", function() {

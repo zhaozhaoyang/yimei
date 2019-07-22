@@ -250,7 +250,7 @@ export default {
                 if(res.result == '0'){
                     console.log(res)
                     console.log('获取认证信息成功')
-                    // this.$router.push('/Login')
+                    this.$router.push('/Login')
                 }
             })
             return true

@@ -21,6 +21,10 @@ export default {
             
         }
     },
+    created(){
+       sessionStorage.setItem('userInfo','')
+       localStorage.setItem("uid",'');
+    },
     methods:{
         first(){
             axios({cmd:'looklook'}).then(res => {

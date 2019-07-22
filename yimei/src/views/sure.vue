@@ -2,7 +2,7 @@
     <div class="sure">
         <div class="Title">
             <img src="../common/images/img/ios/detal/ios/返回@1x_53.png" alt="" @click="imgs">
-            <span>资质认证</span>
+            <span>证</span>
         </div>
         <!-- 个人信息 -->
         <div class="header" style="margin-top: 2rem;">

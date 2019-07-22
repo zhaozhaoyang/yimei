@@ -2,7 +2,7 @@
   <!-- tab切换开始 -->
   <div class="footerb" >
     <div class="tab">
-      <section class="category_title">
+      <section  :class="[isfixed?'fixed':'nofixed','category_title']" ref="sct">
         <p :class="{choosed:categoryType === 1}" @click="changeCategoryType(1)">推荐项目</p>
         <p :class="{choosed:categoryType === 2}" @click="changeCategoryType(2)">精选日记</p>
       </section>
@@ -84,7 +84,8 @@ export default {
             scroll:'',
             types:[],
             pass:[],
-            flag:true
+            flag:true,
+            isfixed:false
         }
     },
     beforeRouteLeave:function(to, from, next){
@@ -128,15 +129,22 @@ export default {
         })
       },
       scrollLoad(){
+        
         this.$nextTick(() => {
           var scrollTop =document.body.scrollTop || document.documentElement.scrollTop;
           var clientHeight=document.compatMode == "CSS1Compat"?document.documentElement.clientHeight:document.body.clientHeight;
           var scrollHeight=document.body.scrollHeight|| document.documentElement.scrollHeight;
           //滚动的距离（动态） +  页面可视高度 （固定） 》= 页面总高度 （固定）
-          if(scrollTop + (clientHeight - 0) >=scrollHeight - 0){        
-            console.log('底部...')      
-            this.getTuidata()              
-          }
+            if(scrollTop + (clientHeight - 0) >=scrollHeight - 0){    
+              console.log('底部...')      
+              this.getTuidata()              
+            }
+            // 吸顶
+            if(scrollTop>999){
+              this.isfixed = true
+            }else{
+              this.isfixed =false
+            }
           })
         
       },
@@ -157,10 +165,13 @@ export default {
 </script>
 
 <style>
+.fixed{position: fixed;top: 0;left: 0;z-index: 9999;box-shadow:0px -2px 9px 2px rgba(217,217,217,0.45);}
+.nofixed{position:relative;}
 .footerb{width: 100%;height:600px;background: rgba(248,248,248,1);position: relative;margin-top: -0.3rem;font-family:'PingFang-SC-Medium';}
 .footerb .tab{position: absolute;top:.4rem;width: 100%;background: rgba(255,255,255,1);}
-.footerb .tab .category_title{padding-top:.3rem;width: 5rem;height: 1rem;font-size: .43rem;padding-left: 2rem;display: flex;justify-content: space-between;margin-left: 0.25rem;}
-.footerb .tab .category_title .choosed{height: .7rem;;border-bottom:.05rem solid rgba(35,183,172,1);border-radius:2px;font-weight:bold;color:rgba(17,17,17,1);font-size: .45rem;margin-left: 0.25rem;}
+.footerb .tab .category_title{background: #fff;padding-top:.3rem;width: 5rem;height: 1rem;font-size: .43rem;display: flex;width: 100%;justify-content: space-evenly;}
+.footerb .tab .category_title .choosed{height: .7rem;border-bottom:.05rem solid rgba(35,183,172,1);border-radius:2px;font-weight:bold;color:rgba(17,17,17,1);font-size: .45rem;}
+.footerb .tab .category_title p{text-align: center;}
 /* .footerb .tab .transition{height: 15rem;} */
 .footerb .tab .transition{padding-bottom: 50px;}
 .footerb .tab .transition .f22{height: 3rem;display: flex;justify-content: space-between;padding-bottom: .4rem;text-decoration:none;font-weight: 500}

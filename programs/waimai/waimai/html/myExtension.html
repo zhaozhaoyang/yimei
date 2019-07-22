@@ -24,7 +24,7 @@
     }
 
     #app {
-        background: url(../img/back.png) no-repeat;
+        /*background: url(../img/back.png) no-repeat;*/
         background-size: 100% 100%;
         margin: 2%;
         width: 96%;
@@ -32,15 +32,28 @@
         height: 542px;
         border-radius: 10px;
         position: relative;
+        background-color: #fff;
     }
 
-    #app img {
+    #app .img1 {
         left: 34%;
         position: absolute;
         width: 120px;
         height: 120px;
         top: 43%;
     }
+    .img0{
+    	left: 34%;
+        position: absolute;
+        width: 120px;
+        height: 120px;
+        top: 16%;
+    }
+    #app p {
+    	position: absolute;
+    	top: 70%;text-align: center;width: 100%;
+    }
+    .line{width: 75%;height: 2px;background: #D6D7DC;transform: translate(-50%, 10px);left: 50%;position: absolute;bottom: 100px;background: #999;}
 </style>
 
 <body>
@@ -71,7 +84,9 @@
         }
         var qrcode = getQueryString('qrcode');
         fenxi = "";
-        fenxi += '<img src="' + qrcode + '" alt="">';
+        fenxi += '<img class="img0" src="../img/11.jpg" alt="">';
+        fenxi += '<img class="img1" src="' + qrcode + '" alt="">';
+        fenxi += '<p>扫我订货</p><div class="line"></div>';
 
 
         $("#app").append(fenxi);

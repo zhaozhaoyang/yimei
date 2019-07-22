@@ -209,6 +209,7 @@ export default {
             }
             axios({cmd:"getValidateCode",phone:this.phone}).then(res=>{
                 if(res.result == '0'){
+                    console.log(res)
                     console.log('获取验验证码成功')
                 }
             })            

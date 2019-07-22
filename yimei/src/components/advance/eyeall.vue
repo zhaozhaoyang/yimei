@@ -250,7 +250,7 @@ export default {
 <style>
 *{margin: 0;padding: 0;}
 .all{font-family: 'PingFang-SC-Bold';height: 17.78rem;background: #fff}
-.all .Title{position: fixed;top:0;left: 0;width: 100%;height: 2rem;overflow: hidden;line-height: 1.05rem;font-size: .5rem;font-weight: bold;color: rgba(17, 17, 17, 1);background: #fff;z-index: 9999;box-shadow:0px 0px 10px 0px rgba(0, 0, 0, 0.3);}
+.all .Title{width: 100%;height: 1.2rem;overflow: hidden;line-height: 1.05rem;font-size: .5rem;font-weight: bold;color: rgba(17, 17, 17, 1);background: #fff;z-index: 9999;}
 .all .Title p{float: left;margin-left: 36%;}
 .all .Title img{float: left;margin-top: .4rem;margin-left: .5rem;width: .3rem;height: .5rem;}
 
@@ -260,7 +260,7 @@ export default {
 .bgGlass .info{width: 8rem;margin-top: -.45rem}
 .bgGlass .info p{text-decoration: none;display: inline;padding-bottom: .5rem;line-height: .6rem;text-decoration: none;color:rgba(63,32,138,1);font-size: .26rem;}
 .navList {width: 100%;height: 1rem;margin-top: .85rem;}
-
+/* 
 .van-tabs__content {
     margin-top: .8rem;
 }
@@ -274,7 +274,7 @@ export default {
     z-index: 9999;
     overflow: hidden;}
 .van-tabs__line{background: rgba(35,183,172,1);z-index: 2;}
-.van-cell__title{display: none}
+.van-cell__title{display: none} */
 /* .van-cell__value{overflow: hidden;} */
 .van-cell__value .data{height: 3rem;overflow: hidden;}
 .van-cell__value .tupianShow{width: 3rem;height: 3rem;float: left;margin-left: .25rem}
@@ -286,7 +286,8 @@ export default {
     display: flex;
     justify-content: space-between;
     margin-top: .2rem;}
+.van-cell__value .tupianShow{width: 3rem;height: 3rem;float: left;margin-left: .25rem}
 .Color{color:#636363;width: 5.5rem;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
 .f{margin-top: .05rem;color:rgba(102,102,102,1);}
-.van-tabs__wrap.van-hairline--top-bottom{border: none}
+/* .van-tabs__wrap.van-hairline--top-bottom{border: none} */
 </style>

@@ -39,7 +39,7 @@
         <!-- 富文本等开始 -->
         <div class="alltext">
             <div class="text">
-                <div class="jump">
+                <div class="jump"  @click="fenqi">
                     <p class="fen">分期</p>
                     <img src="../common/images/img/pic/my/箭头(3)拷贝4@1x.png" alt="">
                 </div>
@@ -202,15 +202,19 @@ export default {
         closepopups(){
             this.popups = 0;
         },
+        fenqi(){
+             window.location.href = this.items.fenqi
+        },
         //跳富文本链接
-         share(){
+        share(){
             window.location.href = "http://122.114.49.242/plastic/display/agreement?id=2"
         },
         daiary(){
             window.location.href = "http://122.114.49.242/plastic/display/agreement?id=1"
         },
         addr(){
-            window.location.href = "http://122.114.49.242/display/project1?id="+this.proid
+             window.location.href =this.items.hospitaladdr+"?id="+this.proid
+            // window.location.href = "http://122.114.49.242/display/project1?id="+this.proid
         },
         ddetail(){
             window.location.href = "http://122.114.49.242/display/project2?id="+this.proid
@@ -237,6 +241,10 @@ export default {
             })
         },
         taggle(){
+            if(localStorage.getItem("uid")=='' || localStorage.getItem("uid")==null){
+                Toast('请登录！');
+                return;
+            }
             if(this.show){
                 this.show=false
                 this.iscollect=1

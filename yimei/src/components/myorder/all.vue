@@ -51,6 +51,7 @@ export default {
             // 接收nav组件传过来的导航按钮的索引值，跳转
             // this.mySwiper.slideTo(value,0,false)
             this.$refs.sw.swipeTo(value)	
+            window.scrollTo({top:0,behavior: "smooth"})
         }
     },   
     created(){

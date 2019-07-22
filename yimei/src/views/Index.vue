@@ -196,7 +196,7 @@ export default {
 <style>
 *{margin: 0;padding: 0;}
 .Heard{position: relative;text-align: center;background: #fff;font-family:'PingFang-SC-Regular';}
-.Ttitlej {position: fixed;top:0;left: 0;width: 100%;height: 1.5rem;line-height: 1.5rem;font-size: .5rem;font-weight: bold;color: rgba(17, 17, 17, 1);background: #fff;z-index: 9999;}
+.Ttitlej {position: absolute;top:0;left: 0;width: 100%;height: 1.5rem;line-height: 1.5rem;font-size: .5rem;font-weight: bold;color: rgba(17, 17, 17, 1);background: #fff;z-index: 1000;}
 .Ttitlej p{text-align: center;}
 .Heard-intro{margin-left: .25rem;width: 7.5rem;position: relative;top: 1.5rem;left: 10%;text-align: center;font-size:.28rem;font-weight:400;color:rgba(17,17,17,1);}
 .Heard-intro div{line-height: .65rem;font-size: .28rem;color: #636363}

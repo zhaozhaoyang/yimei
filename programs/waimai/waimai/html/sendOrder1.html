@@ -750,7 +750,8 @@ console.log(goodsType)
                 if (response.object != undefined) {
                     if (response.object.send != undefined) {
                         shippingFee += '<p class="fl">配送费用:&nbsp;&nbsp;</p>' +
-                            ' <p class="fr" id="orderNum">¥' + response.object.send + '</p>';
+                            ' <p class="fr" id="orderNum">¥' + 0 + '</p>';
+//                          ' <p class="fr" id="orderNum">¥' + response.object.send + '</p>';
                     } else {
                         shippingFee += '<p class="fl">配送费用:&nbsp;&nbsp;</p>' +
                             ' <p class="fr" id="orderNum">¥' + "" + '</p>';
@@ -810,17 +811,19 @@ console.log(goodsType)
 
                     console.log(allprice)
                     if (response.object.send != undefined && allprice != undefined && response.object.userAmount != undefined) {
-                        jinqian = Number(response.object.send) + Number(allprice) - Number(response.object.userAmount)
+//                      jinqian = Number(response.object.send) + Number(allprice) - Number(response.object.userAmount)
+						jinqian = Number(allprice) - Number(response.object.userAmount)
                     } else if (allprice != undefined && response.object.userAmount != undefined) {
                         jinqian = Number(allprice) - Number(response.object.userAmount)
                     } else if (allprice != undefined && response.object.send != undefined) {
-                        jinqian = Number(response.object.send) + Number(allprice)
+//                      jinqian = Number(response.object.send) + Number(allprice)
+						jinqian = Number(allprice)
                     } else {
                         jinqian = Number(allprice)
                     }
-                     
+                    
 					var ss = jinqian.toFixed(2);
-
+					console.log(ss + '***')
                     jisuan +=
                         '<p class="fr" id="all" style="margin-right: 10px;">共1件商品，小计：<span class="money">¥' + ss + '</span></p>';
                     $("#jisuan").append(jisuan);

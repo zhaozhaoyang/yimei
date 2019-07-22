@@ -97,7 +97,7 @@ export default {
 <style>
 *{margin: 0;padding: 0;}
 .advance{font-family: 'PingFang-SC-Bold';}
-.advance .Ttitle {position: fixed;top:0;left: 0;width: 100%;height: 1.5rem;text-align: center;line-height: 1.5rem;font-size: .5rem;font-weight: bold;box-shadow:0 0 .1rem 0 rgba(0, 0, 0, 0.3);color: rgba(17, 17, 17, 1);background: #fff;z-index: 9999}
+.advance .Ttitle {position: absolute;top:0;left: 0;width: 100%;height: 1.5rem;text-align: center;line-height: 1.5rem;font-size: .5rem;font-weight: bold;color: rgba(17, 17, 17, 1);background: #fff;z-index: 1000}
 .advance .header{width: 100%; margin-top: 1.5rem;background: #fff;}
 .advance .header .topA{overflow: hidden;}
 .advance .header .topA a{text-decoration: none;margin-top: .3rem;float: left;margin-left: 1rem;width: 1.5rem;text-align: center;}

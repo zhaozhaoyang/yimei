@@ -140,7 +140,6 @@ export default {
 </script>
 
 <style>
-.alls{height: 100vh;}
 .alls .headeres .bao1{background: #fff;}
 .alls .headeres .bao1 .top{width: 95%;margin-left: .25rem;display: flex;justify-content:space-between;height: 1rem;line-height: 1rem}
 .alls .headeres .bao1 .top .order1{font-weight:400;color:rgba(51,51,51,1);font-size:.4rem}
