@@ -82,7 +82,7 @@ export default {
             // tab切换
             categoryType: 1,
             nowPage:'1', 
-            totalPage:'10',
+            totalPage:'1',
             scroll:'',
             types:[],
             uid:'',
@@ -97,21 +97,7 @@ export default {
         this.uid = localStorage.getItem('uid')
         this.proid = this.$route.query.proid
         // console.log(this.$route.query.proid)
-      // 推荐项目
-      let params = {
-        cmd:"prodetailrecommend",
-        proid:this.proid,
-        nowPage:this.nowPage,
-      }
-      axios(params).then(res=>{
-        // console.log(res)
-        if(res.result == '0'){
-          // console.log(res)
-          this.types = res.dataList
-        }
-      })
-
-
+      this.getdata()
     // 精选日记
       const pass = {
         cmd:"selectedDiary",
@@ -129,42 +115,24 @@ export default {
     
     },
     mounted(){
-        // window.addEventListener('scroll',this.scrollLoad,true)
     },
     methods:{
-      // scrollLoad(){
-      //   this.$nextTick(() => {
-      //     let scrollT = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;  
-      //     // let footerv = document.querySelector('.footerv')
-      //     let content= this.$refs.content
-      //     let contentH = content.offsetTop + content.clientHeight;
-      //     let windowHeight = window.innerHeight
-      //     if(scrollT + windowHeight >= contentH && this.flag){
-      //         this.flag = false
-      //         this.nowPage++
-      //         if(this.nowPage<=this.totalPage){
-      //         let params = {
-      //             cmd:"prodetailrecommend",
-      //             proid:this.proid,
-      //             nowPage:this.nowPage
-      //           }
-      //           // console.log(params)
-      //           axios(params).then(res=>{
-      //             // console.log(res)
-      //             this.types.push(...res.dataList)
-      //             this.flag = true
-      //             // console.log(this.types)
-      //             // console.log(this.$refs)//
-      //             // console.log(contentH)
-      //           })
-      //         }
-      //     }
-      //     })
-        
-      // },
+      getdata(){
+        // 推荐项目
+          let params = {
+            cmd:"prodetailrecommend",
+            proid:this.proid,
+            nowPage:this.nowPage,
+            pageCount:10
+          }
+          axios(params).then(res=>{
+            if(res.result == '0'){
+              this.types = res.dataList
+            }
+          })
+      },
       jump(){
         for(var i = 0;i<this.pass.length;i++){
-          // console.log(this.pass[i].diaryid)
           this.$router.push({ path: '/look', query: {diaryid: this.pass[i].diaryid,userid:this.pass[i].userid}})
         }
       },

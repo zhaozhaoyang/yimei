@@ -1,22 +1,22 @@
 <template>
     <div class="finsh">
          <div class="headeres">
-            <div class="bao1">
+            <div class="bao1" v-for="(item,index) in items" :key="index">
                 <div class="top">
-                    <p class="order1">订单编号：20181113051325</p>
+                    <p class="order1">订单编号：{{item.ordernum}}</p>
                     <p class="order2">已完成</p>
                 </div>
                 <div class="footes">
                     <div class="tab">
-                        <div class="f12">
-                            <img src="../../common/images/img/ios/矩形7拷贝4@2x.png" alt>
+                         <div class="f12">
+                            <img :src="item.proimage" alt>
                             <div class="Right">
-                                <div class="ttitle">【切双眼皮】专利项目 肿胀轻 恢复快 效果持久</div>
-                                <div class="contentFB">
-                                    <div>杨院长：整形外科副主任医师，整形30年</div>
+                                <div class="ttitle">【{{item.classname}}】{{item.proname}}</div>
+                                <div class="contentDoc">
+                                    <div>{{item.doctorname}}：{{item.doctordesc}}</div>
                                 </div>
                                 <div class="foot">
-                                    <span class="money">￥<span class="price">4000</span></span>
+                                    <span class="money">￥<span class="price">{{item.price}}</span></span>
                                     <span class="yue">X1</span>
                                 </div>
                             </div>
@@ -29,18 +29,19 @@
                     </div>
                 </div>
             </div>
+            
         </div>
     </div>
 </template>
 
 <script>
 export default {
-   
+   props: ['items']
 }
 </script>
 
 <style>
-.finsh{height: 100vh;}
+.nodata{line-height: 50px;width: 100%;text-align: center;}
 .finsh .headeres .bao1{background: #fff;} 
 .finsh .headeres .bao1 .top{width: 95%;margin-left: .25rem;display: flex;justify-content:space-between;height: 1rem;line-height: 1rem}
 .finsh .headeres .bao1 .top .order1{font-weight:400;color:rgba(51,51,51,1);font-size:.4rem}

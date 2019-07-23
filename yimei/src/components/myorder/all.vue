@@ -1,21 +1,31 @@
 <template>
-    <!-- <div class="swiper-box">
-        <div class="swiper-container">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide" v-for="(item,index) in list" :key="index">
-                    <keep-alive>
-                        <component :is="item.component"></component>
-                    </keep-alive>
-                </div>
-            </div>
-        </div>
-    </div> -->
     <div>
-        <van-swipe :loop='false' ref="sw" :show-indicators='false' @change='onChange'>
-            <van-swipe-item  v-for="(item,index) in list" :key="index">
-                <component :is="item.component"></component>
-            </van-swipe-item>
-        </van-swipe>        
+        <van-tabs v-model="active" swipeable  sticky  @change="onChange">
+            <van-tab title="全部">
+               <alls :items='items'></alls>
+            </van-tab>
+            <van-tab title="待付款">
+               <pay :items='items'></pay>
+            </van-tab>
+            <van-tab title="取消订单">
+                <remove :items='items'/>
+            </van-tab>
+            <van-tab title="未使用">
+                <nouse  :items='items'/>
+            </van-tab>
+            <van-tab title="退款">
+                <returns :items='items'/>
+            </van-tab>
+            <van-tab title="待写日记">
+                <wait :items='items'/>
+            </van-tab>
+            <van-tab title="申诉">
+                <jump :items='items'/>
+            </van-tab>
+            <van-tab title="已完成">
+                <finish :items='items'/>
+            </van-tab>
+        </van-tabs>
     </div>
 </template>
 
@@ -30,9 +40,8 @@ import wait from './wait'
 import jump from './jump'
 import finish from './finish'
 import { finished } from 'stream';
-import { Swipe, SwipeItem } from 'vant';
+import { Tab, Tabs } from 'vant';
 export default {
-    props:['swiperIndex','data1'],
     components:{
         alls,
         pay,
@@ -43,59 +52,33 @@ export default {
         jump,
         finish,
 
-        'van-swipe':Swipe,
-        'van-swipe-item':SwipeItem
+        'van-tab':Tab,
+        'van-tabs':Tabs
     },
-    watch:{
-        swiperIndex(value,oldValue){
-            // 接收nav组件传过来的导航按钮的索引值，跳转
-            // this.mySwiper.slideTo(value,0,false)
-            this.$refs.sw.swipeTo(value)	
-            window.scrollTo({top:0,behavior: "smooth"})
-        }
-    },   
-    created(){
-        this.uid = localStorage.getItem('uid')
-        // this.all()
-    },
-    mounted(){
-        
-    } ,
     data(){
-        return {
-            list:[
-                {path:'/alls',component:'alls'},
-                {path:'/pay',component:'pay'},
-                {path:'/remove',component:'remove'},
-                {path:'/nouse',component:'nouse'},
-                {path:'/returns',component:'returns'},
-                {path:'/wait',component:'wait'},
-                {path:'/jump',component:'jump'},
-                {path:'/finish',component:'finish'},                
-            ],
-            mySwiper:null,
+        return {           
             uid:'',
             nowPage:'1',
             state:'',
             items:[],
-            content:'已完成',
-            look:true,
-            read:false,
-            retda:false,
-            pay:false,
-            // 滑动
-            transition:false,
-            startX:0,
-            moveX:0,
-            x:0,
-            pay:true,
-            del:true
+            active:0
         }
     },
+    created(){
+        this.uid = localStorage.getItem('uid')
+        this.all()
+    },
+    mounted(){
+       
+    },    
     methods:{
         onChange(index){
-            // console.log(index)
-            this.$store.commit('saveSwiperIndex',index)
+            if(index == '0'){
+                this.state = ''
+            }else{
+                this.state = index-1
+            }
+            this.all()
         },
         // 获取数据
         all(){
@@ -105,18 +88,22 @@ export default {
                 state:this.state,
                 nowPage:this.nowPage
             }
+            console.log(alls)
             axios(alls).then(res=>{
                 if(res.result == '0'){
                     console.log(res)
-                    // this.items = res.dataList
+                    this.items = res.dataList
                 }
             })
-        },
+        }
     }
 }
 </script>
 
 <style>
+.van-swipe-item{
+    height: calc(100vh - 2rem)!important;overflow-y: scroll;
+}
 .on{transition: all 1s}
 .finish .header .top{width: 95%;margin-left: .25rem;display: flex;justify-content:space-between;height: 1rem;line-height: 1rem;}
 .finish .header .footer{width: 100%;height: auto;position: relative;}

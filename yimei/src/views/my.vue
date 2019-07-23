@@ -1,7 +1,7 @@
 <template>
     <div class="my">
         <img src="../common/images/img/ios/ios1/ios/图层600@2x.png" alt="" style="width:100%;height:4rem;z-index:99;">
-        <div style="height:15rem;position:relative;top:-4rem;z-index:9999;">
+        <div style="height:15rem;position:relative;top:-4rem;z-index:1000;">
             <div class="header">
                 <div class="topBefore">
                     <div class="img">
@@ -173,6 +173,7 @@
 
 <script>
 import axios from '../axios'
+import { Toast } from 'vant';
 export default {
     data(){
         return {
@@ -183,9 +184,15 @@ export default {
             hiddenes:true,
         }
     },
-    // beforeRouteLeave:function(to, from, next){
-    //     console.log(to)
-    // },
+    beforeRouteLeave:function(to, from, next){
+        if((localStorage.getItem("uid")=='' || localStorage.getItem("uid")==null)&&(to.path=='/myorder' || to.path=='/money' || to.path=='/mydiary' ||to.path=='/goodfride' ||to.path=='/collect'||to.path=='/set' || to.path=='/111')){
+            Toast('请登录！');
+            return;                  
+        }else{
+            next()
+        }      
+        
+    },
     created(){
         this.uid = localStorage.getItem('uid')
         this.length = localStorage.getItem('length')
@@ -307,7 +314,7 @@ body{background:rgba(248,248,248,1);}
 .my .ccontent .foot .info .down .dl img{width: .6rem;height: .63rem;margin-top: .5rem;}
 .my .ccontent .foot .info .down .dl p{font-size: .32rem;}
 
-.my .fot{position: fixed;bottom:0;left: 0;width: 100%;height: 1.3rem;background: #fff;display: flex;justify-content: space-around;z-index: 9999;}
+.my .fot{position: fixed;bottom:0;left: 0;width: 100%;height: 1.3rem;background: #fff;display: flex;justify-content: space-around;z-index: 1000;}
 .my .fot .bao{width: 95%;height: 1.3rem;margin-left: 1.5rem;text-decoration: none}
 .my .fot .bao img{width: .6rem;height: .6rem;margin-top: .1rem;}
 .my .fot .bao p{font-size: .35rem;color: rgba(17,17,17,1)}

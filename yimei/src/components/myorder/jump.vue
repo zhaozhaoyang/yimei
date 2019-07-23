@@ -1,9 +1,9 @@
 <template>
     <div class="jump">
         <div class="headeres">
-            <div class="bao1">
+           <div class="bao1" v-for="(item,index) in items" :key="index">
                 <div class="top">
-                    <p class="order1">订单编号：20181113051325</p>
+                    <p class="order1">订单编号：{{item.ordernum}}</p>
                     <p class="order2">已申诉</p>
                 </div>
                 <div class="footeres">
@@ -11,12 +11,12 @@
                         <div class="f12">
                             <img src="../../common/images/img/ios/矩形7拷贝4@2x.png" alt>
                             <div class="Right">
-                                <div class="ttitle">【切双眼皮】专利项目 肿胀轻 恢复快 效果持久</div>
+                                <div class="ttitle">【{{item.classname}}】{{item.proname}}</div>
                                 <div class="contentDB">
-                                    <div>杨院长：整形外科副主任医师，整形30年</div>
+                                    <div>{{item.doctorname}}：{{item.doctordesc}}</div>
                                 </div>
                                 <div class="foot">
-                                    <span class="money">￥<span class="price">4000</span></span>
+                                    <span class="money">￥<span class="price">{{item.price}}</span></span>
                                     <span class="yue">X1</span>
                                 </div>
                             </div>
@@ -65,7 +65,7 @@
 
 <script>
 export default {
-   
+   props: ['items'],
 }
 </script>
 

@@ -30,9 +30,9 @@
                     </div>
                 </div>
             </div>
-            <div v-if="items.length==0" style="height:100px;width:100vh;">
+            <!-- <div v-if="items.length==0" style="height:100px;width:100vw;">
                 暂无订单信息...
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
@@ -45,37 +45,37 @@ export default {
             uid:'',
             state:'',
             nowPage:'1',
-            items:[],
             content:'已取消'
         }
     },
+    props:['items'],
     methods:{
         // 获取数据
-        all(){
-            let alls = {
-                cmd:'myOrderList',
-                uid:this.uid,
-                state:this.state,
-                nowPage:this.nowPage
-            }
-            axios(alls).then(res=>{
-                if(res.result == '0'){
-                    console.log(res)
-                    for(var i = 0;i<res.dataList.length;i++){
-                        if(res.dataList[i].state == '1'){
-                            // console.log(res.dataList[i].state)
-                            this.items = res.dataList
-                            console.log(this.items)
-                        }
-                    }
+        // all(){
+        //     let alls = {
+        //         cmd:'myOrderList',
+        //         uid:this.uid,
+        //         state:this.state,
+        //         nowPage:this.nowPage
+        //     }
+        //     axios(alls).then(res=>{
+        //         if(res.result == '0'){
+        //             console.log(res)
+        //             for(var i = 0;i<res.dataList.length;i++){
+        //                 if(res.dataList[i].state == '1'){
+        //                     // console.log(res.dataList[i].state)
+        //                     this.items = res.dataList
+        //                     console.log(this.items)
+        //                 }
+        //             }
                     
-                }
-            })
-        }
+        //         }
+        //     })
+        // }
     },
      created(){
         this.uid = localStorage.getItem('uid')
-        this.all()
+        // this.all()
     }
 
 }

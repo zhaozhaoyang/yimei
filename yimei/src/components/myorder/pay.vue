@@ -30,45 +30,45 @@
                     </div>
                 </div>
             </div>
-            <div v-if="items.length==0" style="height:100px;width:100vh;">
+            <!-- <div v-if="items.length==0" style="width:100vw;text-align:center;line-height:50px;">
                 暂无订单信息...
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
 
 <script>
-import axios from '../../axios'
+
 export default {
+    props: ['items'],
     data(){
         return {
             uid:'',
             state:'0',
             nowPage:'1',
-            items:[],
             content:'待付款'
         }
     },
     methods:{
         // 获取数据
-        all(){
-            let alls = {
-                cmd:'myOrderList',
-                uid:this.uid,
-                state:this.state,
-                nowPage:this.nowPage
-            }
-            axios(alls).then(res=>{
-                if(res.result == '0'){
-                    console.log(res)
-                    this.items = res.dataList
-                }
-            })
-        }
+        // all(){
+        //     let alls = {
+        //         cmd:'myOrderList',
+        //         uid:this.uid,
+        //         state:this.state,
+        //         nowPage:this.nowPage
+        //     }
+        //     axios(alls).then(res=>{
+        //         if(res.result == '0'){
+        //             console.log(res)
+        //             this.items = res.dataList
+        //         }
+        //     })
+        // }
     },
      created(){
-        this.uid = localStorage.getItem('uid')
-        this.all()
+        this.uid = localStorage.getItem('uid')        
+        // this.all()
     }
 
 }

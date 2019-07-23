@@ -102,11 +102,6 @@
 </template>
 <script>
 import axios from '../axios'
-const BCRESTAPI = require('../../sdk');
-const API = new BCRESTAPI();
-const {APP_ID,APP_SECRET,MASTER_SECRET,TEST_SECRET} = {'APP_ID':'cfeb7a37-1050-4945-8d41-0ee20e5149d9','APP_SECRET':'263a1a17-dd31-4700-b882-8c6ae7218468','MASTER_SECRET':'66c3d4ac-efae-4c53-b31b-3c31e40f5a5d','TEST_SECRET':''};
-API.registerApp(APP_ID,APP_SECRET,MASTER_SECRET,TEST_SECRET);
-API.setSandbox(false);//是否是测试模式
 export default {
       data(){
         return {
@@ -154,21 +149,50 @@ export default {
             // this.$router.push('/shopcar')
         },
         bcPay() {
+            // var appid = "cfeb7a37-1050-4945-8d41-0ee20e5149d9";
+            // var secret = "263a1a17-dd31-4700-b882-8c6ae7218468";
+            var out_trade_no = "07c01ea5c1704e18b706077a81b585c0";
+            var sign = "7290107289d8aed74631f580d1de9a21";
+            /**
+             * click调用错误返回：默认行为console.log(err)
+             */
+            BC.err = function(data) {
+                //注册错误信息接受
+                alert(data["ERROR"]);
+            }
+            /**
+             * 3. 调用BC.click 接口传递参数
+             */
+            BC.click({
+                    "title": "中文 node.js water",
+                    "amount": "1",
+                    "out_trade_no": out_trade_no, //唯一订单号
+                    "sign" : sign,
+                    "openid" : "xxxxxxxxxxxxxxx", //自行获取用户openid
+                    /**
+                     * optional 为自定义参数对象，目前只支持基本类型的key ＝》 value, 不支持嵌套对象；
+                     * 回调时如果有optional则会传递给webhook地址，webhook的使用请查阅文档
+                     */
+                    "optional": {"test": "willreturn"}
+                },
+                {
+                    wxJsapiFinish : function(res) {
+                        //jsapi接口调用完成后
+                        alert(JSON.stringify(res));
+                    }
+                });
         },
         wxpay(){
-            let data = {
-                channel:'ALI_WEB',
-                timestamp:new Date().valueOf(),
-                total_fee:'1',
-                bill_no:`bcademo${new Date().valueOf()}`,
-                title:'123a',
-                optional:'',
-                bill_timeout:360
+            this.popup = 0;
+            if (typeof BC == "undefined"){
+                if( document.addEventListener ){
+                    document.addEventListener('beecloud:onready', this.bcPay, false);
+                }else if (document.attachEvent){
+                    document.attachEvent('beecloud:onready', this.bcPay);
+                }
+            }else{
+                this.bcPay();
             }
-            // console.log(data)
-            // API.bill(data).then((response) => {
-            //     res.send(response);
-            // })
         }
 
     }

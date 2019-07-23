@@ -320,7 +320,23 @@
 	<script type="text/javascript">
 	var city="";
 	var local=window.localStorage;
+		
+		function onBridgeReady() {
+		    WeixinJSBridge.call('hideOptionMenu');
+		}
+		 
+		if (typeof WeixinJSBridge == "undefined") {
+		    if (document.addEventListener) {
+		        document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+		    } else if(document.attachEvent) {
+		        document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+		        document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+		    }
+		} else {
+		    onBridgeReady();
+		}
 		window.onload = function() {
+			localStorage.setItem("UID", '');
 			function getQueryString(name) {
 				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
 				var r = window.location.search.substr(1).match(reg);
@@ -370,8 +386,7 @@
 			// localStorage.clear();
 			localStorage.setItem("promotionPrice", promotionPrice);
 			var uid = getQueryString('uid');
-			// var uid = "2";
-			console.log(uid)
+			// var uid = "2";x
 			if(!uid) {
 				uid = localStorage.getItem("UID");
 				localStorage.setItem("UID", uid);
@@ -471,7 +486,7 @@
 								that.dataList = response.firstList;
 								that.goodsList = response.goodsList;
 								that.bannerList = response.bannerList;
-								if(response.object.isFirst == 1) {
+								if(response.object && response.object.isFirst == 1) {
 									$("#model").addClass("mui-active");
 									$(".mui-backdrop").addClass("mui-active");
 									// <div class="piao">

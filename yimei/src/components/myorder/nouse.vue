@@ -4,7 +4,8 @@
             <div class="bao1" v-for="(item,index) in items" :key="index">
                 <div class="top">
                     <p class="order1">订单编号：{{item.ordernum}}</p>
-                    <p class="order2" v-if="item.state == '1'">{{content}}</p>
+                    <!-- <p class="order2" v-if="item.state == '1'">{{content}}</p> -->
+                     <p class="order2">未使用</p>
                 </div>
                 <div class="footeres">
                     <div class="tab">
@@ -30,57 +31,26 @@
                     </div>
                 </div>
             </div>
-            <div v-if="items.length==0" style="height:100px;width:100vh;">
+            <!-- <div v-if="items && items.length==0" >
                 暂无订单信息...
-            </div>
+            </div> -->
         </div>
-        <!-- <div class="headeres">
-            <div class="bao1">
-                <div class="top">
-                    <p class="order1">订单编号：20181113051325</p>
-                    <p class="order2">未使用</p>
-                </div>
-                <div class="footeres">
-                    <div class="tab">
-                        <div class="f12">
-                            <img src="../../common/images/img/ios/矩形7拷贝4@2x.png" alt>
-                            <div class="Right">
-                                <div class="ttitle">【切双眼皮】专利项目 肿胀轻 恢复快 效果持久</div>
-                                <div class="content">
-                                    <div>杨院长：整形外科副主任医师，整形30年</div>
-                                </div>
-                                <div class="foot">
-                                    <span class="money">￥<span class="price">4000</span></span>
-                                    <span class="yue">X1</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="bao2">
-                    <div class="kuang">
-                        <div class="removes">找医生安排手术</div>
-                        <div class="writes">去写术前日记</div>
-                        <div class="uses">退款</div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
+       
     </div>
 </template>
 
 <script>
 export default {
+    props:['items'],
     data(){
         return{
-            items:[]
+           
         }
     }
 }
 </script>
 
 <style>
-.use {height: 100vh;}
 .use .headeres .bao1{background: #fff;}
 .use .headeres .bao1 .top{width: 95%;margin-left: .25rem;display: flex;justify-content:space-between;height: 1rem;line-height: 1rem}
 .use .headeres .bao1 .top .order1{font-weight:400;color:rgba(51,51,51,1);font-size:.4rem}

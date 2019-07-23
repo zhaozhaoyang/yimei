@@ -5,9 +5,9 @@
                 <img src="../common/images/img/ios/detal/ios/返回@1x_53.png" alt="" @click="back">
                 <p>我的订单</p>
             </div>
-            <v-nav @changeTab="clickIndex" :swiperSendIndex="swiperToNav"></v-nav>
+            <!-- <v-nav @changeTab="clickIndex" :swiperSendIndex="swiperToNav"></v-nav> -->
         </div>
-        <all style="margin-top: 2rem;" :swiperIndex="slideIndex" @slideTab="slideSendNav" :data1="list"></all>
+        <all class="box" :swiperIndex="slideIndex" @slideTab="slideSendNav" :data1="list"></all>
     </div>
 </template>
 
@@ -98,8 +98,9 @@ export default {
 
 <style>
 *{margin: 0;padding: 0;}
+.box{position: relative;left: 0;background: rgba(242,242,242,1);}
 .myorder{font-family: 'PingFang-SC-Bold';width: 100%;height: 100%;}
-.myorder .Title{position: fixed;top:0;left: 0;width: 100%;height: 2rem;text-align: center;line-height: 1.5rem;font-size: .5rem;font-weight: bold;color: rgba(17, 17, 17, 1);background: #fff;z-index: 9999;box-shadow:0 .1rem .18rem 0 rgba(226,226,226,0.45);}
+.myorder .Title{width: 100%;height: 1.2rem;text-align: center;line-height: 1.2rem;font-size: .5rem;font-weight: bold;color: rgba(17, 17, 17, 1);background: #fff;z-index: 9999;box-shadow:0 .1rem .18rem 0 rgba(226,226,226,0.45);}
 .myorder .Title .head{overflow: hidden;width: 100%;}
 .myorder .Title .head img{float: left;margin-left: .25rem;margin-top: .5rem}
 .myorder .Title .head span{float: left;}
