@@ -1,7 +1,7 @@
 <template>
     <div class="use">
          <div class="headeres">
-            <div class="bao1" v-for="(item,index) in items" :key="index">
+            <div class="bao1" v-for="(item,index) in newItem" :key="index">
                 <div class="top">
                     <p class="order1">订单编号：{{item.ordernum}}</p>
                     <!-- <p class="order2" v-if="item.state == '1'">{{content}}</p> -->
@@ -26,8 +26,9 @@
                 </div>
                 <div class="bao2">
                     <div class="kuang">
-                        <div class="removes">取消订单</div>
-                        <div class="pay">去付款</div>
+                        <div class="pay">退款</div>
+                        <div class="pay">去写术前日记</div>
+                        <div class="pay">找医生安排手术</div>
                     </div>
                 </div>
             </div>
@@ -42,9 +43,14 @@
 <script>
 export default {
     props:['items'],
+    watch:{
+        items(){
+            this.newItem = this.items
+        }
+    },
     data(){
         return{
-           
+           newItem:[]
         }
     }
 }
@@ -66,9 +72,10 @@ export default {
 .use .headeres .bao1 .footeres .tab .f12 .Right .foot .money{font-size: .38rem;color:rgba(255,0,74,1);}
 .use .headeres .bao1 .footeres .tab .f12 .Right .foot .money .price{font-size: .5rem}
 .use .headeres .bao1 .footeres .tab .f12 .Right .foot .yue{font-size: .35rem;color:rgba(153,153,153,1);margin-top: .1rem}
-.use .headeres .bao1 .bao2{margin-top: .2rem;width: 100%;background:  rgba(242,242,242,1);height: 1.3rem;}
-.use .headeres .bao1 .bao2 .kuang{width: 100%;height: 1rem;overflow: hidden;background: #fff;}
+.use .headeres .bao1 .bao2{margin-top: .2rem;width: 100%;background:  rgba(242,242,242,1);height: 1.3rem;box-sizing: border-box;}
+.use .headeres .bao1 .bao2 .kuang{width: 100%;height: 1.2rem;overflow: hidden;background: #fff;}
 .use .headeres .bao1 .bao2 .kuang .removes{margin-left: 1rem;float: left;width: 3.1rem;height: .8rem;border:.02rem solid rgba(35,183,172,1);font-size: .35rem;text-align: center;line-height: .8rem;border-radius: .5rem;color:rgba(35,183,172,1);}
 .use .headeres .bao1 .bao2 .kuang .writes{margin-left: .1rem;float: left;width: 3rem;height: .8rem;border:.02rem solid rgba(35,183,172,1);font-size: .35rem;text-align: center;line-height: .8rem;border-radius: .5rem;color:rgba(35,183,172,1);}
-.use .headeres .bao1 .bao2 .kuang .uses{float: left;margin-left: .1rem;;width: 2rem;height: .8rem;border:.02rem solid rgba(35,183,172,1);font-size: .35rem;text-align: center;line-height: .8rem;border-radius: .5rem;color:rgba(35,183,172,1);}
+/* .use .headeres .bao1 .bao2 .kuang .uses{float: left;margin-left: .1rem;;width: 2rem;height: .8rem;border:.02rem solid rgba(35,183,172,1);font-size: .35rem;text-align: center;line-height: .8rem;border-radius: .5rem;color:rgba(35,183,172,1);} */
+.use .headeres .bao1 .bao2 .kuang .pay{float: right;min-width: 1.8rem;height: 0.8rem;border:.02rem solid rgba(35,183,172,1);margin-top: .2rem;border-radius: 15px;margin-left: .2rem;text-align: center;line-height: .8rem;color:rgba(35,183,172,1);padding: 0 3px;}
 </style>

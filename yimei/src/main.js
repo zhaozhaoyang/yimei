@@ -10,6 +10,9 @@ import md5 from 'js-md5'
 import store from './store/index'
 import 'element-ui/lib/theme-chalk/index.css'
 import ElementUI from 'element-ui'
+import Vant from 'vant';
+import 'vant/lib/index.css';
+Vue.use(Vant);
 Vue.use(VueAwesomeSwiper)
 Vue.use(ElementUI)
 Vue.prototype.$md5 = md5

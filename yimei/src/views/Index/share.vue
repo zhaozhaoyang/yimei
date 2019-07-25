@@ -1,32 +1,35 @@
 <template>
   <div class="share">
-    <div class="Title">我的分享</div>
+    <div class="Title">
+        <img src="../../common/images/img/ios/detal/ios/返回@1x_53.png" alt="" @click="$router.back()">
+        <p>我的分享</p>
+    </div>
     <div class="money">
       <div class="f1">
         <span>分享消费人数</span>
         <div class="ff1">
-          <span>200人</span>
+          <span>{{list.consumercount}}人</span>
           <img src="" alt="">
         </div>
       </div>
       <div class="f2">
         <span>分享未消费人数</span>
         <div class="ff1">
-          <span>500人</span>
+          <span>{{list.consumernotcount}}人</span>
           <img src="" alt="">
         </div>
       </div>
       <div class="f3">
         <span>消费总金额</span>
         <div class="ff1">
-          <span>1000人</span>
+          <span>{{list.consumerallmoney}}元</span>
           <img src="" alt="">
         </div>
       </div>
       <div class="f4">
         <span>获得奖励总金额</span>
         <div class="ff1">
-          <span>1000人</span>
+          <span>{{list.getallmoney}}元</span>
           <img src="" alt="">
         </div>
       </div>
@@ -40,13 +43,35 @@
 </template>
 
 <script>
-export default {};
+import axios from '../../axios'
+export default {
+  data(){
+    return{
+      list:{}
+    }
+  },
+  created(){
+      let params = {
+          cmd:'myShare',
+          uid:localStorage.getItem('uid')
+      }
+      axios(params).then(res=>{
+          if(res.result == '0'){
+              console.log(res)
+              this.list = res.dataobject
+          }
+      })
+  }
+};
 </script>
 
 <style>
+ .Title{position: fixed;top:0;left: 0;width: 100%;height: 1.5rem;overflow: hidden;line-height: 1.5rem;font-size: .5rem;font-weight: bold;color: rgba(17, 17, 17, 1);background: #fff;z-index: 9999;box-shadow:0 .1rem .18rem 0 rgba(227,227,227,0.45);}
+.Title p{float: left;margin-left: 38%}
+.Title img{float: left;margin-left: .25rem;margin-top: .5rem}
 *{margin: 0;padding: 0;}
 .share{font-family: 'PingFang-SC-Medium';}
-.share .Title {position: fixed;top:0;left: 0;width: 100%;height: 1.5rem;text-align: center;line-height: 1.5rem;font-size: .5rem;font-weight: bold;color: rgba(17, 17, 17, 1);background: #fff;z-index: 9999;box-shadow:0px 0px 10px 0px rgba(0, 0, 0, 0.3);}
+/* .share .Title {position: fixed;top:0;left: 0;width: 100%;height: 1.5rem;text-align: center;line-height: 1.5rem;font-size: .5rem;font-weight: bold;color: rgba(17, 17, 17, 1);background: #fff;z-index: 9999;box-shadow:0px 0px 10px 0px rgba(0, 0, 0, 0.3);} */
 .share .money{position: relative;width: 100%;height: 6rem;background:rgba(242,242,242,1);box-shadow:0px 0px 10px 0px rgba(0, 0, 0, 0.3);}
 .share .money .f1{position: absolute;top: 2rem;left: .2rem;height: 1rem;width: 9.5rem;display: flex;justify-content: space-between;}
 .share .money .f2{position: absolute;top: 3rem;left: .2rem;height: 1rem;width: 9.5rem;display: flex;justify-content: space-between;}

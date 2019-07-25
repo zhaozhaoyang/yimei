@@ -309,11 +309,11 @@ const routes = [
         name:'alls',
         component:() =>import("@/components/myorder/alls.vue")
     },
-    // },{
-    //     path:'/address',
-    //     name:'address',
-    //     component:() =>import("@/components/addr/address.vue")
-    // }
+    {
+        path:'/share',
+        name:'share',
+        component:() =>import("@/views/Index/share.vue")
+    }
 ]
 
 const router = new Router({

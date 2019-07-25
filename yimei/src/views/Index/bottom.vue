@@ -120,6 +120,7 @@ export default {
           nowPage:this.nowPage
         }
         axios(params).then(res=>{
+          this.flag = true 
           console.log(res)
           if(res.result == '0'){
             this.types = this.types.concat(res.dataList)

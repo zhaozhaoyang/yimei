@@ -25,8 +25,8 @@
                 </div>
                 <div class="bao2">
                     <div class="kuang">
-                        <div class="removes">取消订单</div>
-                        <div class="pay">去付款</div>
+                        <div class="removes" @click="quxiao(item.ordernum)">取消订单</div>
+                        <div class="pay" @click="gopay(item.ordernum)">去付款</div>
                     </div>
                 </div>
             </div>
@@ -34,11 +34,35 @@
                 暂无订单信息...
             </div> -->
         </div>
+        <van-popup
+        v-model="quxiaoShow"
+        position="bottom"
+        :style="{ height: '33%' }"
+        >
+            <van-radio-group v-model="radio">
+                <van-cell-group>
+                    <van-cell title="不想做了" clickable @click="radio = '1'">
+                        <van-radio slot="right-icon" name="1" />
+                    </van-cell>
+                    <van-cell title="太贵了" clickable @click="radio = '2'">
+                        <van-radio slot="right-icon" name="2" />
+                    </van-cell>
+                    <van-cell title="感觉不安全" clickable @click="radio = '3'">
+                        <van-radio slot="right-icon" name="3" />
+                    </van-cell>
+                    <van-cell title="其他原因" clickable @click="radio = '4'">
+                        <van-radio slot="right-icon" name="4" />
+                    </van-cell>
+                </van-cell-group>
+            </van-radio-group>
+            <p class="confirm" @click="confirm">确定</p>
+        </van-popup>
     </div>
 </template>
 
 <script>
-
+import { Toast } from 'vant';
+import axios from '../../axios'
 export default {
     props: ['items'],
     data(){
@@ -46,25 +70,57 @@ export default {
             uid:'',
             state:'0',
             nowPage:'1',
-            content:'待付款'
+            content:'待付款',
+            quxiaoShow:false,
+            radio:0,
+            reason:['不想做了' ,'太贵了','感觉不安全','其他原因'],
+            ordernum:'',
+            cmd:''
         }
     },
     methods:{
-        // 获取数据
-        // all(){
-        //     let alls = {
-        //         cmd:'myOrderList',
-        //         uid:this.uid,
-        //         state:this.state,
-        //         nowPage:this.nowPage
-        //     }
-        //     axios(alls).then(res=>{
-        //         if(res.result == '0'){
-        //             console.log(res)
-        //             this.items = res.dataList
-        //         }
-        //     })
-        // }
+        gopay(onum){
+            let ord = {
+                cmd:'myOrderDetail',
+                uid:localStorage.getItem('uid'),
+                ordernum:onum
+            }
+            axios(ord).then(res=>{
+                if(res.result == '0'){
+                    var dataobject = res.dataobject
+                    this.$router.push({
+                        name:'sureorder',
+                        params:{dataobject:JSON.stringify(dataobject),ordernum:onum}
+                    });
+                }
+            })
+            
+        },
+        confirm(){
+            if(this.radio==0){                
+                Toast('请选择原因')
+                return;
+            }
+            this.quxiaoShow = false   
+            let params = {cmd:this.cmd,uid:localStorage.getItem('uid'),ordernum:this.ordernum ,reason:this.reason[this.radio-1]}
+            console.log(params)
+            axios(params).then(res=>{ 
+                console.log(res)          
+                if(res.result == '0'){
+                    if(this.cmd == 'cancelOrder'){
+                        Toast('成功取消')
+                    }else{
+                        Toast('成功申请退款')
+                    }                     
+                    this.$root.$emit('all')
+                }
+            })
+        },
+        quxiao(onum){
+           this.ordernum = onum        
+           this.quxiaoShow = true 
+           this.cmd = 'cancelOrder'  
+        },
     },
      created(){
         this.uid = localStorage.getItem('uid')        
@@ -75,7 +131,6 @@ export default {
 </script>
 
 <style>
-.pay{height: 100vh;}
 .pay  .headeres .bao1{background: #fff;}
 .pay  .headeres .bao1 .top{width: 95%;margin-left: .25rem;display: flex;justify-content:space-between;height: 1rem;line-height: 1rem}
 .pay  .headeres .bao1 .top .order1{font-weight:400;color:rgba(51,51,51,1);font-size:.4rem}

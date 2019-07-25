@@ -13,7 +13,7 @@
                 <div>{{items.doctorname}}：{{items.doctordesc}}</div>
               </div>
               <div class="foot">
-                <span class="money">￥<span class="price">{{items.price}}</span></span>
+                <span class="money">￥<span class="price" v-if="!flag">{{items.price}}</span><span class="price" v-if="flag">{{items.totalprice}}</span></span>
                 <span class="yue" style="margin-left:1rem">X1</span>
               </div>
             </div>
@@ -52,7 +52,7 @@
                 <div class="bao" style="border:none;">
                     <div class="up">
                         <p>尾款：</p>
-                        <p class="fff1" style="font-weight:500">￥<span>{{items.price-items.yuyueprice}}</span></p>
+                        <p class="fff1" style="font-weight:500">￥<span v-if="!flag">{{items.price-items.yuyueprice}}</span><span v-if="flag">{{items.topayprice}}</span></p>
                     </div>
                 </div>
             </div>
@@ -62,7 +62,8 @@
         <div class="bottom">
             <div class="talkGb">
                 <p style="font-size:.32rem;">预约金：<span style="font-weight:500;color:rgba(255,0,74,1);">￥<span style="font-size:.45rem;">{{items.yuyueprice}}</span></span></p>
-                <p style="font-size:.32rem;">到院再付：￥{{items.price-items.yuyueprice}}</p>
+                <p style="font-size:.32rem;" v-if="!flag">到院再付：￥{{items.price-items.yuyueprice}}</p>
+                <p style="font-size:.32rem;" v-if="flag">到院再付：￥{{items.topayprice}}</p>
             </div>
             <button @click="advances">确定订单</button>
         </div>
@@ -109,39 +110,50 @@ export default {
             uid:'',
             goodscarid:null,
             items:[],
-            userInfo:{}
+            userInfo:{},
+            ordernum:'',
+            flag:false  //判断从订单来还是购物车
         }
     },    
     created(){
         this.uid = localStorage.getItem('uid')
-        this.goodscarid = this.$route.params.goodscarid;
+        if(this.$route.params.goodscarid){
+            this.goodscarid = this.$route.params.goodscarid;
+            this.flag = false
+        }
+        if(this.$route.params.ordernum){
+            this.ordernum = this.$route.params.ordernum
+            this.flag = true
+        }        
         this.items = JSON.parse(this.$route.params.dataobject)
+        console.log(JSON.parse(this.$route.params.dataobject))
         this.userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
+        
     },    
     mounted(){
-       // this.all()
     },
     methods:{
          //打开预购规则页面
         advances(){
             this.popup = 1;
+            if(this.ordernum == ''){
+                let params = {
+                    cmd:'submitOrder',
+                    uid:this.uid,
+                    goodscarid:this.goodscarid
+                }
+                axios(params).then(res=>{
+                    if(res.result == '0'){
+                        console.log(res)
+                        this.ordernum = res.ordernum
+                    }
+                })
+            }
+            
         },
         // 关闭预购规则页面
         closepopup(){
             this.popup = 0;
-        },
-        // 请求数据
-        all(){
-            let params = {
-                cmd:'submitOrder',
-                uid:this.uid,
-                goodscarid:this.goodscarid
-            }
-            axios(params).then(res=>{
-                 console.log(res)
-                if(res.result == '0'){
-                }
-            })
         },
         // 跳转页面
         backTo(){
@@ -149,10 +161,15 @@ export default {
             // this.$router.push('/shopcar')
         },
         bcPay() {
-            // var appid = "cfeb7a37-1050-4945-8d41-0ee20e5149d9";
-            // var secret = "263a1a17-dd31-4700-b882-8c6ae7218468";
-            var out_trade_no = "07c01ea5c1704e18b706077a81b585c0";
-            var sign = "7290107289d8aed74631f580d1de9a21";
+            var appid = "cfeb7a37-1050-4945-8d41-0ee20e5149d9";
+            var secret = "263a1a17-dd31-4700-b882-8c6ae7218468";
+            var outTradeNo = this.ordernum;
+            // var sign = "7290107289d8aed74631f580d1de9a21";
+            var title = outTradeNo
+            var amount = "1"
+            var data = appid + title + amount + outTradeNo + secret;
+            var sign =this.$md5(data)
+            console.log(outTradeNo)
             /**
              * click调用错误返回：默认行为console.log(err)
              */
@@ -164,16 +181,15 @@ export default {
              * 3. 调用BC.click 接口传递参数
              */
             BC.click({
-                    "title": "中文 node.js water",
+                    "title": outTradeNo,
                     "amount": "1",
-                    "out_trade_no": out_trade_no, //唯一订单号
+                    "out_trade_no": outTradeNo, //唯一订单号
                     "sign" : sign,
-                    "openid" : "xxxxxxxxxxxxxxx", //自行获取用户openid
                     /**
                      * optional 为自定义参数对象，目前只支持基本类型的key ＝》 value, 不支持嵌套对象；
                      * 回调时如果有optional则会传递给webhook地址，webhook的使用请查阅文档
                      */
-                    "optional": {"test": "willreturn"}
+                    "analysis":{"ip":"122.114.49.242"}
                 },
                 {
                     wxJsapiFinish : function(res) {

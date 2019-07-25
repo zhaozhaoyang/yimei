@@ -4,7 +4,7 @@
             <div class="bao1" v-for="(item,index) in items" :key="index">
                 <div class="top">
                     <p class="order1">订单编号：{{item.ordernum}}</p>
-                    <p class="order2" v-if="item.state == '1'">{{content}}</p>
+                    <p class="order2">{{content}}</p>
                 </div>
                 <div class="footeres">
                     <div class="tab">
@@ -25,8 +25,6 @@
                 </div>
                 <div class="bao2">
                     <div class="kuang">
-                        <div class="removes">取消订单</div>
-                        <div class="pay">去付款</div>
                     </div>
                 </div>
             </div>
@@ -82,7 +80,6 @@ export default {
 </script>
 
 <style>
-.remove{height: 100vh;}
 .remove .headeres .bao1{background: #fff;}
 .remove .headeres .bao1 .top{width: 95%;margin-left: .25rem;display: flex;justify-content:space-between;height: 1rem;line-height: 1rem}
 .remove .headeres .bao1 .top .order1{font-weight:400;color:rgba(51,51,51,1);font-size:.4rem}

@@ -1,19 +1,23 @@
 <template>
     <div class="order">
-        <div class="Title">订单详情</div>
+        <div class="Title">
+            <div class="head">
+                <img src="../common/images/img/ios/detal/ios/返回@1x_53.png" alt="" @click="back">
+                <p>订单详情</p>
+            </div>
+        </div>        
         <div class="header">
             <div class="top">
                 <p style="font-weight:400;color:rgba(51,51,51,1);font-size:.4rem">订单编号：{{items.ordernum}}</p>
-                <p style="color:rgba(255,0,74,1);font-size:.4rem;">待付款</p>
+                <!-- <p style="color:rgba(255,0,74,1);font-size:.4rem;">待付款</p> -->
             </div>
             <div class="transition">
-                <div class="f1" style="border-bottom:.01rem solid rgba(229,229,229,1)">
+                <div class="f1">
                     <img :src="items.proimage" alt style="margin-left:.25rem;">
                     <div class="Right">
                         <div class="ttitle">【{{items.classname}}】{{items.proname}}}</div>
                         <div class="content">
                             <div>{{items.doctorname}}：{{items.doctordesc}}</div>
-                            <!-- <div>{{items.doctorname}}整形外科副主任医师，整形30年</div> -->
                         </div>
                         <div class="foot">
                             <span class="money">￥<span class="price">{{items.totalprice}}</span></span>
@@ -36,7 +40,7 @@
                     <p style="color:rgba(102,102,102,1);font-size:.4rem;">￥<span style="font-size:.45rem;">{{items.topayprice}}</span></p>
                 </div>
                  <div class="kuang">
-                    <div class="remove" @click="item">取消订单</div>
+                    <div class="remove">取消订单</div>
                     <div class="pay">去付款</div>
                 </div>
             </div>
@@ -77,66 +81,25 @@
                 </div>
                 <div class="stars">
                     <p style="font-size:.38rem;color:rgba(17,17,17,1)">创建时间：</p>
-                    <p>2019-04-06 15:20:20</p>
+                    <p>{{items.cancletime}}</p>
                 </div>
                 <div class="stars">
                     <p style="font-size:.38rem;color:rgba(17,17,17,1)">预购时间：</p>
-                    <p>2019-04-06 15:20:20</p>
+                    <p>{{items.adtime}}</p>
                 </div>
                 <div class="stars">
                     <p style="font-size:.38rem;color:rgba(17,17,17,1)">手术时间：</p>
-                    <p>2019-04-06 15:20:20</p>
+                    <p>{{items.operationtime}}</p>
                 </div>
                 <div class="stars">
                     <p style="font-size:.38rem;color:rgba(17,17,17,1)">医生点击确认完成时间：</p>
-                    <p>2019-04-06 15:20:20</p>
+                    <p>{{items.endtime}}</p>
                 </div>
-        </div>
-    <!--  -->
-    <!-- 项目弹窗模块 -->
-        <!-- 弹窗模块 -->
-        <div v-show="popup">
-            <!--这里是要展示的内容层-->
-            <div class="login">
-                 <img src="../common/images/img/pic/my/取消@2x.png" alt="" style="margin-left: 9.3rem;margin-top:.2rem;width:.5rem;height.5rem;" @click="closepopup">
-                 <div class="centers" v-for="(item,index) in types" :key="index">
-                    <p>{{item.reason}}</p>
-                    <div class="click" @click="click1">
-                        <img src="../common/images/img/ios/look/ios/椭圆7拷贝@1x.png" alt="" v-if="show1">
-                        <img src="../common/images/img/ios/shopcar/组5@1x (2).png" alt="" v-else>
-                    </div>
-                </div>
-                <!-- <div class="centers" style="">
-                    <p>太贵了</p>
-                    <div class="click" @click="click2">
-                        <img src="../common/images/img/ios/look/ios/椭圆7拷贝@1x.png" alt="" v-if="show2">
-                        <img src="../common/images/img/ios/shopcar/组5@1x (2).png" alt="" v-else>
-                    </div>
-                </div>
-                 <div class="centers" style="">
-                    <p>感觉不安全</p>
-                    <div class="click" @click="click3">
-                        <img src="../common/images/img/ios/look/ios/椭圆7拷贝@1x.png" alt="" v-if="show3">
-                        <img src="../common/images/img/ios/shopcar/组5@1x (2).png" alt="" v-else>
-                    </div>
-                </div>
-                <div class="centers" style="border:none">
-                    <p>其他原因</p>
-                    <div class="click" @click="click4">
-                        <img src="../common/images/img/ios/look/ios/椭圆7拷贝@1x.png" alt="" v-if="show4">
-                        <img src="../common/images/img/ios/shopcar/组5@1x (2).png" alt="" v-else>
-                    </div>
-                </div> -->
-                <div class="btn" @click="sure">确定</div>
-            </div>
-            <!--这里是半透明背景层-->
-            <div class="over"></div>
         </div>
     </div>
 </template>
 
 <script>
-import foots from '@/components/sureorder/foot.vue'
 import axios from '../axios' 
 export default {
     data(){
@@ -156,6 +119,9 @@ export default {
         }
     },
     methods:{
+        back(){
+            this.$router.back()
+        },
         order(){
             let ord = {
                 cmd:'myOrderDetail',
@@ -169,99 +135,42 @@ export default {
                 }
             })
         },
-        // 打开项目弹窗
-        item(){
-            this.popup = 1;
-        },
-        // 关闭项目弹窗
-        closepopup(){
-            this.popup = 0;
-        },
-        click1(){
-            if(this.show1){
-                this.show1 = false
-            }else{
-                this.show1 = true
-            }
-        },
-        click2(){
-            
-            if(this.show2){
-                this.show2 = false
-            }else{
-                this.show2 = true
-            }
-        },
-        click3(){
-            if(this.show3){
-                this.show3 = false
-            }else{
-                this.show3 = true
-            }
-        },
-        click4(){
-            if(this.show4){
-                this.show4 = false
-            }else{
-                this.show4 = true
-            }
-        },
-        // 获取取消原因
-        over(){
-            axios({cmd:'getcancelreason',type:this.type}).then(res=>{
-                if(res.result == '0'){
-                    console.log(res)
-                    this.types = res.dataList
-                   
-                }
-            })
-        },
-        sure(){
-            let delorder = {
-                cmd:'cancelOrder',
-                uid:this.uid,
-                ordernum:this.ordernum,
-                reason:this.reason
-            }
-            axios(delorder).then(res=>{
-                if(res.result == 0){
-                    console.log(res)
-                }
-            })
-        }
     },
     components:{
-        foots
+       
     },
     created(){
         this.uid = localStorage.getItem('uid')
         this.ordernum = this.$route.query.ordernum
-        console.log(this.$route.query.ordernum)
-        this.order()
-        this.over()
+        this.order()        
     }
 }
 </script>
 
 <style>
 *{margin: 0;padding: 0;}
-.order{font-family: 'PingFang-SC-Bold';width: 100%;height: 100%;}
-.order .Title{position: fixed;top:0;left: 0;width: 100%;height: 1.5rem;text-align: center;line-height: 1.5rem;font-size: .5rem;font-weight: bold;color: rgba(17, 17, 17, 1);background: #fff;z-index: 9999;box-shadow:0 .1rem .18rem 0 rgba(227,227,227,0.45);}
-.order .header{margin-top: 1.8rem;}
+.order{font-family: 'PingFang-SC-Bold';width: 100%;background: #F2F2F2;}
+
+.Title{width: 100%;height: 1.2rem;text-align: center;line-height: 1.2rem;font-size: .5rem;font-weight: bold;color: rgba(17, 17, 17, 1);background: #fff;z-index: 9999;box-shadow:0 .1rem .18rem 0 rgba(226,226,226,0.45);}
+.Title .head{overflow: hidden;width: 100%;}
+.Title .head img{float: left;margin-left: .25rem;margin-top: .5rem}
+.Title .head span{float: left;}
+
+.order .header {background: #fff;}
 .order .header .top{width: 95%;margin-left: .25rem;display: flex;justify-content:space-between;height: 1rem;line-height: 1rem}
-.order .header .bao{background: #fff;width: 100%;position: absolute;top:5.92rem;}
+.order .header .bao{background: #fff;width: 100%;}
 .order .header .bao .center{width: 100%;height: 1.5rem;border-bottom:.01rem solid rgba(226,226,226,1);display: flex;justify-content: space-around}
 .order .header .bao .center p{color: rgba(17,17,17,1);font-weight:500;line-height: 1.5rem;font-size: .4rem;}
 .order .header .bao .center p span{text-align: right;}
 .order .header .bao .kuang{width: 5.7rem;height: 1.5rem;overflow: hidden;margin-left: 4.3rem;margin-top: .4rem;}
 .order .header .bao .kuang .remove{float: left;width: 2.5rem;height: 1rem;border:.02rem solid rgba(35,183,172,1);font-size: .4rem;text-align: center;line-height: 1rem;border-radius: .5rem;color:rgba(35,183,172,1);}
 .order .header .bao .kuang .pay{float: left;margin-left: .3rem;;width: 2.5rem;height: 1rem;border:.02rem solid rgba(35,183,172,1);font-size: .4rem;text-align: center;line-height: 1rem;border-radius: .5rem;color:rgba(35,183,172,1);}
-.order .contents{width: 100%;height: 9rem;background:rgba(242,242,242,1);position: absolute;top:12.3rem;}
+.order .contents{width: 100%;height: 9rem;background:rgba(242,242,242,1);}
 .order .contents .box{width: 100%;height: 8.5rem;margin-top: .25rem;background: #fff;}
 .order .contents .box .up{font-weight:bold;color:rgba(17,17,17,1);font-size: .4rem;padding-top: .3rem;padding-left: .25rem;}
 .order .contents .box .star{overflow: hidden;border-bottom:.01rem solid rgba(226,226,226,1);height: 1.5rem;line-height: 1.5rem;}
 .order .contents .box .star p{margin-left: .25rem;float: left;color:rgba(102,102,102,1);font-size: .4rem;}
-.order .contentss{width: 100%;height: 4rem;margin-top: 15rem;background: #fff;}
+.order .contentss{width: 100%;height: 4rem;background: #fff;}
 .order .contentss .ups{font-weight:bold;color:rgba(17,17,17,1);font-size: .4rem;padding-top: .3rem;padding-left: .25rem;}
 .order .contentss .stars{overflow: hidden;border-bottom:.01rem solid rgba(226,226,226,1);height: 1.5rem;line-height: 1.5rem;}
 .order .contentss .stars p{margin-left: .25rem;float: left;color:rgba(102,102,102,1);font-size: .4rem}

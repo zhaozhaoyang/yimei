@@ -45,17 +45,12 @@
 </template>
 
 <script>
-import { Tab, Tabs ,List ,cell} from 'vant';
 import {swiper,swiperSlide} from 'vue-awesome-swiper'
 import axios from '../../axios'
 export default {
   components: {
     swiper,
-    swiperSlide,
-    'van-tab': Tab,  
-    'van-tabs': Tabs,  
-    'van-list': List, 
-    'van-cell': cell,
+    swiperSlide
   },
    data(){
         return {

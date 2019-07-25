@@ -65,45 +65,62 @@
                     <div class="message">
                         <div class="up" @click="every">
                             <div class="ol">
+                                <router-link to="/myorder?active=''">
                                 <img src="../common/images/img/pic/my/资源24@2x@1x.png" alt="">
                                 <div class="yuan" v-show="hiddenes">{{items.allordercount}}</div>
+                                </router-link>  
                                 <p>全部</p>
                             </div>
                             <div class="ol">
+                                <router-link to="/myorder?active=1">
                                 <img src="../common/images/img/pic/my/资源22@2x@1x.png" alt="">
                                 <div class="yuan" v-show="hiddenes">{{items.dfkcount}}</div>
+                                </router-link>  
                                 <p>待付款</p>
                             </div>
                             <div class="ol">
+                                <router-link to="/myorder?active=2">
                                 <img src="../common/images/img/pic/my/资源20@2x@1x.png" alt="">
                                 <div class="yuan" v-show="hiddenes">{{items.canclecount}}</div>
+                                </router-link>  
                                 <p>取消订单</p>
                             </div>
                             <div class="ol">
+                                <router-link to="/myorder?active=3">
                                 <img src="../common/images/img/pic/my/资源19@2x@1x.png" alt="">
                                 <div class="yuan" v-show="hiddenes">{{items.wsycount}}</div>
+                                </router-link>  
                                 <p>未使用</p>
                             </div>
                         </div>
                         <div class="up">
-                            <div class="ol" @click="delmoney">
-                                <img src="../common/images/img/pic/my/资源18@2x拷贝@2x.png" alt="" style="width:.7rem">
-                                <div class="yuan" v-show="hiddenes">{{items.tkcount}}</div>
+                            <div class="ol">
+                                <router-link to="/myorder?active=5">
+                                    <img src="../common/images/img/pic/my/资源18@2x拷贝@2x.png" alt="" style="width:.7rem">                                
+                                    <div class="yuan" v-show="hiddenes">{{items.tkcount}}</div>
+                                </router-link>  
                                 <p>退款</p>
+                                                              
                             </div>
                             <div class="ol" @click="readyDiary">
+                                <router-link to="/myorder?active=4">
                                 <img src="../common/images/img/pic/my/资源21@2x@1x.png" alt="">
                                 <div class="yuan" v-show="hiddenes">{{items.dxrjcount}}</div>
+                                </router-link> 
                                 <p>待写日记</p>
                             </div>
                             <div class="ol" @click="talk">
+                                <router-link to="/myorder?active=6">
                                 <img src="../common/images/img/pic/my/资源25@2x@1x.png" alt="">
                                 <div class="yuan" v-show="hiddenes">{{items.sscount}}</div>
+                                </router-link> 
                                 <p>申诉</p>
                             </div>
                             <div class="ol" @click="finish">
+                                <router-link to="/myorder?active=7">
                                 <img src="../common/images/img/pic/my/资源20@2x@1x.png" alt="">
                                 <div class="yuan" v-show="hiddenes">{{items.endcount}}</div>
+                                </router-link> 
                                 <p>已完成</p>
                             </div>
                         </div>
@@ -121,7 +138,9 @@
                                 <p>日记</p>
                             </div>
                             <div class="dl">
-                                <img src="../common/images/img/pic/my/组6@1x.png" alt="">
+                                <router-link to="/share">
+                                 <img src="../common/images/img/pic/my/组6@1x.png" alt="">
+                                </router-link> 
                                 <p>我的分享</p>
                             </div>
                             <div class="dl">
