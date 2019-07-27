@@ -8,11 +8,14 @@
         finished-text="没有更多了"
         @load="onLoad"
         >
-        <van-cell
+        <!-- <van-cell
             v-for="item in list"
             :key="item"
             :title="item"
-        />
+        /> -->
+        <div v-for="item in list"  style="height:50px;border-bottom:1px solid #999;">
+          {{item}}
+        </div>
         </van-list>
         </van-pull-refresh>
     </div>
@@ -44,9 +47,12 @@ export default {
           this.loading = false;
           return;
         }
+         let resList = []
         for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1);
+          resList.push(this.list.length + 1)
+          // this.list.push(this.list.length + 1);
         }
+         this.list =[...this.list,...resList]
         // 加载状态结束
         this.loading = false;
 

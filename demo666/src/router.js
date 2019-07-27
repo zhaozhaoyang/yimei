@@ -5,7 +5,7 @@ import Adress from './views/adress.vue'
 import luckwheel from './views/luckwheel.vue'
 import slot from './views/slot.vue'
 import xuanzhuan from './views/xuanzhuan.vue'
-import list from './views/list.vue'
+import list from './views/list.vue'  //这个为vant
 import listscroll from './views/listscroll.vue'
 import shopcar from './views/shopcar.vue'
 import shop from './views/shop/shop.vue'
