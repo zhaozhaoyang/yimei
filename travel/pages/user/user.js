@@ -22,12 +22,12 @@ Page({
       success: (res) => {
         // 查看是否授权
         wx.getSetting({
-          success: (res2) => {
-            console.log(res2)
+          success: (res2) => {            
             if (res2.authSetting['scope.userInfo']) {
               // 已经授权，可以直接调用 getUserInfo 获取头像昵称
               wx.getUserInfo({
                 success: (res1) => {
+                  console.log(res.code + '****' + res1)
                   http.showLoading("登录中").postD({
                     cmd: "authorizationUser",
                     code: res.code,

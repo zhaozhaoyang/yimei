@@ -4,7 +4,7 @@
             <div class="bao1" v-for="(item,index) in items" :key="index">
                 <div class="top">
                     <p class="order1">订单编号：{{item.ordernum}}</p>
-                    <p class="order2">已退款</p>
+                    <p class="order2">{{item.state=='4'?'退款中':item.state}}</p>
                 </div>
                 <div class="footeres">
                     <div class="tab">

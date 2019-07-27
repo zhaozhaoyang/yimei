@@ -122,12 +122,13 @@ export default {
                 ddid:this.ddid,
                 content:this.content
             }
-            console.log(111111)
             axios(pass).then(res=>{
                 console.log(res)
+                this.popup = 0                
                 if(res.result == '0'){
                     this.types = res
                     console.log(res)
+                    this.$router.go(0)
                 }
             })
         }

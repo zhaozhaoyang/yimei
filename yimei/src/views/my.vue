@@ -144,7 +144,9 @@
                                 <p>我的分享</p>
                             </div>
                             <div class="dl">
+                                <router-link to="/share">
                                 <img src="../common/images/img/pic/my/组7@1x.png" alt="">
+                                </router-link> 
                                 <p>我的推荐</p>
                             </div>
                         </div>

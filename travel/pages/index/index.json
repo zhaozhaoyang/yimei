@@ -1,6 +1,6 @@
 {
   "usingComponents": {
-    "list":"../../components/list",
+    "list":"../../components/list/index",
     "van-icon": "/path/to/vant-weapp/dist/icon/index",
     "van-search": "/path/to/vant-weapp/dist/search/index",
     "van-popup": "/path/to/vant-weapp/dist/popup/index",

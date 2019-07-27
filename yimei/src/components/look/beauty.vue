@@ -30,8 +30,10 @@
                 <div class="bf" style="float:left;margin-right:1rem;width:1rem;">
                     <img src="../../common/images/img/ios/look/资源10@2x拷贝2@1x.png" alt="" style="width:.4rem;height.4rem;"><span>{{items.commentscount}}</span>
                 </div>
-                <div class="af" style="float:left">
-                    <img src="../../common/images/img/ios/资源15@2x拷贝@1x.png" alt="" style="width:.4rem;height.4rem;"><span>{{items.zancount}}</span>
+                <div class="af" style="float:left" @click="clickPraise(item.ddid,index)">
+                    <img src="../../common/images/img/ios/资源15@2x拷贝@1x.png" v-if="item.iszan==0" alt="" style="width:.4rem;height.4rem;">
+                    <img src="../../common/images/img/ios/look/组143@1x.png" v-if="item.iszan==1" alt="" style="width:.4rem;height.4rem;">
+                    <span>{{items.zancount}}</span>
                 </div>
             </div>
         </div>
@@ -73,7 +75,7 @@ export default {
                     for(var i = 0;i<res.dataobject.afterdiary.length;i++){
                       this.lists = res.dataobject.afterdiary[i]
                     }
-                    // console.log(this.items)
+                    console.log(this.lists)
                 }
             })
             axios(params).then(res=>{
@@ -93,8 +95,22 @@ export default {
         },
         // 跳转子日记
         jump(){
-          console.log(this.items)
           this.$router.push({ path: '/lookC', query: {ddid: this.lists.ddid,diaryid:this.diaryid}})
+        },
+        clickPraise(ddid,index){
+          console.log(this.items)
+          let params={cmd:'clickPraise',uid:localStorage.getItem('uid'),ddid:ddid}
+          axios(params).then(res=>{
+                if(res.result == '0'){
+                  console.log(res)
+                  if(this.items[index].iszan == '0'){
+                    this.$set(this.items[index],'iszan',1)
+                  }else{
+                    this.$set(this.items[index],'iszan',0)
+                  }
+                 
+                }
+          })
         }
     },
     mounted(){
