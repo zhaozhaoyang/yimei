@@ -22,15 +22,15 @@
             </div>
             <p class="lqsx">领取顺序</p>
             <ul class="bars">
-                <li @click="going">
+                <li @click="gettask()">
                     <img src="@/assets/images/nav1.jpg" alt />
                     <span>领取任务</span>
                 </li>
-                <li @click="going">
+                <li @click="subtask()">
                     <img src="@/assets/images/nav2.jpg" alt />
                     <span>提交任务</span>
                 </li>
-                <li @click="going">
+                <li @click="checktask()">
                     <img src="@/assets/images/nav3.jpg" alt />
                     <span>审核到账</span>
                 </li>
@@ -42,12 +42,12 @@
                 </video>
             </div>
         </div>
-        <div class="typeBtns" v-if="false">
-            <button class="btns">领取任务</button>
+        <div class="typeBtns" v-if="!isGet">
+            <button class="btns" @click="isGet = true">领取任务</button>
         </div>
-        <div class="typeBtns">
-            <button class="btns2">点击-去完成</button>
-            <button class="btns2">已完成-提交</button>
+        <div class="typeBtns" v-if="isGet">
+            <button class="btns2" @click="gover()">点击-去完成</button>
+            <button class="btns2"  @click="done()">已完成-提交</button>
         </div>
     </div>
 </template>
@@ -55,8 +55,27 @@
 import myheader  from './component/header.vue'
 export default {
     components:{myheader},
+    data(){
+        return{
+            isGet:false
+        }
+    },
     methods:{
-        going(){
+        gettask(){
+
+        },
+        subtask(){
+
+        },
+        checktask(){
+
+        },
+        done(){
+            this.$router.push({
+                name:"subtask"
+            })
+        },
+        gover(){
 
         }
     }

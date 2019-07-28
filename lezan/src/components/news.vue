@@ -4,7 +4,7 @@
         <img src="../assets/images/banner.jpg" alt style="width:100%;height:160px;border-radius: 3px;display:block;box-shadow:0 2px 6px rgba(100, 100, 100, 0.3);"/>
         <div class="newslist">
             <ul>
-                <li class="li1">
+                <li class="li1" @click="godetail()">
                     <div class="flex top">
                         <span class="font1">7月24日阿里看到啦！</span>
                         <span>
@@ -58,7 +58,14 @@ export default {
         
     },
     methods:{
-       
+       godetail(){
+           this.$router.push({
+               name:"newsdetail",
+               params:{
+                   
+               }
+           })
+       }
     }
 }
 </script>

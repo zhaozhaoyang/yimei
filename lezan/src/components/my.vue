@@ -39,7 +39,7 @@
                         <span>累计收益：</span>
                         <span>￥800.00</span>
                     </span>
-                    <button class="smbtn">提现</button>
+                    <button class="smbtn" @click="$router.push('/tixian')">提现</button>
                 </p>
             </div>
             <div class="mygrid">
@@ -75,8 +75,13 @@ export default {
         
     },
     methods:{
-        going(){
-
+        going(num){
+            this.$router.push({
+                name:'myshlist',
+                params:{
+                    
+                }
+            })
         }
 
     }

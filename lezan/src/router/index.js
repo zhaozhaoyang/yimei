@@ -12,8 +12,8 @@ Vue.use(Router)
 
 export default new Router({
 	routes: [{
-			path: '/login',
-			redirect: '/'
+			path: '/',
+			redirect: '/index'
 		},
 		{
 			path: '/index',
@@ -56,11 +56,41 @@ export default new Router({
 			component: () => import("@/components/taskdetail")
 		},
 		{
-			path: '/',
+			path: '/newsdetail',
 			name:'newsdetail',
 			component: () => import("@/components/newsdetail")
+		},
+		{
+			path: '/subtask',
+			name:'subtask',
+			component: () => import("@/components/subtask")
+		},
+		{
+			path: '/success',
+			name:'success',
+			component: () => import("@/components/success")
+		},
+		{
+			path: '/myshlist',
+			name:'myshlist',
+			component: () => import("@/components/myshlist")
+		},
+		{
+			path: '/mytaskdetail',
+			name:'mytaskdetail',
+			component: () => import("@/components/mytaskdetail")
+		},
+		{
+			path: '/tixian',
+			name:'tixian',
+			component: () => import("@/components/tixian")
+		},
+		{
+			path: '/tixian2',
+			name:'tixian2',
+			component: () => import("@/components/tixian2")
 		}
-			
+		
 		
 	]
 })
