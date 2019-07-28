@@ -21,8 +21,18 @@ Vue.mixin(mixins)
 require('es6-promise').polyfill()
 Es6Promise.polyfill()
 
-router.beforeEach((to,form,next)=>{
-	next()
+router.beforeEach((to, from, next) => {
+	//必须调用到next()  要不就挂	
+	if(window.localStorage.getItem('uid') != ''){
+		next()
+	}else{
+		if(to.path == '/login'){
+			next()
+		}else{
+			next('/login')
+		}
+	}
+	
 })
 
 

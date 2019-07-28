@@ -43,19 +43,20 @@
                 </p>
             </div>
             <div class="mygrid">
-                <van-grid :border="false" :column-num='3'>
+                <van-grid :border="false" :column-num='3' :clickable="true">
                     <van-grid-item
-                        v-for="value in 9"
-                        :key="value"
-                        :icon="aaa"
-                        text="文字"
+                        v-for="(item,index) in navs"
+                        :key="index"
+                        :icon="item.src"
+                        :text="item.name"
+                        :to='item.url'
+                        @click="come(index)"
                     />
                 </van-grid>
             </div>
-
         </div>
-        
-    	<btmbar @goIndex="goto" :actived='actnum'></btmbar>    
+        <van-popup v-model="codeImg"> <img src="@/assets/images/nav3.jpg" alt /></van-popup>
+        <btmbar @goIndex="goto" :actived='actnum'></btmbar>    
     </div>
 </template>
 <script>
@@ -68,13 +69,43 @@ export default {
         return{
             uid:this.$store.state.uid || window.sessionStorage.getItem("uid"),
             actnum:3,
-            aaa : require('@/assets/images/nav3.jpg')
+            codeImg:false,
+            navs:[
+                {name:'资金明细',src:require('@/assets/images/nav3.jpg'),url:'/runlist'},
+                {name:'我的好友',src:require('@/assets/images/nav3.jpg'),url:'/myfriend'},
+                {name:'邀请好友',src:require('@/assets/images/nav3.jpg'),url:'/myinvate'},
+                {name:'常见问题',src:require('@/assets/images/nav3.jpg'),url:'/myquestion'},
+                {name:'推广素材',src:require('@/assets/images/nav3.jpg'),url:'/mytuiguang'},
+                {name:'联系客服',src:require('@/assets/images/nav3.jpg'),url:''},
+                {name:'缴纳押金',src:require('@/assets/images/nav3.jpg'),url:'/yajin'},
+                {name:'修改密码',src:require('@/assets/images/nav3.jpg'),url:'/resetpsd'},
+                {name:'退出登录',src:require('@/assets/images/nav3.jpg'),url:''},
+            ],
         }
     },
     created(){
         
     },
     methods:{
+        come(num){
+            if(num == 5){
+                this.codeImg = true
+            }else if(num == 8){
+                //退出登录
+                window.sessionStorage.setItem("uid",'')
+                Toast.loading({
+                    duration: 0,       // 持续展示 toast
+                    forbidClick: true, // 禁用背景点击
+                    loadingType: 'spinner',
+                    message:"退出登录中"
+                })
+                setTimeout(() => {
+                    Toast.clear()
+                    this.$router.push('/login')
+                }, 1500);
+                
+            }
+        },
         going(num){
             this.$router.push({
                 name:'myshlist',

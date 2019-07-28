@@ -12,7 +12,7 @@ Vue.use(Router)
 
 export default new Router({
 	routes: [{
-			path: '/',
+			path: '*',
 			redirect: '/index'
 		},
 		{
@@ -89,6 +89,41 @@ export default new Router({
 			path: '/tixian2',
 			name:'tixian2',
 			component: () => import("@/components/tixian2")
+		},
+		{
+			path: '/yajin',
+			name:'yajin',
+			component: () => import("@/components/yajin")
+		},
+		{
+			path: '/runlist',
+			name:'runlist',
+			component: () => import("@/components/runlist")
+		},
+		{
+			path: '/myfriend',
+			name:'myfriend',
+			component: () => import("@/components/myfriend")
+		},
+		{
+			path: '/myinvate',
+			name:'myinvate',
+			component: () => import("@/components/myinvate")
+		},
+		{
+			path: '/myquestion',
+			name:'myquestion',
+			component: () => import("@/components/myquestion")
+		},
+		{
+			path: '/mytuiguang',
+			name:'mytuiguang',
+			component: () => import("@/components/mytuiguang")
+		},
+		{
+			path: '/resetpsd',
+			name:'resetpsd',
+			component: () => import("@/components/resetpsd")
 		}
 		
 		
