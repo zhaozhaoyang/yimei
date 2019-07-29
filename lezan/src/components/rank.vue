@@ -1,20 +1,24 @@
 <template>
     <div>
-        <myheader tit="乐赞热门"></myheader>   
-        <img src="../assets/images/banner.jpg" alt style="width:100%;height:160px;border-radius: 3px;display:block;box-shadow:0 2px 6px rgba(100, 100, 100, 0.3);"/>
-        <table class="tb">
-            <thead>
-                <tr>
-                    <th>排行</th><th>用户名</th><th>账号</th><th>今日佣金</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(index,item) in 10">
-                    <td>{{index}}</td><td>氨基酸客户贷</td><td>6546546</td><td>6546元</td>
-                </tr>
-            </tbody>
-        </table>
-        <btmbar @goIndex="goto"  :actived='actnum'></btmbar>
+        <myheader tit="排行榜" bg='2'></myheader>   
+        <div class="wrap" :style="{'top':positionTop}">       
+            <img src="../assets/images/banner.jpg" alt style="width:100%;height:160px;display:block;"/>
+            <div class="plist">
+                <p class="flex">
+                    <span>排行</span><span>用户名</span><span>账号</span><span>今日佣金</span>
+                </p>
+                <ul>
+                    <li class="flex" v-for="(item,index) in 10" :class="[index<3?'corg':'']" :key="index">
+                        <span v-if="index<3"><img :src="require('@/assets/images/'+(index+1)+'.jpg')" alt="" style="height:30px;width:30px;"></span>
+                        <span class="bold"  v-if="index>2">{{index+1}}</span>
+                        <span>asda</span>
+                        <span>5622662</span>
+                        <span class="corg">35331</span>
+                    </li>
+                </ul>
+            </div>  
+         </div>
+        <btmbar @goIndex="goto" :actived='actnum'></btmbar>
     </div>
 </template>
 <script>
@@ -27,10 +31,11 @@ export default {
 		return {
             uid:this.$store.state.uid || window.sessionStorage.getItem("uid"),			
             actnum:1,
+            positionTop:'1.70333rem',
 		}
     },
     created(){
-       
+       this.positionTop = this.$store.state.ipx ? '84px':'1.703rem'
     },
     mounted(){
         var first = null
@@ -55,10 +60,44 @@ export default {
 }
 </script>
 <style scoped>
-.tb{width: 100%;}
-thead tr{height: 45px;text-align: center}
-thead tr th,td{font-size: 14px;}
-tbody tr{height: 30px;text-align: center}
-tr:nth-child(2n){background: #f5f5f5}
+.bold{font-weight: bold;}
+.flex{
+  display: flex;flex-flow: row;align-items: center;
+}
+.corg{color: #face15;}
+.wrap{
+    position: absolute;  
+    bottom: 1.3333rem; 
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+.plist{
+    width:99.2%;
+    margin: 30px auto 0;
+    border-top-left-radius: 13px;
+    border-top-right-radius: 13px;
+    background: #fff;
+    padding: 20px 10px 0;
+    box-shadow:0 0px 6px rgba(100, 100, 100, 0.3);
+    color: #666;
+}
+.plist p{
+    display: flex;flex-flow: row;
+}
+.plist p span{
+    font-size: 16px;
+}
+.plist ul span{
+    font-size: 15px;
+}
+.plist span{
+    flex: 1;
+    text-align: center;
+}
+.plist ul li{
+    border-bottom: 1px solid #E6E6E6;
+    height: 58px;
+    line-height: 58px;
+}
 </style>
 

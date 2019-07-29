@@ -8,11 +8,11 @@
         <li class="flex" v-for="(item,index) in tasklist" @click="getTask(item)" :key="index">
             <img src="../../assets/images/touxiang.png" alt style="height:30px;width:30px;"/>
             <div class="c_middle">
-            <p class="f1"> {{item.name}}</p>
-            <p class="p1">
-                <span class="f2">抖音点赞</span>
-                <span class="f3">剩余数量：<font class="red small">1231</font></span>                  
-            </p>                
+              <p class="f1"> {{item.name}}</p>
+              <p class="p1">
+                  <span class="f2">抖音点赞</span>
+                  <span class="f3">剩余数量：<font class="small">{{index}}</font></span>                  
+              </p>                
             </div>
             <div class="flex red">
             <span class="b1">+1.00 </span><sup class="f4">元</sup>                
@@ -77,13 +77,13 @@ export default {
 }
 </script>
 <style scoped>
-.red{color: #e92322;}
+.red{color: #ff4843;}
 .f1{font-size: 16px;color: #333;}
-.f2{display: inline-block;height: 16px;width: 60px;color: #fff;background: orange;font-size: 10px;text-align: center;border-radius: 3px;line-height: 16px;margin-right: 5px;}
+.f2{display: inline-block;color: #ef5897;font-size: 10px;text-align: center;border-radius: 10px;line-height: 16px;margin-right: 5px;border: 1px solid #ef5897;padding: 0 9px;}
 .f3{color: #999;font-size: 14px;}
 .p1{margin-top: 8px;}
 .small{font-size: 14px;}
-.b1{font-size: 18px;}
+.b1{font-size: 21px;}
 .flex{
   display: flex;flex-flow: row;align-items: center;
 }
@@ -98,15 +98,14 @@ export default {
   text-align: center;
   height: 35px;
   line-height: 35px;
-  background: #f0f3f6;
-  font-size: 16px;
+  font-size: 17px;
+  color: #999;
 }
 .tastlist{
-  border-radius: 3px;
-  box-shadow:0 2px 6px rgba(100, 100, 100, 0.3);
 }
 .actived{
-  background: #fff!important;
+  font-weight: bold;
+  color: #000!important;
 }
 .ullist{
   width: 100%;
@@ -114,11 +113,11 @@ export default {
   padding: 0 8px;
 }
 .ullist li{
-  height: 60px;  
+  height: 70px;  
   padding: 0 8px;
 }
 .ullist li + li{
-  border-top: 1px solid #DDDDDD;
+  border-top: 1px solid #E6E6E6;
 }
 .c_middle{
   flex: 1;

@@ -42,6 +42,10 @@
 
 18、css中 div的margin-top出现在父级外：方法：padding-top:1px;
 
+19、https://www.jianshu.com/p/fe7712c632d2 canvas绘制二维码:  https://www.runoob.com/try/try.php?filename=tryhtml5_QRCode
+
+20、router 中拦截必须调用next()，不然会内存溢出
+
 	
 ===============================================================================================================================================================
 ####心得

@@ -1,12 +1,11 @@
 <template>
     <div>
         <div class="n1">
-            <img class="nocimg" src="../../assets/images/touxiang.png" alt />
+            <van-icon  class="nocimg" name="volume" color="#1889f9" size="18"/>            
             <transition-group name="slide">            
             <p :key="text.id">{{text.val}}</p>
             </transition-group>           
-        </div>
-        <img src="../../assets/images/banner.jpg" alt style="width:100%;height:70px;margin: 20px 0;border-radius: 3px;display:block;box-shadow:0 2px 6px rgba(100, 100, 100, 0.3);"/>
+        </div>        
     </div>
 </template>
 
@@ -51,19 +50,19 @@ export default {
 .n1{  
   box-shadow:0 2px 6px rgba(100, 100, 100, 0.3);
   width: 100%;
-  height: 42px;
-  border-radius: 5px;
+  height: 40px;
+  border-radius: 30px;
   display: flex;
   flex-flow: row;
   align-items: center;
   padding-left: 15px;
   position: relative;
 }
-.nocimg{margin-right: 10px;height:25px;width:25px;}
+.nocimg{margin-right: 10px;}
 .n1 p{ width: 100%;
     position: absolute;
-    height: 42px;
-    line-height: 42px;
+    height: 40px;
+    line-height: 40px;
     font-size: 14px;
     bottom: 0;}
 .slide-enter-active, .slide-leave-active {

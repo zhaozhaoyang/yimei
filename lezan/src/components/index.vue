@@ -1,15 +1,19 @@
 <template>
   <div class="box">
-    <myheader tit="乐赞热门"></myheader>    
+    <myheader tit="乐赞热门" bg='2'></myheader>    
     <div class="wrapper" :style="{'top':positionTop}">
+      <van-pull-refresh v-model="isLoading" @refresh="onRefresh">  
       <myswiper :bannerlist='bannerlist'/>  
       <div class="middlebox">      
         <noticebar :textArr='textArr'/>
-        <tasklist :tasklist='tasklist'/>
       </div>
+      <img src="../assets/images/banner.jpg" alt style="width:100%;height:70px;margin: 20px 0;display:block;"/>
+      <tasklist :tasklist='tasklist'/>      
+      </van-pull-refresh>
     </div>
     <btmbar @goIndex="goto" :actived="actnum"></btmbar>    
   </div>
+  
 </template>
 
 <script>
@@ -34,7 +38,7 @@ export default {
                 '3 第三条公告第三条公告第三条公告'
               ],
      
-
+      isLoading: false,
       tasklist:[{name:'牵连营销—视频点赞'},{name:'333'},{name:'444'},{name:'555a'}]
     };
   },
@@ -63,6 +67,16 @@ export default {
     
   },
   methods: {    
+    onRefresh(){
+      setTimeout(() => {
+        this.$toast.loading({
+          message:'刷新中',
+          loadingType:"spinner",
+          duration:500
+        });
+        this.isLoading = false;
+      }, 500);
+    }, 
     getIsIphonex () {
         var u = navigator.userAgent;
         var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
@@ -76,23 +90,27 @@ export default {
         }
     },
     getBannerImg() {
-      this.postRequest({ cmd: "bannerlist" }).then(res => {
-        if (res.data.dataList) {
-          console.log(res)
-          var bannerlist = res.data.dataList;
-          for (let i of bannerlist) {
-            i.image = "http://122.114.48.61:8080/" + i.image;
-          }
-          window.localStorage.setItem("bannerlist", JSON.stringify(bannerlist));
-          this.bannerlist = bannerlist;
-        }
-      });
+      this.bannerlist = [{image:'https://img.yzcdn.cn/vant/apple-3.jpg'},{image:'https://img.yzcdn.cn/vant/apple-3.jpg'}];
+      // this.postRequest({ cmd: "bannerlist" }).then(res => {
+      //   if (res.data.dataList) {
+      //     console.log(res)
+      //     var bannerlist = res.data.dataList;
+      //     for (let i of bannerlist) {
+      //       i.image = "http://122.114.48.61:8080/" + i.image;
+      //     }
+      //     window.localStorage.setItem("bannerlist", JSON.stringify(bannerlist));
+      //     this.bannerlist = bannerlist;
+      //   }
+      // });
     },
   }
 };
 </script>
 
 <style scoped>
+*{
+    font-family: 'MicrosoftYaHei';
+}
 .box {
   width: 100%;
   box-sizing: border-box;

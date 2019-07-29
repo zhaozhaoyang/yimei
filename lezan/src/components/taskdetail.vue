@@ -43,11 +43,11 @@
             </div>
         </div>
         <div class="typeBtns" v-if="!isGet">
-            <button class="btns" @click="isGet = true">领取任务</button>
+            <m-ybutton @click="isGet = true" text="领取任务"></m-ybutton>
         </div>
         <div class="typeBtns" v-if="isGet">
-            <button class="btns2" @click="gover()">点击-去完成</button>
-            <button class="btns2"  @click="done()">已完成-提交</button>
+            <m-ybutton @click="gover()" size='3' text="点击-去完成"></m-ybutton>
+            <m-ybutton @click="done()" size='3' text="已完成-提交"></m-ybutton>
         </div>
     </div>
 </template>
@@ -82,23 +82,7 @@ export default {
 }
 </script>
 <style scoped>
-.btns2{
-    width:40%;
-    height: 35px;
-    border: 1px solid #ddd;
-    background: #fff;
-    font-size: 13px;
-    border-radius: 3px;
-    margin-right: 15px;
-}
-.btns{
-    width:80%;
-    height: 35px;
-    border: 1px solid #ddd;
-    background: #fff;
-    font-size: 13px;
-    border-radius: 3px;
-}
+
 .typeBtns{
     width: 100%;
     display: flex;
@@ -111,7 +95,7 @@ export default {
 }
 p.detitle{
     width: 100%;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #E6E6E6;
     height: 40px;
     line-height: 40px;
     color: #000;
@@ -176,7 +160,7 @@ p.detitle{
   padding: 0 8px;
 }
 .ullist li + li{
-  border-top: 1px solid #DDDDDD;
+  border-top: 1px solid #E6E6E6E6E6E6;
 }
 
 </style>

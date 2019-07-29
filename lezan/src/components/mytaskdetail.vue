@@ -5,7 +5,23 @@
        <div class="pdalar">
             <van-row class="Trow">
                 <van-col span="12" class="mylist">
-                    任务名称
+                    任务名称：
+                </van-col>
+                <van-col span="12" class="mylist rt corg">
+                    阿萨德加快科技
+                </van-col>
+            </van-row>
+            <van-row class="Trow">
+                <van-col span="12" class="mylist">
+                    任务金额：
+                </van-col>
+                <van-col span="12" class="mylist rt">
+                    <span class="cred">￥1</span>    
+                </van-col>
+            </van-row>
+            <van-row class="Trow">
+                <van-col span="12" class="mylist">
+                    完成状态：
                 </van-col>
                 <van-col span="12" class="mylist rt">
                     阿萨德加快科技
@@ -13,30 +29,14 @@
             </van-row>
             <van-row class="Trow">
                 <van-col span="12" class="mylist">
-                    任务金额
+                    完成状态：
                 </van-col>
                 <van-col span="12" class="mylist rt">
                     阿萨德加快科技
                 </van-col>
             </van-row>
             <van-row class="Trow">
-                <van-col span="12" class="mylist">
-                    完成状态
-                </van-col>
-                <van-col span="12" class="mylist rt">
-                    阿萨德加快科技
-                </van-col>
-            </van-row>
-            <van-row class="Trow">
-                <van-col span="12" class="mylist">
-                    完成状态
-                </van-col>
-                <van-col span="12" class="mylist rt">
-                    阿萨德加快科技
-                </van-col>
-            </van-row>
-            <van-row class="Trow">
-                <img src="../assets/images/banner.jpg" alt style="width:50%;height:250px;border-radius: 3px;display:block;box-shadow:0 2px 6px rgba(100, 100, 100, 0.3);margin:10px 0;"/>
+                <img src="../assets/images/banner.jpg" alt style="width:50%;height:300px;border-radius: 3px;display:block;margin:10px 0;"/>
             </van-row>
         </div>    
         
@@ -78,15 +78,19 @@ export default {
 }
 </script>
 <style scoped>
+.corg{color: #face15;}
+.cred{
+    color: #ff4843;
+    font-size: 13px;
+}
 .pdalar{
     padding: 0 12px;
 }
-.Trow{border-bottom: 1px solid #ddd;}
+.Trow{border-bottom: 1px solid #E6E6E6;}
 .mylist{
-    height: 40px;
-    line-height: 40px;
+    height: 52px;
+    line-height: 52px;
     font-size: 14px;
-    color: #333;
 }
 .rt{text-align: right}
 

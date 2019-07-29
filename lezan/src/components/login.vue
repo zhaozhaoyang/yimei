@@ -3,18 +3,18 @@
     <div class="logo">
       <img src="../assets/images/touxiang.png" alt />
     </div>
-    <ul class="d2">
-      <li>
-        <span>账号：</span>
-        <input type="text" class="t1" placeholder="输入账号" v-model="name" />
-      </li>
-      <li>
-        <span>密码：</span>
-        <input type="password" class="t1" placeholder="输入密码" v-model="password" />
-      </li>
-    </ul>
-    <p class="p1">账号注册？</p>
-    <div class="btn" @click="logo" >立即登录</div>
+    <div class="formLogin">
+      <div class="order">
+        <img src="../assets/images/yonghu.png" alt />
+        <input type="number" placeholder="请输入账号" v-model="name" />
+      </div>
+      <div class="order">
+        <img src="../assets/images/mima.png" alt />
+        <input type="password" placeholder="请输入密码" v-model="password" />
+      </div>
+    </div>
+    <p class="p1">忘记密码？</p>
+    <m-ybutton text="立即登录" size="2"  @click="logo"></m-ybutton>
   </div>
 </template>
 
@@ -71,7 +71,34 @@ export default {
   background: #fff;
   border-top: 1px solid #fff;
 }
+.formLogin {
+    width: 80%;
+    margin: 1.5rem auto 0;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;    
+}
+.order {
+  width: 100%;
+  height: 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  margin-top: 0.3rem; 
 
+}
+.order input {
+  height: .9rem;
+  line-height: .9rem;
+  font-size: 15px;
+  color: #333;
+  margin-left: 0.5rem;
+}
+.order img {
+  width: 0.5rem;
+  height: 0.6rem;
+}
 .logo {
   width: 100%;
   display: flex;
@@ -83,50 +110,13 @@ export default {
   height: 90px;
   border-radius: 50%;
 }
-.d2 {
-  width: 100%;
-  margin-top: 1.5rem;
-}
-.d2 li {
-  width: 8rem;
-  height: 1.1rem;
-  border-radius: 0.586rem;
-  margin: 0.45rem auto 0;
-  background: #f9f9f9;
-  line-height: 1.1rem;
-  padding-left: 0.5rem;
-  box-sizing: border-box;
-  display: flex;
-  flex-flow: row;
-  align-content: center;
-}
 .p1{
   width: 7.8rem;
   margin: 0.45rem auto 0;
   text-align: right;
+  color: #e82c81;
+  font-size: 12px;
 }
-.d2 span {
-  font-size: 0.4rem;
-  color: #333;
-}
-.t1 {
-  width: 5rem;
-  height: 99%;
-  background: transparent;
-  font-size: 0.374rem;
-  margin-left: 0.5rem;
-}
-.btn {
-  display: block;
-  width: 7.6rem;
-  height: .9rem;
-  line-height: .9rem;
-  text-align: center;
-  border-radius: 0.586rem;
-  margin: 0 auto;
-  margin-top: 0.7rem;
-  font-size: 0.4rem;
-  background: #157fca;
-  color: #fff;
-}
+
+
 </style>

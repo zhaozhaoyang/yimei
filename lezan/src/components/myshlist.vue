@@ -7,10 +7,11 @@
                <li @click="godetail()">
                    <div class="flex">
                        <span>阿里看到啊撒</span>
-                       <span>大叔大婶</span>
+                       <span class="corg" v-if="title !=0">{{title==0?'进行中':title==1?'等待审核':title==2?'已通过':'未通过'}}</span>
                    </div>
-                   <p class="second">任务收益：<span class="colored">￥1.00</span></p>
+                   <p class="second" v-if="title !=0">任务收益：<span class="color9">￥1.00</span></p>
                    <p class="second">审核时间：<span class="color9"> 2019-01-01</span></p>
+                  <button class="mybtn" v-if="title ==0">提交任务</button>
                </li>
            </ul>
        </div>
@@ -25,11 +26,12 @@ export default {
 	data() {
 		return {
             uid:this.$store.state.uid || window.sessionStorage.getItem("uid"),			
-            title:0
+            title:''
 		}
     },
     created(){
-       
+        this.title = this.$route.query.num
+        this.getList()
     },
     mounted(){
         var first = null
@@ -56,11 +58,15 @@ export default {
 
                }
            })
-       }
+       },
+       getList(){
+           
+       },
     }
 }
 </script>
 <style scoped>
+.corg{color: #face15;}
 .colored{color: #e92322;}
 .color9{color: #999;}
 .second{
@@ -83,8 +89,24 @@ ul,li{
     display: flex;
     flex-flow: column;
     height: 80px;
-    border-bottom: 1px solid #ddd;
-    padding: 8px 0
+    border-bottom: 1px solid #E6E6E6;
+    padding: 8px 0;
+    justify-content: center;
+    position: relative;
+}
+.mybtn{
+    position: absolute;
+    right: 3px;
+    background:#face15;
+    color: #333;
+    top: 50%;
+    transform: translateY(-50%);
+    height: .8rem;
+    border-radius:25px;
+    font-size: 12px;
+    text-align: center;
+    line-height: .8rem;
+    width: 100px;
 }
 </style>
 

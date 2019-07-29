@@ -31,9 +31,8 @@
                     阿萨德加快科技
                 </van-col>
             </van-row>
-        </div>        
-        <button class="btns" @click="subtask">提交任务</button>
-       
+        </div>
+        <m-ybutton @click="subtask" text="提交任务"></m-ybutton>
     </div>
 </template>
 <script>
@@ -56,7 +55,7 @@ export default {
 }
 </script>
 <style scoped>
-.Trow{border-bottom: 1px solid #ddd;}
+.Trow{border-bottom: 1px solid #E6E6E6;}
 .mylist{
     height: 40px;
     line-height: 40px;
@@ -71,17 +70,6 @@ export default {
     flex-flow: column;
     align-items: center;
     margin: 20px 0;
-}
-.btns{
-    width:80%;
-    height: 35px;
-    border: 1px solid #ddd;
-    background: #fff;
-    font-size: 13px;
-    border-radius: 3px;
-    display: block;
-    margin: 60px auto 0;
-
 }
 .top p{
     font-size: 14px;

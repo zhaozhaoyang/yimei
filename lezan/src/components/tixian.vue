@@ -1,10 +1,15 @@
 <template>
     <div>
         <myheader tit="提现" showL="true"></myheader>
-        <p class="pd flex pay1">
-            <img class="zfbIcon" src="../assets/images/1.png"/>
+        <p class="pd flex pay1" @click="$router.push('/tixian2')" v-if="!zfInfo">
+            <img class="zfbIcon" src="../assets/images/zhifubao.png"/>
             <span>完善支付宝信息</span>
-            <img class="rtarrow" src="../assets/images/1.png"/>
+            <van-icon name="arrow" size="18" class="rtarrow"/>
+        </p>
+        <p class="pd flex pay1" @click="$router.push('/tixian2')" v-if="zfInfo">
+            <img class="zfbIcon" src="../assets/images/zhifubao.png"/>
+            <span style="color:#999;">姓名：{{zfInfo.username}}  账号：{{zfInfo.number}}</span>
+            <van-icon name="arrow" size="18" class="rtarrow"/>
         </p>
         <div class="pd pay2">
             <p>提取现金</p>
@@ -15,11 +20,11 @@
         </div>
         <div class="pd pay3">
             <p class="flex">
-                <span>可用余额500元</span>
-                <span>24小时内到账</span>
+                <span class="color9">可用余额： <font class="fontm">500.00</font>元</span>
+                <span class="color9">24小时内到账</span>
             </p>
             <div>
-                <button class="btns">提现</button>                
+                <m-ybutton text="确定提现"></m-ybutton>
             </div>
         </div>
         <div class="pd moybox">
@@ -47,7 +52,7 @@ export default {
     components:{myheader},
     data(){
         return{
-           
+           zfInfo:JSON.parse(localStorage.getItem('zfInfo'))
         }
     },
     methods:{
@@ -56,6 +61,8 @@ export default {
 }
 </script>
 <style scoped>
+.color9{color: #999;}
+.fontm{font-size: 18px;color: #e92322;}
 .rtarrow{
     position: absolute;right: 15px;top: 50%;transform: translateY(-50%);
 }
@@ -69,7 +76,7 @@ export default {
     height: 50px;
     position: relative;
     line-height: 50px;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #E6E6E6;
 }
 .pay1 span{ 
     font-size: 14px;
@@ -81,7 +88,7 @@ export default {
     margin-right: 13px;
 }
 .pay2{
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #E6E6E6;
     padding-bottom: 15px;
     padding-top: 15px;
 }
@@ -100,7 +107,7 @@ export default {
 }
 .micon{
     position: absolute;
-    top: 50%;
+    top: 60%;
     transform: translateY(-50%);
     left: 2px;
     font-size: 13px;
@@ -115,18 +122,9 @@ export default {
     height: 35px;
     line-height: 30px;
 }
-.btns{
-    width:80%;
-    height: 35px;
-    border: 1px solid #ddd;
-    background: #fff;
-    font-size: 13px;
-    border-radius: 3px;
-    display: block;
-    margin: 20px auto;
-}
+
 .pay3{
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #E6E6E6;
 }
 .pay3 p span{
     font-size: 13px;  
@@ -137,11 +135,14 @@ export default {
 .monylist span{
     flex: 1;
     text-align: center;
-    height: 30px;
-    line-height: 30px;
+    height: 48px;
+    line-height: 48px;
+    border-bottom: 1px solid #e6e6e6;
+    
 }
 .moybox .uti span{
     font-size: 14px;
+    color: #999;
 }
 .moybox .uti2 span{
     font-size: 13px;

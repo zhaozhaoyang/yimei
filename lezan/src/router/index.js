@@ -124,6 +124,11 @@ export default new Router({
 			path: '/resetpsd',
 			name:'resetpsd',
 			component: () => import("@/components/resetpsd")
+		},
+		{
+			path: '/txsuccess',
+			name:'txsuccess',
+			component: () => import("@/components/txsuccess")
 		}
 		
 		

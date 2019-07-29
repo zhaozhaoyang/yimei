@@ -69,13 +69,15 @@ export default {
 .showmoney{
     display: flex;
     flex-flow: row;
-    border: 1px solid #ddd;
-    border-radius: 3px;
+    box-shadow:0 0 6px rgba(100, 100, 100, 0.3);
+    border-radius: 10px;
     padding: 5px;
+    width: 95%;
+    margin: 0 auto;
 }
 .showmoney li{
     flex: 1;
-    height: 100px;
+    height: 77px;
     display: flex;
     flex-flow: column;
     text-align: center;
@@ -86,17 +88,7 @@ export default {
   font-weight: bold;
 }
 .showmoney li:first-child{
-    border-right: 1px solid #ddd;
-}
-.btns{
-    width:80%;
-    height: 35px;
-    border: 1px solid #ddd;
-    background: #fff;
-    font-size: 13px;
-    border-radius: 3px;
-    display: block;
-    margin: 20px auto;
+    border-right: 1px solid #E6E6E6;
 }
 .span1{
     font-size: 27px;
@@ -127,7 +119,7 @@ export default {
   padding: 0 8px;
 }
 .ullist li + li{
-  border-top: 1px solid #DDDDDD;
+  border-top: 1px solid #E6E6E6;
 }
 .c_middle{
   flex: 1;

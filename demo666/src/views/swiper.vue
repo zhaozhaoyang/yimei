@@ -1,34 +1,38 @@
 <template>
   <div>    
-    <div class="examples">
-      <!-- <div class="bannerTxt">
-        {{bannerTxt}}
-      </div> -->
-      <div class="bannerBox">
-        <div class="swiper-container">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide" v-for="(item,index) in banner" :key="index">
-              <img :src="item.picture_path" alt="">
+    <vue-pull-refresh :on-refresh="onRefresh">
+      <div class="examples">
+        <!-- <div class="bannerTxt">
+          {{bannerTxt}}
+        </div> -->
+        <div class="bannerBox">
+          <div class="swiper-container">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide" v-for="(item,index) in banner" :key="index">
+                <img :src="item.picture_path" alt="">
+              </div>
             </div>
+            <div class="swiper-pagination" slot="pagination"></div>
           </div>
-          <div class="swiper-pagination" slot="pagination"></div>
+        </div>
+        <!-- <div class="bannerIndex">
+          <span>{{bannerIndex}}</span>/4
+        </div> -->
+        <div class="tips">
+          <!-- <img src="./imgs/icon_tz.png" alt="" class="tipsImg"> -->
+          <p>请尽量保证上传的处方文字清晰可见，并保证红框内的信息完整不缺失</p>
         </div>
       </div>
-      <!-- <div class="bannerIndex">
-        <span>{{bannerIndex}}</span>/4
-      </div> -->
-      <div class="tips">
-        <!-- <img src="./imgs/icon_tz.png" alt="" class="tipsImg"> -->
-        <p>请尽量保证上传的处方文字清晰可见，并保证红框内的信息完整不缺失</p>
-      </div>
-    </div>
+    </vue-pull-refresh>
   </div>
 </template>
 
 <script>
 import Swiper from 'swiper';
 import 'swiper/dist/css/swiper.min.css';
+import VuePullRefresh from 'vue-pull-refresh';
 export default {
+  components:{'vue-pull-refresh': VuePullRefresh},
   data() {
     return {
       bannerIndex: 0,
@@ -77,6 +81,15 @@ export default {
       },
     });
   },
+  methods:{
+    onRefresh: function() {
+          return new Promise(function (resolve, reject) {
+              setTimeout(function () {
+                  resolve();
+              }, 1000);
+          });
+      }
+  }
 };
 </script>
 

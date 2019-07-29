@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- <van-tabbar v-model="currentIndex" @change="change" :fixed='fixed' active-color="#157FCA" :safe-area-inset-bottom='ipx'> -->
-        <van-tabbar v-model="currentIndex" @change="change" :fixed='fixed' active-color="#157FCA" :safe-area-inset-bottom='ipx'>
+        <van-tabbar v-model="currentIndex" @change="change" :fixed='fixed' active-color="#face15" :safe-area-inset-bottom='ipx'>
             <van-tabbar-item>
                 <span class="f1">首页</span>
                 <img
@@ -31,7 +31,7 @@
                 <img
                     slot="icon"
                     slot-scope="props"
-                    :src="props.active ? icon2.active : icon2.normal"
+                    :src="props.active ? icon2.active : icon3.normal"
                 >
             </van-tabbar-item>
         </van-tabbar>
@@ -54,6 +54,10 @@ export default {
                 active: require('../../assets/images/active_rank.jpg')
             },
             icon2: {
+                normal: require('../../assets/images/me.jpg'),
+                active: require('../../assets/images/active_me.jpg')
+            },
+            icon3: {
                 normal: require('../../assets/images/me.jpg'),
                 active: require('../../assets/images/active_me.jpg')
             },

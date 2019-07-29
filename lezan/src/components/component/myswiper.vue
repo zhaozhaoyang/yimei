@@ -23,13 +23,16 @@ export default {
     },
     watch:{
         bannerlist(){
-            this.list  = this.bannerlist
+            this.list  = this.bannerlist       
         }
     },
     computed: {
       swiper() {
         return this.$refs.mySwiper.swiper
       }
+    },
+    created(){
+      this.list  = this.bannerlist
     },
     data(){
         return{

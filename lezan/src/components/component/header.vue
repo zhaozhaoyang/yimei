@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="header" :class="[ipx?'ptipx':'pt']">
+        <div class="header" :class="[ipx?'ptipx':'pt',bg=='1'?'bg1':'bg2']">
             <div class="hd">
                 <van-icon name="arrow-left" class="leftA" size="22" v-if="showL" @click="back"/>     
                 <div class="title">{{tit}}</div> 
@@ -22,6 +22,9 @@ export default {
         tit:{},
         showL:{
             default:false
+        },
+        bg:{
+            default:1
         }
     },
     created(){        
@@ -45,11 +48,17 @@ export default {
 }
 </script>
 <style scoped>
+ .bg1{
+     background: #fff;color: #333;box-shadow: 0 1px 5px #e6e6e6;
+ }
+.bg2{
+    background: #f78650;color: #fff;
+ }
 .ptipx{padding-top: 40px;}
 .pt{padding-top: 20px;}
-.header{background: #6e5ccd;width: 100%;position:fixed;left:0;top:0;z-index: 100;box-sizing: border-box;}
+.header{width: 100%;position:fixed;left:0;top:0;z-index: 100;box-sizing: border-box;}
 .hd{line-height: 44px;height:44px;text-align: center;font-size: .5rem;
-    color: #fff;display: flex;flex-flow: row;align-content: center;justify-content: center;position: relative;
+    display: flex;flex-flow: row;align-content: center;justify-content: center;position: relative;
     }
 .title{font-size: .48rem;}
 .leftA{position: absolute;left: .15rem;top: .3rem;}

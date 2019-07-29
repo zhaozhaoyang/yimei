@@ -1,6 +1,6 @@
 <template>
     <div>
-        <myheader tit="乐赞APP"></myheader>
+        <myheader tit="我的" bg='2'></myheader>
         <div class="head">
             <img src="../assets/images/touxiang.png" style="width:65px;height:65px;border-radius: 50%;display:block;"/>
             <div class="user">
@@ -12,19 +12,19 @@
         </div>
         <div class="task">
            <ul class="bars">
-                <li @click="going">
+                <li @click="going(0)">
                     <img src="@/assets/images/nav1.jpg" alt />
                     <span>进行中</span>
                 </li>
-                <li @click="going">
+                <li @click="going(1)">
                     <img src="@/assets/images/nav2.jpg" alt />
                     <span>审核中</span>
                 </li>
-                <li @click="going">
+                <li @click="going(2)">
                     <img src="@/assets/images/nav3.jpg" alt />
                     <span>已通过</span>
                 </li>
-                <li @click="going">
+                <li @click="going(3)">
                     <img src="@/assets/images/nav3.jpg" alt />
                     <span>未通过</span>
                 </li>
@@ -107,12 +107,7 @@ export default {
             }
         },
         going(num){
-            this.$router.push({
-                name:'myshlist',
-                params:{
-                    
-                }
-            })
+            this.$router.push('/myshlist?num='+num)
         }
 
     }
@@ -182,12 +177,12 @@ export default {
     font-size: 13px;
 }
 .money p+p{
-    border-top: 1px solid #ddd;
+    border-top: 1px solid #E6E6E6;
 }
 .smbtn{
     width: 66px;
     height: 28px;
-    border: 1px solid #ddd;
+    border: 1px solid #E6E6E6;
     background: #fff;
     font-size: 13px;
     border-radius: 3px;
@@ -202,8 +197,6 @@ export default {
     border-radius: 3px;
     margin-top: 15px;
 }
-.van-grid-item__icon{
-    
-}
+
 </style>
 

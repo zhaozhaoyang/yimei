@@ -1,35 +1,58 @@
 <template>
     <div>
-        <myheader tit="常见问题" showL="true"></myheader>
-        
-
+        <myheader tit="修改密码" showL="true"></myheader>
+        <van-cell-group>
+        <van-field
+            v-model="oldpsw"
+            required
+            label="原密码"
+            placeholder="请输入原密码"
+        />
+        <van-field
+            v-model="newpsw"
+            required
+            label="新密码"
+            placeholder="请输入新密码"
+        />
+        <van-field
+            v-model="password"
+            type="password"
+            label="确认密码"
+            placeholder="请再次输入密码"
+            required
+        />
+        </van-cell-group>
+        <m-ybutton @click="subtask" text="确认修改"></m-ybutton>
+       
     </div>
 </template>
 <script>
 import myheader  from './component/header.vue'
+import { Toast } from 'vant'
 export default {
     components:{myheader},
     data(){
         return{
-           
+           oldpsw:'',
+           newpsw:'',
+           password:''
         }
     },
     methods:{
-       
+       subtask(){
+           if(this.oldpsw==''||this.newpsw==''||this.password==''){
+               Toast('请补全输入信息！')
+               return;
+           }
+           if(this.newpsw != this.password){
+               Toast('确认密码不一致！')
+               return;
+           }
+       }
     }
 }
 </script>
 <style scoped>
 
-.btns{
-    width:80%;
-    height: 35px;
-    border: 1px solid #ddd;
-    background: #fff;
-    font-size: 13px;
-    border-radius: 3px;
-    display: block;
-    margin: 20px auto;
-}
 
 </style>

@@ -3,47 +3,57 @@
         <myheader tit="提现" showL="true"></myheader>
         <van-cell-group>
             <van-field
-                v-model="username"
+                v-model="zfInfo.username"
                 required
                 label="姓名"
                 placeholder="请输入真实姓名"
-                @click-right-icon="$toast('question')"
             />
 
             <van-field
-                v-model="number"
+                v-model="zfInfo.number"
                 type="number"
                 label="支付宝账号"
                 placeholder="请输入支付宝账号"
                 required
             />
         </van-cell-group>
-        <button class="btns">确定</button>
+        <m-ybutton @click="comfirm" text="确定"></m-ybutton>
+
     </div>
 </template>
 <script>
 import myheader  from './component/header.vue'
+import { Toast} from "vant";
 export default {
     components:{myheader},
     data(){
         return{
+            zfInfo:{
+                username:'',
+                number:''
+            }
            
         }
     },
     methods:{
-       
+       comfirm(){
+           if(this.zfInfo.username==''|| this.zfInfo.number == ''){
+               this.$toast('请完善您的账号信息!')
+           }else{
+               window.localStorage.setItem('zfInfo',JSON.stringify(this.zfInfo))
+               this.$toast.success({
+                   message:'保存成功！',
+                   duration:1000,
+                   onClose:()=>{
+                       this.$router.back()
+                   }
+               })
+               
+           }           
+       }
     }
 }
 </script>
 <style scoped>
-.btns{
-    width:80%;
-    height: 35px;
-    border: 1px solid #ddd;
-    background: #fff;
-    font-size: 13px;
-    border-radius: 3px;
-    display: block;
-    margin: 100px auto;
-}
+
 </style>

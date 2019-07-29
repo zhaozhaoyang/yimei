@@ -27,7 +27,7 @@
             <p class="color9">一级代理提佣金的20%</p>
             <p class="color9">二级代理提佣金的10%</p>
         </div> 
-        <button class="btns">立即缴纳</button>
+         <m-ybutton text="立即缴纳"></m-ybutton>
     </div>
 </template>
 <script>
@@ -94,16 +94,6 @@ export default {
     color: #333;
     margin-top: 10px;
 }
-.btns{
-    width:80%;
-    height: 35px;
-    border: 1px solid #ddd;
-    background: #fff;
-    font-size: 13px;
-    border-radius: 3px;
-    display: block;
-    margin: 20px auto;
-}
 .level{
     font-size: 15px;
     font-weight: bold;
@@ -121,7 +111,7 @@ export default {
     display: flex;
     flex-flow: column;
     justify-content: space-around;    
-    border: 1px solid #ddd;
+    border: 1px solid #E6E6E6;
     border-radius:4px;
 }
 .nocard{border: none;}
