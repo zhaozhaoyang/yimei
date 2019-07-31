@@ -11,17 +11,17 @@
             </p>
             <ul class="ullist" v-if="Tabactive==0">
                  <li class="flex"  v-for="(item,index) in tasklist" :key="index">
-                      <span>asasas</span>
-                      <span>5415413</span>
-                      <span>2018-10-10 12:13:55</span>
+                      <span>{{item.nickname}}</span>
+                      <span>{{item.account}}</span>
+                      <span>{{item.createDate}}</span>
                  </li>
                   <p class="nodata">暂无数据..</p>
             </ul>
              <ul class="ullist" v-if="Tabactive==1">
                 <li class="flex" v-for="(item,index) in tasklist" :key="index">
-                    <span>asasas</span>
-                    <span>5415413</span>
-                    <span>2018-10-10 12:13:55</span>
+                    <span>{{item.nickname}}</span>
+                    <span>{{item.account}}</span>
+                    <span>{{item.createDate}}</span>
                 </li>
                 <p class="nodata">暂无数据...</p>
             </ul>
@@ -35,9 +35,22 @@ export default {
     components:{myheader},
     data(){
         return{
+            uid: this.$store.state.uid || window.localStorage.getItem("uid"),
             Tabactive:'0',
-            tasklist:[1,2,2]
+            tasklist:[],
+            type:'1', //1一级好友 2二级好友
+            pageNo:1,
+            totalPage:1,
+            totalCount:0  //总人数
         }
+    },
+    created(){      
+      this.postRequest({ cmd: "friendList",uid:this.uid,type:this.type,pageNo:this.pageNo }).then(res => {
+          console.log(res)
+          if(res.dataList){
+            this.tasklist = res.data.dataList
+          }             
+      });
     },
     methods:{
        tabselect(num){

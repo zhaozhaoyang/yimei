@@ -4,11 +4,11 @@
         <div class="wrap">
             <ul class="showmoney">
                 <li>
-                    <span class="span1">50</span>
+                    <span class="span1">{{todayFee}}</span>
                     <span  class="span2">今日收益</span>
                 </li>
                 <li>
-                    <span class="span1">500</span>
+                    <span class="span1">{{totalFee}}</span>
                     <span class="span2">共计收益</span>
                 </li>
             </ul>
@@ -48,14 +48,37 @@ export default {
     components:{myheader},
     data(){
         return{
+           uid:this.$store.state.uid || window.localStorage.getItem("uid"),	
            Tabactive:'0',
-           tasklist:[1,2,2]
+           tasklist:[],
+           type:1,//1好友提成 2任务收入
+           pageNo:1,
+           totalPage:1,
+           todayFee:'',
+           totalFee:''
         }
+    },
+    created(){
+        this.getList()
     },
     methods:{
        tabselect(num){
            this.Tabactive= num
-       }
+           this.type = Number(num)+1
+           this.pageNo = 1
+           this.getList()
+       },
+       getList(){          
+           var params = { cmd: "incomeList",uid:this.uid,type:this.type,pageNo:this.pageNo}
+           console.log(params)
+           this.postRequest(params).then(res => {
+                console.log(res)
+                this.totalFee=res.data.totalFee
+                this.todayFee=res.data.todayFee
+                this.tasklist = res.data.dataList
+                this.totalPage = res.data.totalPage
+            });
+       },
     }
 }
 </script>

@@ -15,7 +15,7 @@
             <p>提取现金</p>
             <div class="mony">
                 <span class="micon">￥</span>
-                <input type="number" value="200">
+                <input type="number" value="200" v-model="amount">
             </div>
         </div>
         <div class="pd pay3">
@@ -24,7 +24,7 @@
                 <span class="color9">24小时内到账</span>
             </p>
             <div>
-                <m-ybutton text="确定提现"></m-ybutton>
+                <m-ybutton text="确定提现" @click="getcash"></m-ybutton>
             </div>
         </div>
         <div class="pd moybox">
@@ -36,11 +36,12 @@
                 </li>
             </ul>
             <ul  class="uti2">
-                <li class="flex monylist" v-for="i in 10">
+                <li class="flex monylist" v-for="(item,index) in dataList" :key="index">
                     <span>200</span>
                     <span>审核中</span>
                     <span>2019-04-05</span>
                 </li>
+                <p class="nodata" v-if="!dataList">暂无提现记录！</p>
             </ul>
         </div>
 
@@ -48,15 +49,45 @@
 </template>
 <script>
 import myheader  from './component/header.vue'
+import { Toast } from "vant";
 export default {
     components:{myheader},
     data(){
         return{
-           zfInfo:JSON.parse(localStorage.getItem('zfInfo'))
+           uid: this.$store.state.uid || window.localStorage.getItem("uid"),   
+           zfInfo:JSON.parse(localStorage.getItem('zfInfo')),
+           amount:'',
+           pageNo:1,
+           totalPage:5,
+           dataList:[],
         }
     },
+    created(){
+        // addCash
+        this.postRequest({ cmd: "cashList",uid:this.uid,pageNo:this.pageNo}).then(res => {
+            console.log(res)
+            this.dataList = res.data.dataList
+        });
+    },
     methods:{
-       
+       getcash(){
+           if(this.zfInfo == null){
+               Toast('请完善支付宝信息！')
+               return;
+           }
+           if(this.amount==''){
+               Toast('请输入提现金额！')
+               return;
+           }
+           if(Number(this.amount)<1){
+               Toast('提现金额不能小于1元！')
+               return;
+           }
+           this.postRequest({ cmd: "addCash",uid:this.uid,username:this.zfInfo.username,account:this.zfInfo.number,amount:this.amount}).then(res => {
+                console.log(res)
+                          
+           });
+       }
     }
 }
 </script>
@@ -78,6 +109,7 @@ export default {
     line-height: 50px;
     border-bottom: 1px solid #E6E6E6;
 }
+.nodata{width: 100%;height: 50px;line-height: 50px;text-align: center;font-size: 13px;color: #999;}
 .pay1 span{ 
     font-size: 14px;
     color: #000;

@@ -6,7 +6,7 @@
     <div class="formLogin">
       <div class="order">
         <img src="../assets/images/yonghu.png" alt />
-        <input type="number" placeholder="请输入账号" v-model="name" />
+        <input type="number" placeholder="请输入账号" v-model="account" />
       </div>
       <div class="order">
         <img src="../assets/images/mima.png" alt />
@@ -19,33 +19,29 @@
 </template>
 
 <script>
-import { Toast, Button, Notify } from "vant";
+import { Toast, Button } from "vant";
 export default {
   data() {
     return {
-      name: "",
+      account: "",
       password: "",
       token: ""
     };
   },
-  mounted() {
+  created() {
+    if(window.localStorage.getItem("uid")){
+      this.$router.push("index")
+    }
   },
-  components: {
-    Toast
-  },
-  methods: {
-    yklogo() {
-      this.$router.push("index");
-      window.sessionStorage.setItem("youke", 3);
-    },
+  methods: {    
     logo() {
-      if (this.name == "" || this.password == "") {
+      if (this.account == "" || this.password == "") {
         Toast("用户名或密码不能为空！");
         return;
       }
       this.postRequest({
         cmd: "login",
-        name: this.name,
+        account: this.account,
         password: this.password,
         token: ""
       }).then(res => {
@@ -54,8 +50,7 @@ export default {
         setTimeout(() => {
           this.$router.push("index");
         }, 1000);
-        window.sessionStorage.setItem("youke", "");
-        window.sessionStorage.setItem("uid", res.data.uid);
+        window.localStorage.setItem("uid", res.data.uid);
         this.$store.commit("setuid", res.data.uid);
       });
     }

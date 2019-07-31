@@ -3,8 +3,8 @@
     <div>
        <myheader :tit="title==0?'进行中':title==1?'审核中':title==2?'已通过':'未通过'" showL="true"></myheader>   
        <div class="container">
-           <ul>
-               <li @click="godetail()">
+           <ul v-if="title !='1'">
+               <li @click="godetail()" v-for="(i,index) in tasklist" :key="index">
                    <div class="flex">
                        <span>阿里看到啊撒</span>
                        <span class="corg" v-if="title !=0">{{title==0?'进行中':title==1?'等待审核':title==2?'已通过':'未通过'}}</span>
@@ -25,13 +25,19 @@ export default {
     components:{myheader},
 	data() {
 		return {
-            uid:this.$store.state.uid || window.sessionStorage.getItem("uid"),			
-            title:''
+            uid:this.$store.state.uid || window.localStorage.getItem("uid"),			
+            title:'', //0未完成 1已完成 2审核通过 3审核拒绝 空为全部
+            tasklist:[]
 		}
     },
     created(){
         this.title = this.$route.query.num
-        this.getList()
+        if(this.title == '1'){
+            return;
+        }else{
+            this.getList()
+        }
+       
     },
     mounted(){
         var first = null
@@ -59,8 +65,13 @@ export default {
                }
            })
        },
-       getList(){
-           
+       getList(){           
+           console.log(this.title)
+           this.postRequest({ cmd: "myTaskList",uid:this.uid,state:this.title}).then(res => {            
+            if(res.data.dataList){
+              this.tasklist = res.data.dataList
+            }             
+        });
        },
     }
 }

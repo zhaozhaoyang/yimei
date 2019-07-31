@@ -129,8 +129,12 @@ export default new Router({
 			path: '/txsuccess',
 			name:'txsuccess',
 			component: () => import("@/components/txsuccess")
-		}
-		
+		},
+		{
+			path: '/webview',
+			name:'webview',
+			component: () => import("@/components/webview")
+		}		
 		
 	]
 })

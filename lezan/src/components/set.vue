@@ -24,9 +24,8 @@ export default {
         logout(){
             this.$store.commit('setuid',"");
             this.$store.commit('setuserInfo',"");
-            window.sessionStorage.setItem("uid",{})
-            window.sessionStorage.setItem("youke",'');
-            window.sessionStorage.setItem("userInfo",{})
+            window.localStorage.setItem("uid",{})
+            window.localStorage.setItem("userInfo",{})
             Toast.success('退出登录');
             setTimeout(()=>{
                this.$router.push("/login")

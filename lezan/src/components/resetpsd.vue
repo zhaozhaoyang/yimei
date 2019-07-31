@@ -35,7 +35,8 @@ export default {
         return{
            oldpsw:'',
            newpsw:'',
-           password:''
+           password:'',
+           uid: this.$store.state.uid || window.localStorage.getItem("uid"),
         }
     },
     methods:{
@@ -48,11 +49,16 @@ export default {
                Toast('确认密码不一致！')
                return;
            }
-       }
+           this.postRequest({ cmd: "editPassword",uid:this.uid,oldPassword:this.oldpsw,newPassword:this.newpsw}).then(res => {
+                console.log(res)
+                Toast.success('密码修改成功')
+                window.localStorage.setItem("uid",'')
+                this.$router.push('/login')
+            });
+       },
     }
 }
 </script>
 <style scoped>
-
 
 </style>

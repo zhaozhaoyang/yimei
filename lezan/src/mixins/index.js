@@ -43,8 +43,7 @@ export default{
 		postRequest(data = {}, method = 'post') {
 			return new Promise((resolve, reject) => {
 				axios({
-						// url: url,
-						url: encodeURI("http://122.114.48.61:8080/garbage/api/service?json="+JSON.stringify(data)),
+						url: encodeURI("http://122.114.56.212:8090/api/service?json="+JSON.stringify(data)),
 						method: method,
 						headers: {
 							'Content-Type': 'application/json'

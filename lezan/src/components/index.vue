@@ -7,8 +7,8 @@
       <div class="middlebox">      
         <noticebar :textArr='textArr'/>
       </div>
-      <img src="../assets/images/banner.jpg" alt style="width:100%;height:70px;margin: 20px 0;display:block;"/>
-      <tasklist :tasklist='tasklist'/>      
+      <img :src="homeImage" @click="gohomeUrl" class="middleImg"/>
+      <tasklist ref="task"/>      
       </van-pull-refresh>
     </div>
     <btmbar @goIndex="goto" :actived="actnum"></btmbar>    
@@ -28,7 +28,7 @@ export default {
   components: { btmbar, Bscroll ,myheader,myswiper,noticebar,tasklist},
   data() {
     return {
-      uid: this.$store.state.uid || window.sessionStorage.getItem("uid"),
+      uid: this.$store.state.uid || window.localStorage.getItem("uid"),
       actnum: 0,
       bannerlist: '', //轮播图
       positionTop:'64px',
@@ -36,18 +36,18 @@ export default {
                 '1 第一条公告',
                 '2 第二条公告第二条公告',
                 '3 第三条公告第三条公告第三条公告'
-              ],
+      ],
      
       isLoading: false,
-      tasklist:[{name:'牵连营销—视频点赞'},{name:'333'},{name:'444'},{name:'555a'}]
+      tasklist:[{name:'牵连营销—视频点赞'},{name:'333'},{name:'444'},{name:'555a'}],
+      homeImage:'',
+      homeUrl:''
     };
   },
   created() {
     this.getIsIphonex() // 兼容
     this.positionTop = this.$store.state.ipx ? '84px':'64px'
-    this.youke = window.sessionStorage.getItem("youke");
-    this.getBannerImg(); 
-    // this.$store.state.ipx
+    this.getIndex();
   },  
   mounted() {
     var first = null;
@@ -67,7 +67,8 @@ export default {
     
   },
   methods: {    
-    onRefresh(){
+    onRefresh(){  
+      this.$refs.task.getList(1)
       setTimeout(() => {
         this.$toast.loading({
           message:'刷新中',
@@ -89,20 +90,32 @@ export default {
             }
         }
     },
-    getBannerImg() {
-      this.bannerlist = [{image:'https://img.yzcdn.cn/vant/apple-3.jpg'},{image:'https://img.yzcdn.cn/vant/apple-3.jpg'}];
-      // this.postRequest({ cmd: "bannerlist" }).then(res => {
-      //   if (res.data.dataList) {
-      //     console.log(res)
-      //     var bannerlist = res.data.dataList;
-      //     for (let i of bannerlist) {
-      //       i.image = "http://122.114.48.61:8080/" + i.image;
-      //     }
-      //     window.localStorage.setItem("bannerlist", JSON.stringify(bannerlist));
-      //     this.bannerlist = bannerlist;
-      //   }
-      // });
+    getIndex() {      
+      this.postRequest({ cmd: "index" }).then(res => {
+          // console.log(res)
+          var bannerlist = res.data.bannerList;
+          // for (let i of bannerlist) {
+          //   i.image = "http://122.114.48.61:8080/" + i.image;
+          // }
+          this.bannerlist = bannerlist;
+          this.textArr = res.data.bulletinList 
+          this.homeImage = res.data.homeImage
+      });
+      this.postRequest({ cmd: "userInfo",uid:this.uid}).then(res => {
+          // console.log(res)
+          window.localStorage.setItem("userInfo", JSON.stringify(res.data));          
+      });
     },
+    gohomeUrl(){
+      this.$router.push({
+        name:'webview',
+        params:{
+          src:this.homeUrl,
+          title:'乐赞APP'
+        }
+      })
+    },
+
   }
 };
 </script>
@@ -115,6 +128,9 @@ export default {
   width: 100%;
   box-sizing: border-box;
   background: #fff;  
+}
+.middleImg{
+  width:100%;height:70px;margin: 20px 0;display:block;
 }
 .wrapper {
   position: absolute;

@@ -22,15 +22,15 @@
             </div>
             <p class="lqsx">领取顺序</p>
             <ul class="bars">
-                <li @click="gettask()">
+                <li>
                     <img src="@/assets/images/nav1.jpg" alt />
                     <span>领取任务</span>
                 </li>
-                <li @click="subtask()">
+                <li>
                     <img src="@/assets/images/nav2.jpg" alt />
                     <span>提交任务</span>
                 </li>
-                <li @click="checktask()">
+                <li>
                     <img src="@/assets/images/nav3.jpg" alt />
                     <span>审核到账</span>
                 </li>
@@ -43,7 +43,7 @@
             </div>
         </div>
         <div class="typeBtns" v-if="!isGet">
-            <m-ybutton @click="isGet = true" text="领取任务"></m-ybutton>
+            <m-ybutton @click="gettask" text="领取任务"></m-ybutton>
         </div>
         <div class="typeBtns" v-if="isGet">
             <m-ybutton @click="gover()" size='3' text="点击-去完成"></m-ybutton>
@@ -57,20 +57,27 @@ export default {
     components:{myheader},
     data(){
         return{
-            isGet:false
+            isGet:false,
+            uid: this.$store.state.uid || window.localStorage.getItem("uid"),
+            taskId:''
         }
+    },
+    created(){
+        this.taskId = this.$route.params.taskId
+        this.postRequest({ cmd: "taskDetail",uid:this.uid,taskId:this.taskId}).then(res => {
+            console.log(res)
+                    
+        });
     },
     methods:{
         gettask(){
-
+            this.isGet = true
+            this.postRequest({ cmd: "addTask",uid:this.uid,taskId:this.taskId}).then(res => {
+                console.log(res)
+                        
+            });
         },
-        subtask(){
-
-        },
-        checktask(){
-
-        },
-        done(){
+        done(){            
             this.$router.push({
                 name:"subtask"
             })

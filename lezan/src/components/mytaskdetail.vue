@@ -49,11 +49,16 @@ export default {
     components:{myheader},
 	data() {
 		return {
-            uid:this.$store.state.uid || window.sessionStorage.getItem("uid"),
+            uid:this.$store.state.uid || window.localStorage.getItem("uid"),
 		}
     },
-    created(){
-       
+    created(){       
+       this.postRequest({ cmd: "taskDetail",uid:this.uid,taskId:this.taskId }).then(res => {
+            console.log(res)
+            if(res.dataList){
+            //   this.tasklist = res.data.dataList
+            }             
+        });
     },
     mounted(){
         var first = null

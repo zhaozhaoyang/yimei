@@ -2,19 +2,20 @@
     <div style="background:#f7f7f7;height:100vh;">
         <myheader tit="消息" bg='2'></myheader> 
         <div class="wrap" :style="{'top':positionTop}">           
-            <img src="../assets/images/banner.jpg" alt style="width:100%;height:160px;border-radius: 3px;display:block;box-shadow:0 2px 6px rgba(100, 100, 100, 0.3);"/>
+            <img :src="image" alt style="width:100%;height:160px;border-radius: 3px;display:block;box-shadow:0 2px 6px rgba(100, 100, 100, 0.3);"/>
             <div class="newslist">
                 <ul>
-                    <li class="li1" @click="godetail()" v-for="i in 5">
+                    <li class="li1" @click="godetail(i.msgId)" v-for="(i,index) in dataList" :key="index">
                         <div class="flex top">
-                            <span class="font1">7月24日阿里看到啦！</span>
+                            <span class="font1">{{i.title}}</span>
                             <span>
-                                <span :class="[isread?'cgreen':'cred']">已读</span>
-                                <span class="c9">7-24</span>
+                                <span :class="[i.state==0?'cgreen':'cred']">{{i.state==0?'未读':'已读'}}</span>
+                                <span class="c9">{{i.createDate}}</span>
                             </span>
                         </div>
                         <p class="contt">{{content | formatc}}</p>
                     </li>
+                    <p class="nodata">暂无数据..</p>
                 </ul>
             </div>
          </div>
@@ -29,15 +30,21 @@ export default {
     components:{btmbar,myheader},
 	data() {
 		return {
-            uid:this.$store.state.uid || window.sessionStorage.getItem("uid"),			
+            uid:this.$store.state.uid || window.localStorage.getItem("uid"),			
             actnum:2,
             positionTop:'64px',
-            isread:true,
-            content:'立卡建档立卡健康来得及拉科技带来家里肯德基卡机大立科技奥克斯店里看到'
+            content:'立卡建档立卡健康来得及拉科技带来家里肯德基卡机大立科技奥克斯店里看到',
+
+            pageNo:1,
+            totalPage:1,
+            dataList:[],
+            image:'',
+
 		}
     },
     created(){
        this.positionTop = this.$store.state.ipx ? '84px':'64px'
+       this.getList()
     },
     filters:{
         formatc(val){
@@ -62,14 +69,18 @@ export default {
         
     },
     methods:{
-       godetail(){
-           this.$router.push({
-               name:"newsdetail",
-               params:{
-                   
-               }
-           })
-       }
+        getList(){
+           this.postRequest({ cmd: "msgList",uid:this.uid}).then(res => {
+                console.log(res)
+                if(res.dataList){
+                    this.dataList = res.dataList
+                    this.image = res.image
+                }
+            });
+       },
+       godetail(msgId){
+           this.$router.push("/newsdetail?msgId"+msgId)
+       },
     }
 }
 </script>
@@ -81,6 +92,7 @@ export default {
 .font1{font-size: 15px;color: #333;}
 .wrap{
     position: absolute;  
+    width: 100%;
     bottom: 1.3333rem; 
     overflow-x: hidden;
     overflow-y: scroll;
@@ -91,6 +103,7 @@ export default {
     padding: 12px;
     
 }
+.nodata{width: 100%;height: 50px;line-height: 50px;text-align: center;font-size: 13px;color: #999;}
 .li1{height: 75px;
     width: 100%;
     display: flex;

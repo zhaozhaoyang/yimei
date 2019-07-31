@@ -5,33 +5,33 @@
         <p :class="[Tabactive==1?'actived':'']" @click="tabselect(1)">进度查询</p>
         </div>
         <ul class="ullist" v-if="Tabactive==0">
-        <li class="flex" v-for="(item,index) in tasklist" @click="getTask(item)" :key="index">
-            <img src="../../assets/images/touxiang.png" alt style="height:30px;width:30px;"/>
+        <li class="flex" v-for="(item,index) in tasklist" @click="getTaskdetail(item.taskId)" :key="index">
+            <img :src="item.image" alt style="height:30px;width:30px;"/>
             <div class="c_middle">
-              <p class="f1"> {{item.name}}</p>
+              <p class="f1"> {{item.title}}</p>
               <p class="p1">
                   <span class="f2">抖音点赞</span>
-                  <span class="f3">剩余数量：<font class="small">{{index}}</font></span>                  
+                  <span class="f3">剩余数量：<font class="small">{{item.qty}}</font></span>                  
               </p>                
             </div>
             <div class="flex red">
-            <span class="b1">+1.00 </span><sup class="f4">元</sup>                
+            <span class="b1">+{{item.price}} </span><sup class="f4">元</sup>                
             </div>
         </li>
         <p class="nodata">暂无任务</p>
         </ul>
         <ul class="ullist" v-if="Tabactive==1">
-            <li class="flex" v-for="(item2,index)  in tasklist" :key="index">
-                <img src="../../assets/images/touxiang.png" alt style="height:30px;width:30px;"/>
+            <li class="flex" v-for="(item2,index)  in mytasklist" :key="index">
+                <img :src="item2.image" alt style="height:30px;width:30px;"/>
                 <div class="c_middle">
-                <p class="f1"> {{item2.name}}</p>
+                <p class="f1"> {{item2.title}}</p>
                 <p class="p1">
                     <span class="f2">抖音点赞</span>
-                    <span class="f3">待完成</span>                  
+                    <span class="f3">{{item2.state | formatstate}}</span>                  
                 </p>                
                 </div>
                 <div class="flex red">
-                <span class="b1">+1.00 </span><sup class="f4">元</sup>                
+                <span class="b1">+{{item.price}} </span><sup class="f4">元</sup>                
                 </div>
             </li>
             <p class="nodata">暂时没有未完成任务</p>
@@ -40,11 +40,21 @@
 </template>
 <script>
 export default {
-    props:['tasklist'],
     data(){
         return{
              Tabactive:0,
+             pageNo:1,
+             pageNoMy:1,
+             totalPage:1,
+             totalPageMy:1,
+             tasklist:[],
+             mytasklist:[]
+
         }
+    },
+    created(){
+      this.getList()
+      this.getMyTaskList()
     },
     mounted() {
         var first = null;
@@ -63,17 +73,53 @@ export default {
         };
         
     },
+    filters:{
+      formatstate(num){
+        switch(num){
+          case 0:
+            return '未完成';
+          case 1:
+            return '已完成';
+          case 2:
+            return '审核通过';
+          case 3:
+            return '审核拒绝';
+        }
+      }
+    },
     methods:{
-        tabselect(num){
+      getMyTaskList(num){
+        if(num){
+          this.pageNoMy = num
+        }
+        this.postRequest({ cmd: "myTaskList",pageNo:this.pageNoMy }).then(res => {
+            console.log(res)
+            if(res.dataList){
+              this.tasklist = res.data.dataList
+            }             
+        });
+      },
+      getList(num){
+        if(num){
+          this.pageNo = num
+        }
+        this.postRequest({ cmd: "taskList",pageNo:this.pageNo }).then(res => {
+            console.log(res)
+            if(res.dataList){
+              this.tasklist = res.data.dataList
+            }             
+        });
+      },
+      tabselect(num){
         this.Tabactive = num-0
-        },
-        getTask(){
-            this.$router.push({
-                name:"taskdetail",
-                params:{}
-            })
-        },
-    }
+      },
+      getTaskdetail(taskId){
+          this.$router.push({
+              name:"taskdetail",
+              params:{taskId:taskId}
+          })
+      },
+  }
 }
 </script>
 <style scoped>

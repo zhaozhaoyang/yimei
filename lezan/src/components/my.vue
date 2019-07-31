@@ -1,16 +1,41 @@
 <template>
     <div>
-        <myheader tit="我的" bg='2'></myheader>
+        <myheader tit="乐赞APP" bg='2'></myheader>
         <div class="head">
             <img src="../assets/images/touxiang.png" style="width:65px;height:65px;border-radius: 50%;display:block;"/>
             <div class="user">
                 <p>
-                    <span class="sp1">维也纳音乐盒</span><img src="../assets/images/1.png"/>
+                    <span class="sp1">{{userInfo.nickname}}</span>
+                    <img src="../assets/images/1.png"/>
                 </p>
-                <p class="sp2">ID: 456468</p>
+                <p class="sp2">ID: {{userInfo.account}}</p>
             </div>
-        </div>
+        </div>        
         <div class="task">
+            <ul class="showmoney">
+                <li>
+                    <span class="span1">我的余额</span>
+                    <span  class="span2">{{userInfo.balance}}</span>
+                </li>
+                <li>
+                    <span class="span1">累计收益</span>
+                    <span class="span2">{{userInfo.totalFee}}</span>
+                </li>
+                <button class="tip" @click="$router.push('/tixian')">提现</button>
+            </ul>
+            <!-- <div class="money">
+                <p>
+                    <span>我的余额：</span>
+                    <span>￥300.00</span>
+                </p>
+                <p class="flex p2">
+                    <span>
+                        <span>累计收益：</span>
+                        <span>￥800.00</span>
+                    </span>
+                    <button class="smbtn" @click="$router.push('/tixian')">提现</button>
+                </p>
+            </div> -->
            <ul class="bars">
                 <li @click="going(0)">
                     <img src="@/assets/images/nav1.jpg" alt />
@@ -29,19 +54,7 @@
                     <span>未通过</span>
                 </li>
             </ul>
-            <div class="money">
-                <p>
-                    <span>我的余额：</span>
-                    <span>￥300.00</span>
-                </p>
-                <p class="flex p2">
-                    <span>
-                        <span>累计收益：</span>
-                        <span>￥800.00</span>
-                    </span>
-                    <button class="smbtn" @click="$router.push('/tixian')">提现</button>
-                </p>
-            </div>
+            
             <div class="mygrid">
                 <van-grid :border="false" :column-num='3' :clickable="true">
                     <van-grid-item
@@ -67,7 +80,7 @@ export default {
     components:{btmbar,myheader},
     data() {
         return{
-            uid:this.$store.state.uid || window.sessionStorage.getItem("uid"),
+            uid:this.$store.state.uid || window.localStorage.getItem("uid"),
             actnum:3,
             codeImg:false,
             navs:[
@@ -81,6 +94,7 @@ export default {
                 {name:'修改密码',src:require('@/assets/images/nav3.jpg'),url:'/resetpsd'},
                 {name:'退出登录',src:require('@/assets/images/nav3.jpg'),url:''},
             ],
+            userInfo:JSON.parse(window.localStorage.getItem("userInfo"))
         }
     },
     created(){
@@ -92,7 +106,8 @@ export default {
                 this.codeImg = true
             }else if(num == 8){
                 //退出登录
-                window.sessionStorage.setItem("uid",'')
+                window.localStorage.setItem("uid",'')
+                window.localStorage.setItem("userInfo",{})
                 Toast.loading({
                     duration: 0,       // 持续展示 toast
                     forbidClick: true, // 禁用背景点击
@@ -114,6 +129,47 @@ export default {
 }
 </script>
 <style scoped>
+.tip{
+    position: absolute;
+    left: 50%;
+    top: 100%;   
+    font-size: 15px; 
+    font-weight: bold;
+    background:#face15;
+    color: #fff;
+    height: .9rem;
+    border-radius:25px;
+    text-align: center;
+    line-height: .9rem;
+    width: 88px;
+    transform: translate(-50%,-55%);
+
+}
+.showmoney{
+    display: flex;
+    flex-flow: row;
+    box-shadow:0 0px 6px rgba(100, 100, 100, 0.4);
+    border-radius: 10px;
+    padding:20px 5px;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+}
+.span1{
+    font-size: 15px;color: #999;margin-bottom: 8px;
+}
+.span2{font-size: 23px;font-weight: 600;color: #666;}
+.showmoney li{
+    flex: 1;
+    display: flex;
+    flex-flow: column;
+    text-align: center;
+    justify-content: center;
+    
+}
+.showmoney li:first-child{
+    border-right: 1px solid #E6E6E6;
+}
 .flex{
   display: flex;flex-flow: row;align-items: center;
 }
@@ -127,8 +183,9 @@ export default {
     margin-left: 20px;
 }
 .sp1{
-    font-size: 14px;
+    font-size: 16px;
     color: #000;
+    vertical-align: middle;
 }
 .sp2{
     font-size: 12px;
@@ -144,10 +201,10 @@ export default {
   flex-flow: row;
   justify-content: space-around;
   background: #fff;  
-  box-shadow:0 2px 6px rgba(100, 100, 100, 0.3);
-  border-radius: 3px;
-  padding: 15px 0;
-  margin-bottom: 15px;
+  box-shadow:0 0px 8px rgba(100, 100, 100, 0.4);
+  border-radius: 5px;
+  padding: 20px 0;
+  margin: 30px 0 15px; 
 }
 .bars li {
   display: flex;
@@ -157,18 +214,18 @@ export default {
 }
 .bars li span {
   text-align: center;
-  margin-top: 0.2rem;
+  margin-top: 0.3rem;
   font-size: 12px;
 }
 .bars li img {
-  width:30px;
-  height:30px;
+  width:35px;
+  height:35px;
   border-radius: 50%;
 }
 .money{
     width: 100%;
     padding-left: 10px;
-    box-shadow:0 2px 6px rgba(100, 100, 100, 0.3);
+    box-shadow:0 0px 6px rgba(100, 100, 100, 0.5);
     border-radius: 3px;
 }
 .money p{
@@ -193,9 +250,9 @@ export default {
 }
 .mygrid{
     width: 100%;
-    box-shadow:0 2px 6px rgba(100, 100, 100, 0.3);
-    border-radius: 3px;
-    margin-top: 15px;
+    box-shadow:0 0px 8px rgba(100, 100, 100, 0.4);
+    border-radius: 5px;
+    margin: 15px 0 1.5rem;
 }
 
 </style>

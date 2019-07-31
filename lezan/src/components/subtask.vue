@@ -37,18 +37,55 @@
 </template>
 <script>
 import myheader  from './component/header.vue'
+import axios from 'axios'
+import { Toast } from "vant";
 export default {
     components:{myheader},
     data(){
         return{
-            isGet:false
+            uid: this.$store.state.uid || window.localStorage.getItem("uid"),
+            taskId:''
         }
     },
-    methods:{
-        afterRead(){
+    mounted() {
+        var first = null;
+        mui.back = function() {
+            if (!first) {
+            first = new Date().getTime();
+            mui.toast("再按一次退出应用");
+            setTimeout(function() {
+                first = null;
+            }, 1000);
+            } else {
+            if (new Date().getTime() - first < 1000) {
+                plus.runtime.quit();
+            }
+            }
+        };
 
+    },
+    methods:{
+        afterRead(file){
+            console.log(file)
+            var formdata = new FormData();
+            formdata.append("file", file);
+            axios.post("http://122.114.48.61:8080/api/uploadFile",formdata)
+            .then(res => {
+                console.log(JSON.stringify(res));
+                if (res.data.result == "0") {
+                    self.images.push(res.data.filepath);
+                }
+            })
+            .catch(err => {
+                Toast("图片上传失败！");
+            });               
+                
         },
         subtask(){
+            this.postRequest({ cmd: "finishTask",uid:this.uid,userTaskId:this.userTaskId}).then(res => {
+                console.log(res)
+                        
+            });
             this.$router.push('/success')
         }
     }

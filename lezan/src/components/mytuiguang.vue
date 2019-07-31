@@ -30,14 +30,24 @@ export default {
     components:{myheader},
     data(){
         return{
+           uid:this.$store.state.uid || window.localStorage.getItem("uid"),	
            Tabactive:0,
            tasklist:[1,1,1,1,5]
         }
     },
+    created(){
+        this.getList()
+    },
     methods:{
         tabselect(num){
            this.Tabactive= num
-        }
+        },
+        getList(){
+           this.postRequest({ cmd: "material"}).then(res => {
+                console.log(res)
+                
+            });
+       },
     }
 }
 </script>
