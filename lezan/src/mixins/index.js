@@ -56,7 +56,10 @@ export default{
 						if(res.data.result == '0'){
 							resolve(res)
 						}else{
-							Toast(res.data.resultNote);						
+							Toast(res.data.resultNote);
+							if('你已领取过该任务，请勿重复领取'==res.data.resultNote){
+								resolve(res)
+							}				
 						}
 						
 					})

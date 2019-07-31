@@ -11,12 +11,17 @@ export default {
     data(){
         return{
             src:"",
-            title:''
+            title:'',
+            taskId:''
         }
     },
     created(){
+        if(this.$route.params.taskId){
+            this.taskId = this.$route.params.taskId
+        }
         this.src = this.$route.params.src;
         this.title= this.$route.params.title
+        console.log(this.src)
     },
     mounted(){
           var first = null

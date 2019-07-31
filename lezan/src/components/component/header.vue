@@ -52,7 +52,7 @@ export default {
      background: #fff;color: #333;box-shadow: 0 1px 5px #e6e6e6;
  }
 .bg2{
-    background: #fff;color: #333;
+    background: #FACE15;color: #333;
  }
 .ptipx{padding-top: 40px;}
 .pt{padding-top: 20px;}

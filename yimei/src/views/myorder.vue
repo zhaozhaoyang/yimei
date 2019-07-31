@@ -16,6 +16,7 @@ import $ from 'jquery'
 import axios from '../axios'
 import all from '@/components/myorder/all'
 import vNav from '@/components/myorder/nav'
+import { Toast } from 'vant';
 export default {
     data(){
         return {
@@ -35,6 +36,11 @@ export default {
     },
     created(){
         this.uid = localStorage.getItem('uid')
+        if(localStorage.getItem("uid")=='' || localStorage.getItem("uid")==null){
+            Toast('请登录！');
+            this.$router.push('/login')
+            return;
+        }
         this.move()
 
     },

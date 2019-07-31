@@ -82,11 +82,6 @@
                         <img src="../common/images/img/ios/help/箭头(3)拷贝4@1x.png" alt="" style="margin-left:7.8rem;em;width:.2rem;height:.3rem;float: left;margin-top:-.75rem;">
                     </div>
                     <div class="pay">
-                        <img src="../common/images/img/pic/预购/组130@1x.png" alt="" style="background-color:rgba(0,0,0,.1);float: left;margin-top:.4rem;">
-                        <p style="margin-left:.5rem;font-size:.4rem;float: left;margin-top:.1rem;">支付宝支付</p>
-                        <img src="../common/images/img/ios/help/箭头(3)拷贝4@1x.png" alt="" style="margin-left:7.8rem;em;width:.2rem;height:.3rem;float: left;margin-top:-.75rem;">
-                    </div>
-                    <div class="pay">
                         <img src="../common/images/img/pic/预购/组128@1x.png" alt="" style="background-color:rgba(0,0,0,.1);float: left;margin-top:.4rem;">
                         <p style="margin-left:.5rem;font-size:.4rem;float: left;margin-top:.1rem;">余额支付</p>
                         <p style="font-size:.4rem;margin-left:6rem;margin-top:.1rem;color:rgba(0,0,0,.4)">￥<span>{{userInfo.balance}}</span></p>
@@ -103,6 +98,7 @@
 </template>
 <script>
 import axios from '../axios'
+import { Toast } from 'vant';
 export default {
       data(){
         return {
@@ -135,6 +131,8 @@ export default {
     methods:{
          //打开预购规则页面
         advances(){
+            Toast('请去app端进行支付！')
+            return;
             this.popup = 1;
             if(this.ordernum == ''){
                 let params = {

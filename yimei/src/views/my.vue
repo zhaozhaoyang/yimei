@@ -208,6 +208,7 @@ export default {
     beforeRouteLeave:function(to, from, next){
         if((localStorage.getItem("uid")=='' || localStorage.getItem("uid")==null)&&(to.path=='/myorder' || to.path=='/money' || to.path=='/mydiary' ||to.path=='/goodfride' ||to.path=='/collect'||to.path=='/set' || to.path=='/111')){
             Toast('请登录！');
+            this.$router.push('/login')
             return;                  
         }else{
             next()

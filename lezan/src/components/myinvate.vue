@@ -6,7 +6,7 @@
             <p class="p2">一级好友完成一个任务  提成：0.2元</p>
             <p class="p2">二级好友完成一个任务  提成：0.1元</p>
         </div>
-        <img src="../assets/images/banner.jpg" alt @click="save" style="width:100%;height:520px;border-radius: 3px;display:block;box-shadow:0 2px 6px rgba(100, 100, 100, 0.3);"/>
+        <img src="../assets/images/banner.png" alt @click="save" style="width:100%;height:520px;border-radius: 3px;display:block;box-shadow:0 2px 6px rgba(100, 100, 100, 0.3);"/>
 
     </div>
 </template>
@@ -30,7 +30,6 @@ export default {
                     Toast.success('保存成功！');                
                 });
             }).catch(() => {
-                
             });
            
        }

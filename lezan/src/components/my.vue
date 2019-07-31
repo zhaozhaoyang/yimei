@@ -1,12 +1,14 @@
 <template>
     <div>
-        <myheader tit="乐赞APP" bg='2'></myheader>
+        <myheader tit="乐赞APP"></myheader>
+        <div style="position:relative;">
+        <div class="bgm"></div>        
         <div class="head">
-            <img src="../assets/images/touxiang.png" style="width:65px;height:65px;border-radius: 50%;display:block;"/>
+            <img src="../assets/images/touxiang.png" style="width:55px;height:55px;border-radius: 50%;display:block;"/>
             <div class="user">
                 <p>
                     <span class="sp1">{{userInfo.nickname}}</span>
-                    <img src="../assets/images/1.png"/>
+                    <span class="lv">LV.3</span>
                 </p>
                 <p class="sp2">ID: {{userInfo.account}}</p>
             </div>
@@ -50,7 +52,7 @@
                     <span>已通过</span>
                 </li>
                 <li @click="going(3)">
-                    <img src="@/assets/images/nav3.jpg" alt />
+                    <img src="@/assets/images/nav4.jpg" alt />
                     <span>未通过</span>
                 </li>
             </ul>
@@ -68,14 +70,15 @@
                 </van-grid>
             </div>
         </div>
-        <van-popup v-model="codeImg"> <img src="@/assets/images/nav3.jpg" alt /></van-popup>
-        <btmbar @goIndex="goto" :actived='actnum'></btmbar>    
+        <van-popup v-model="codeImg"><img :src="userInfo.customer" alt @click="saveImg(userInfo.customer)"/></van-popup>
+        <btmbar @goIndex="goto" :actived='actnum'></btmbar>  
+        </div>  
     </div>
 </template>
 <script>
 import btmbar  from './component/btmbar.vue'
 import myheader  from './component/header.vue'
-import { Grid, GridItem ,Toast} from 'vant';
+import { Grid, GridItem ,Toast,Dialog} from 'vant';
 export default {
     components:{btmbar,myheader},
     data() {
@@ -84,21 +87,21 @@ export default {
             actnum:3,
             codeImg:false,
             navs:[
-                {name:'资金明细',src:require('@/assets/images/nav3.jpg'),url:'/runlist'},
-                {name:'我的好友',src:require('@/assets/images/nav3.jpg'),url:'/myfriend'},
-                {name:'邀请好友',src:require('@/assets/images/nav3.jpg'),url:'/myinvate'},
-                {name:'常见问题',src:require('@/assets/images/nav3.jpg'),url:'/myquestion'},
-                {name:'推广素材',src:require('@/assets/images/nav3.jpg'),url:'/mytuiguang'},
-                {name:'联系客服',src:require('@/assets/images/nav3.jpg'),url:''},
-                {name:'缴纳押金',src:require('@/assets/images/nav3.jpg'),url:'/yajin'},
-                {name:'修改密码',src:require('@/assets/images/nav3.jpg'),url:'/resetpsd'},
-                {name:'退出登录',src:require('@/assets/images/nav3.jpg'),url:''},
+                {name:'资金明细',src:require('@/assets/images/b1.png'),url:'/runlist'},
+                {name:'我的好友',src:require('@/assets/images/b2.png'),url:'/myfriend'},
+                {name:'邀请好友',src:require('@/assets/images/b3.png'),url:'/myinvate'},
+                {name:'常见问题',src:require('@/assets/images/b4.png'),url:{name:'webview',params:{title:'常见问题',src:'http://122.114.56.212:8090/display/faq?id=1'}}},
+                {name:'推广素材',src:require('@/assets/images/b5.png'),url:'/mytuiguang'},
+                {name:'联系客服',src:require('@/assets/images/b6.png'),url:''},
+                {name:'缴纳押金',src:require('@/assets/images/b7.png'),url:'/yajin'},
+                {name:'修改密码',src:require('@/assets/images/b8.png'),url:'/resetpsd'},
+                {name:'退出登录',src:require('@/assets/images/b9.png'),url:''},
             ],
-            userInfo:JSON.parse(window.localStorage.getItem("userInfo"))
+            userInfo:{}
         }
     },
     created(){
-        
+        this.userInfo = JSON.parse(window.localStorage.getItem("userInfo"))
     },
     methods:{
         come(num){
@@ -123,12 +126,45 @@ export default {
         },
         going(num){
             this.$router.push('/myshlist?num='+num)
+        },
+        saveImg(src){
+            Dialog.confirm({
+            title: '保存推广码',
+            message: '是否保存推广码'
+            }).then(() => { 
+                plus.gallery.save( src, function () {
+                    Toast.success('保存成功！');                
+                });
+            }).catch(() => {
+            });
         }
 
     }
 }
 </script>
 <style scoped>
+.bgm{
+    width: 100%;
+    height: 150px;
+    position: absolute;
+    top: -10px;
+    left: 0;
+    background: url('../assets/images/bgm.png') no-repeat;
+    background-size: 100% 100%;
+    z-index: 1;
+}
+.lv{
+    color: #fff;
+    display: inline-block;
+    height: 13px;
+    line-height: 13px;
+    width: 30px;
+    background: #FACE15;
+    border: 1px solid #f28b42;
+    text-align: center;
+    border-radius: 3px;
+    font-size: 10px;
+}
 .tip{
     position: absolute;
     left: 50%;
@@ -137,10 +173,10 @@ export default {
     font-weight: bold;
     background:#face15;
     color: #fff;
-    height: .9rem;
+    height: .8rem;
     border-radius:25px;
     text-align: center;
-    line-height: .9rem;
+    line-height: .8rem;
     width: 88px;
     transform: translate(-50%,-55%);
 
@@ -154,6 +190,7 @@ export default {
     width: 100%;
     margin: 0 auto;
     position: relative;
+    background: #fff;
 }
 .span1{
     font-size: 15px;color: #999;margin-bottom: 8px;
@@ -177,7 +214,9 @@ export default {
     display: flex;
     flex-flow: row;
     align-items: center;
-    padding: 12px 12px;
+    padding: 20px 12px 8px;
+    position: relative;
+    z-index: 2;
 }
 .user{
     margin-left: 20px;
@@ -194,6 +233,8 @@ export default {
 }
 .task{
     padding: 10px 15px ;
+    position: relative;
+    z-index:3;
 }
 .bars {
   display: flex;
@@ -202,9 +243,9 @@ export default {
   justify-content: space-around;
   background: #fff;  
   box-shadow:0 0px 8px rgba(100, 100, 100, 0.4);
-  border-radius: 5px;
   padding: 20px 0;
   margin: 30px 0 15px; 
+  border-radius: 4px;
 }
 .bars li {
   display: flex;
@@ -220,7 +261,6 @@ export default {
 .bars li img {
   width:35px;
   height:35px;
-  border-radius: 50%;
 }
 .money{
     width: 100%;

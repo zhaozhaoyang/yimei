@@ -1,14 +1,20 @@
 <template>
-  <div class="box">
-    <myheader tit="乐赞热门" bg='2'></myheader>    
-    <div class="wrapper" :style="{'top':positionTop}">
-      <van-pull-refresh v-model="isLoading" @refresh="onRefresh">  
-      <myswiper :bannerlist='bannerlist'/>  
-      <div class="middlebox">      
-        <noticebar :textArr='textArr'/>
+  <div class="box">  
+    <div class="wrapper">  
+      <van-pull-refresh v-model="isLoading" @refresh="onRefresh"> 
+      <div class="middlebox"> 
+        <div class="navbg">
+          <p>乐赞APP</p>
+          <myswiper :bannerlist='bannerlist'/>
+        </div>        
+        <div class="nav">
+           <noticebar :textArr='textArr'/>
+        </div>       
       </div>
-      <img :src="homeImage" @click="gohomeUrl" class="middleImg"/>
-      <tasklist ref="task"/>      
+      <div class="wImg">
+         <img :src="homeImage" @click="gohomeUrl" class="middleImg" v-if="homeImage"/>
+      </div>     
+      <tasklist ref="task"/>              
       </van-pull-refresh>
     </div>
     <btmbar @goIndex="goto" :actived="actnum"></btmbar>    
@@ -41,7 +47,8 @@ export default {
       isLoading: false,
       tasklist:[{name:'牵连营销—视频点赞'},{name:'333'},{name:'444'},{name:'555a'}],
       homeImage:'',
-      homeUrl:''
+      homeUrl:'',
+      errsrc:'this.src="' + require('@/assets/images/banner.png') + '"'
     };
   },
   created() {
@@ -91,18 +98,15 @@ export default {
         }
     },
     getIndex() {      
-      this.postRequest({ cmd: "index" }).then(res => {
-          // console.log(res)
+      this.postRequest({ cmd: "index" }).then(res => {       
           var bannerlist = res.data.bannerList;
-          // for (let i of bannerlist) {
-          //   i.image = "http://122.114.48.61:8080/" + i.image;
-          // }
+          // var bannerlist =[{image:require('../assets/images/task.png')},{image:require('../assets/images/task.png')}]
           this.bannerlist = bannerlist;
           this.textArr = res.data.bulletinList 
           this.homeImage = res.data.homeImage
+          this.homeUrl = res.data.homeUrl
       });
-      this.postRequest({ cmd: "userInfo",uid:this.uid}).then(res => {
-          // console.log(res)
+      this.postRequest({ cmd: "userInfo",uid:this.uid}).then(res => {         
           window.localStorage.setItem("userInfo", JSON.stringify(res.data));          
       });
     },
@@ -124,16 +128,45 @@ export default {
 *{
     font-family: 'MicrosoftYaHei';
 }
+.newbox{
+  width: 100%;
+  position: relative;  
+}
+.navbg p{
+  color: #fff;
+  width: 100%;
+  text-align: center;
+  font-size: 16px;
+  position: absolute;
+  top: 44px;
+  z-index: 2;
+}
+.nav{
+  padding: 15px;
+  position: absolute;
+  width: 100%;
+  top: 188px;
+  z-index: 3
+}
+.navbg{
+  width:100%;height:220px;display:block;box-shadow:0 2px 6px rgba(100, 100, 100, 0.3);
+  z-index: 1;position: relative;
+}
+
 .box {
   width: 100%;
   box-sizing: border-box;
   background: #fff;  
 }
+.wImg{
+  width:100%;height:70px;margin: 35px 0 12px;display:block;
+}
 .middleImg{
-  width:100%;height:70px;margin: 20px 0;display:block;
+  width:100%;height:70px;margin: 35px 0 12px;display:block;
 }
 .wrapper {
   position: absolute;
+  top: 0;
   bottom: 1.3333rem;
   width: 100%;
   overflow-x: hidden;
@@ -142,10 +175,10 @@ export default {
   
 }
 .middlebox{  
-  width: 100%;   
-  padding: 0 15px;
-  margin: 20px 0;
+  width: 100%;
   box-sizing: border-box;
+  position: relative;
+  z-index: 2;
 }
 
 

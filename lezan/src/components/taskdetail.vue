@@ -6,16 +6,16 @@
                 <p class="detitle">任务详情</p>
                 <ul class="ullist">
                     <li class="flex">
-                    <img src="../assets/images/touxiang.png" alt style="height:40px;width:39px;"/>
+                    <img :src="obj.image" alt style="height:40px;width:39px;"/>
                     <div class="c_middle">
-                        <p class="f1"> 牵连营销—视频点赞</p>
+                        <p class="f1">{{obj.title}}</p>
                         <p class="p1">
-                        <span class="f2">任务描述:打开视频点赞</span>
+                        <span class="f2">任务描述:{{obj.content}}</span>
                                        
                         </p>                
                     </div>
                     <div class="flex red">
-                        <span class="b1">+1.00 </span><sup class="f4">元</sup>                
+                        <span class="b1">+{{obj.price}} </span>           
                     </div>
                     </li>
                 </ul>
@@ -23,24 +23,28 @@
             <p class="lqsx">领取顺序</p>
             <ul class="bars">
                 <li>
-                    <img src="@/assets/images/nav1.jpg" alt />
+                    <img src="@/assets/images/t1.png" alt />
                     <span>领取任务</span>
                 </li>
                 <li>
-                    <img src="@/assets/images/nav2.jpg" alt />
+                    <img src="@/assets/images/t2.png" alt />
                     <span>提交任务</span>
                 </li>
                 <li>
-                    <img src="@/assets/images/nav3.jpg" alt />
+                    <img src="@/assets/images/t3.png" alt />
                     <span>审核到账</span>
                 </li>
             </ul>
             <p class="lqsx">任务视频教程</p>
             <div class="videotask">
-                <video src="https://www.runoob.com/try/demo_source/movie.mp4" width="100%" height="240" controls>
+                <video :src="obj.video" width="100%" height="240" controls>
                     <source src="movie.mp4"  type="video/mp4">
                 </video>
             </div>
+            <p class="tishi">
+                <img src="@/assets/images/q2.png" alt="" style="width:15px;height:15px">
+                <span>请在180秒内完成任务且完成过程中不得退出本软件否则将扣除相应佣金。</span> 
+            </p>
         </div>
         <div class="typeBtns" v-if="!isGet">
             <m-ybutton @click="gettask" text="领取任务"></m-ybutton>
@@ -53,43 +57,72 @@
 </template>
 <script>
 import myheader  from './component/header.vue'
+import { Toast } from "vant";
 export default {
     components:{myheader},
     data(){
         return{
             isGet:false,
             uid: this.$store.state.uid || window.localStorage.getItem("uid"),
-            taskId:''
+            taskId:'',
+            obj:''
         }
     },
     created(){
-        this.taskId = this.$route.params.taskId
+        this.taskId = this.$route.params.taskId || sessionStorage.getItem('taskId')
         this.postRequest({ cmd: "taskDetail",uid:this.uid,taskId:this.taskId}).then(res => {
             console.log(res)
-                    
+            this.obj = res.data
+
         });
     },
     methods:{
-        gettask(){
-            this.isGet = true
+        gettask(){            
+            if(JSON.parse(localStorage.getItem('userInfo')).vip == '0'){
+                Toast('普通用户无法领取任务！')
+                return;
+            }            
             this.postRequest({ cmd: "addTask",uid:this.uid,taskId:this.taskId}).then(res => {
-                console.log(res)
-                        
+                if(res.data.result=='0'){                    
+                    console.log(res)
+                    this.isGet = true
+                    Toast.success('领取成功！')
+                }
+                if('你已领取过该任务，请勿重复领取'==res.data.resultNote){
+                    this.isGet = true
+                }
             });
         },
         done(){            
             this.$router.push({
-                name:"subtask"
+                name:"subtask",
+                params:{
+                    obj:this.obj
+                }
             })
         },
         gover(){
-
+            this.$router.push({
+                name:'webview',
+                params:{
+                src:this.obj.url,
+                    title:'乐赞APP',
+                    taskId:this.taskId
+                }
+            })
         }
     }
 }
 </script>
 <style scoped>
-
+.tishi{
+    line-height: 16px;
+    display: flex;
+    flex-flow: row;
+}
+.tishi span{
+    margin-left: 5px;
+}
 .typeBtns{
     width: 100%;
     display: flex;
@@ -109,7 +142,7 @@ p.detitle{
     font-size: 15px;
     text-indent: 15px;
 }
-.red{color: #e92322;}
+.red{color: #FF4843;}
 .f1{font-size: 14px;color: #333;}
 .f2{display: inline-block;height: 16px;color: #333;font-size: 10px;text-align: center;border-radius: 3px;line-height: 16px;margin-right: 5px;}
 
@@ -150,24 +183,24 @@ p.detitle{
   text-align: center;
   margin-top: 10px;
   font-size: 12px;
-  color: #000;
+  color: #999;
 }
 .bars li img {
-  width:40px;
-  height:40px;
-  border-radius: 50%;
+  width:20px;
+  height:20px;
 }
 .ullist{
   width: 100%;
   background: #fff;
   padding: 0 8px;
+  border-radius: 6px;
 }
 .ullist li{
-  height: 60px;  
+  height: 75px;  
   padding: 0 8px;
 }
 .ullist li + li{
-  border-top: 1px solid #E6E6E6E6E6E6;
+  border-top: 1px solid #E6E6E6;
 }
 
 </style>

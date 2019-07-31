@@ -2,7 +2,7 @@
     <div>
         <myheader tit="任务详情" showL="true"></myheader>
         <div class="top">
-            <van-uploader :after-read="afterRead" accept="image/*"/>
+            <van-uploader :after-read="afterRead" accept="image/*" :max-count="1"  v-model="fileList" multiple/>
             <p>添加图片</p>
         </div>
         <div class="pdalar">
@@ -12,7 +12,7 @@
                     任务名称
                 </van-col>
                 <van-col span="12" class="mylist rt">
-                    阿萨德加快科技
+                    {{obj.title}}
                 </van-col>
             </van-row>
             <van-row class="Trow">
@@ -20,7 +20,7 @@
                     任务金额
                 </van-col>
                 <van-col span="12" class="mylist rt">
-                    阿萨德加快科技
+                   {{obj.price}}
                 </van-col>
             </van-row>
             <van-row class="Trow">
@@ -28,7 +28,7 @@
                     完成状态
                 </van-col>
                 <van-col span="12" class="mylist rt">
-                    阿萨德加快科技
+                     {{obj.state==0?'未完成':obj.state==1?'已完成':obj.state==2?'审核通过':obj.state==3?'审核拒绝':'未领取'}}
                 </van-col>
             </van-row>
         </div>
@@ -44,8 +44,15 @@ export default {
     data(){
         return{
             uid: this.$store.state.uid || window.localStorage.getItem("uid"),
-            taskId:''
+            taskId:'',
+            fileList:[],
+            obj:{}
         }
+    },
+    created(){
+        this.obj = this.$route.params.obj
+        console.log(this.obj)
+        
     },
     mounted() {
         var first = null;
@@ -65,16 +72,14 @@ export default {
 
     },
     methods:{
-        afterRead(file){
-            console.log(file)
+        afterRead(file){  
             var formdata = new FormData();
-            formdata.append("file", file);
-            axios.post("http://122.114.48.61:8080/api/uploadFile",formdata)
+            formdata.append("file", file.file);
+            axios.post("http://122.114.56.212:8090/api/uploadFile",formdata)
             .then(res => {
-                console.log(JSON.stringify(res));
-                if (res.data.result == "0") {
-                    self.images.push(res.data.filepath);
-                }
+              Toast("上传成功！");
+              this.image =  'http://122.114.56.212:8090/'+res.data.url
+              
             })
             .catch(err => {
                 Toast("图片上传失败！");
@@ -82,7 +87,7 @@ export default {
                 
         },
         subtask(){
-            this.postRequest({ cmd: "finishTask",uid:this.uid,userTaskId:this.userTaskId}).then(res => {
+            this.postRequest({ cmd: "finishTask",uid:this.uid,userTaskId:this.obj.userTaskId,image:this.image}).then(res => {
                 console.log(res)
                         
             });

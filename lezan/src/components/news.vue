@@ -1,8 +1,8 @@
 <template>
     <div style="background:#f7f7f7;height:100vh;">
-        <myheader tit="消息" bg='2'></myheader> 
+        <myheader tit="乐赞APP"></myheader> 
         <div class="wrap" :style="{'top':positionTop}">           
-            <img :src="image" alt style="width:100%;height:160px;border-radius: 3px;display:block;box-shadow:0 2px 6px rgba(100, 100, 100, 0.3);"/>
+            <img src="@/assets/images/banner.png" alt style="width:100%;height:180px;display:block;box-shadow:0 2px 6px rgba(100, 100, 100, 0.3);"/>
             <div class="newslist">
                 <ul>
                     <li class="li1" @click="godetail(i.msgId)" v-for="(i,index) in dataList" :key="index">
@@ -10,12 +10,12 @@
                             <span class="font1">{{i.title}}</span>
                             <span>
                                 <span :class="[i.state==0?'cgreen':'cred']">{{i.state==0?'未读':'已读'}}</span>
-                                <span class="c9">{{i.createDate}}</span>
+                                <!-- <span class="c9">{{i.createDate | ftime}}</span> -->
                             </span>
                         </div>
-                        <p class="contt">{{content | formatc}}</p>
+                        <p class="contt">{{i.createDate | ftime}}</p>
                     </li>
-                    <p class="nodata">暂无数据..</p>
+                    <p class="nodata" v-if="dataList.length==0">暂无数据..</p>
                 </ul>
             </div>
          </div>
@@ -49,6 +49,9 @@ export default {
     filters:{
         formatc(val){
             return val.substring(0,20)+'...'
+        },
+        ftime(val){
+            return val
         }
     },
     mounted(){
@@ -72,14 +75,14 @@ export default {
         getList(){
            this.postRequest({ cmd: "msgList",uid:this.uid}).then(res => {
                 console.log(res)
-                if(res.dataList){
-                    this.dataList = res.dataList
-                    this.image = res.image
+                if(res.data.dataList){
+                    this.dataList = res.data.dataList
+                    this.image = res.data.image
                 }
             });
        },
        godetail(msgId){
-           this.$router.push("/newsdetail?msgId"+msgId)
+           this.$router.push("/newsdetail?msgId="+msgId)
        },
     }
 }

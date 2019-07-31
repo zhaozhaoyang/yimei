@@ -20,13 +20,14 @@
         </div>
         <div class="pd pay3">
             <p class="flex">
-                <span class="color9">可用余额： <font class="fontm">500.00</font>元</span>
+                <span class="color9">可用余额： <font class="fontm">{{userInfo.balance}}</font>元</span>
                 <span class="color9">24小时内到账</span>
             </p>
             <div>
                 <m-ybutton text="确定提现" @click="getcash"></m-ybutton>
             </div>
         </div>
+        <div style="height:10px;width:100%;background:rgba(246,246,246,1);"></div>
         <div class="pd moybox">
             <ul class="uti">
                 <li class="flex monylist">
@@ -60,10 +61,12 @@ export default {
            pageNo:1,
            totalPage:5,
            dataList:[],
+           userInfo:{}
         }
     },
     created(){
         // addCash
+        this.userInfo = JSON.parse(window.localStorage.getItem("userInfo"))
         this.postRequest({ cmd: "cashList",uid:this.uid,pageNo:this.pageNo}).then(res => {
             console.log(res)
             this.dataList = res.data.dataList
@@ -115,8 +118,8 @@ export default {
     color: #000;
 }
 .zfbIcon{
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 20px;
     margin-right: 13px;
 }
 .pay2{
@@ -160,9 +163,6 @@ export default {
 }
 .pay3 p span{
     font-size: 13px;  
-}
-.moybox{
-    margin: 30px 0;
 }
 .monylist span{
     flex: 1;

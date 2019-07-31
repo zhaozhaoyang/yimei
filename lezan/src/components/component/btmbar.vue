@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="position:relative;z-index:5">
         <!-- <van-tabbar v-model="currentIndex" @change="change" :fixed='fixed' active-color="#157FCA" :safe-area-inset-bottom='ipx'> -->
         <van-tabbar v-model="currentIndex" @change="change" :fixed='fixed' active-color="#face15" :safe-area-inset-bottom='ipx'>
             <van-tabbar-item>

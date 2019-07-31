@@ -13,8 +13,9 @@
         <input type="password" placeholder="请输入密码" v-model="password" />
       </div>
     </div>
-    <p class="p1">忘记密码？</p>
+    <p class="p1">立即注册</p>
     <m-ybutton text="立即登录" size="2"  @click="logo"></m-ybutton>
+    <van-popup v-model="codeImg"><img :src="src" alt @click="saveImg(src)"/></van-popup>
   </div>
 </template>
 
@@ -25,13 +26,19 @@ export default {
     return {
       account: "",
       password: "",
-      token: ""
+      token: "",
+      codeImg:false,
+      src:''
     };
   },
   created() {
     if(window.localStorage.getItem("uid")){
       this.$router.push("index")
     }
+    // this.postRequest({ cmd: "taskDetail",uid:this.uid,taskId:this.taskId}).then(res => {
+    //     console.log(res)
+    //     this.src = res.data.src
+    // });
   },
   methods: {    
     logo() {

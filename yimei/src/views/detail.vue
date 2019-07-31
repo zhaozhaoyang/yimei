@@ -171,6 +171,7 @@ export default {
             console.log(this.uid)
             if(localStorage.getItem("uid")=='' || localStorage.getItem("uid")==null){
                 Toast('请登录！');
+                this.$router.push('/login')
                 return;
             }
             this.popup = 1;            
@@ -243,6 +244,7 @@ export default {
         taggle(){
             if(localStorage.getItem("uid")=='' || localStorage.getItem("uid")==null){
                 Toast('请登录！');
+                this.$router.push('/login')
                 return;
             }
             if(this.show){
@@ -270,6 +272,7 @@ export default {
         addcar(){
             if(localStorage.getItem("uid")=='' || localStorage.getItem("uid")==null){
                 Toast('请登录！');
+                this.$router.push('/login')
                 return;
             }
             let path = {

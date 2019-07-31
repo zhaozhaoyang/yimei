@@ -1,25 +1,32 @@
 <template>
     <div class="tastlist">
         <div class="ti">
-        <p :class="[Tabactive==0?'actived':'']" @click="tabselect(0)">可领任务</p>
-        <p :class="[Tabactive==1?'actived':'']" @click="tabselect(1)">进度查询</p>
+          <p :class="[Tabactive==0?'actived':'']" @click="tabselect(0)">可领任务</p>
+          <p :class="[Tabactive==1?'actived':'']" @click="tabselect(1)">进度查询</p>
         </div>
-        <ul class="ullist" v-if="Tabactive==0">
-        <li class="flex" v-for="(item,index) in tasklist" @click="getTaskdetail(item.taskId)" :key="index">
-            <img :src="item.image" alt style="height:30px;width:30px;"/>
-            <div class="c_middle">
-              <p class="f1"> {{item.title}}</p>
-              <p class="p1">
-                  <span class="f2">抖音点赞</span>
-                  <span class="f3">剩余数量：<font class="small">{{item.qty}}</font></span>                  
-              </p>                
-            </div>
-            <div class="flex red">
-            <span class="b1">+{{item.price}} </span><sup class="f4">元</sup>                
-            </div>
-        </li>
-        <p class="nodata">暂无任务</p>
-        </ul>
+        <van-list
+          v-model="loading"
+          :finished="finished"
+          finished-text="没有更多了"
+          @load="onLoad"
+          :immediate-check="false"
+        >
+        <ul class="ullist" v-if="Tabactive==0">          
+          <li class="flex" v-for="(item,index) in tasklist" @click="getTaskdetail(item.taskId)" :key="index">
+              <img :src="item.image" alt style="height:38px;width:38px;"/>
+              <div class="c_middle">
+                <p class="f1"> {{item.title}}</p>
+                <p class="p1">
+                    <span class="f2">抖音点赞</span>
+                    <span class="f3">剩余数量：<font class="small">{{item.qty}}</font></span>                  
+                </p>                
+              </div>
+              <div class="flex red">
+              <span class="b1">+{{item.price}} </span><sup class="f4"></sup>                
+              </div>
+          </li>          
+          <p class="nodata" v-if="tasklist.length==0">暂无任务</p>
+        </ul>       
         <ul class="ullist" v-if="Tabactive==1">
             <li class="flex" v-for="(item2,index)  in mytasklist" :key="index">
                 <img :src="item2.image" alt style="height:30px;width:30px;"/>
@@ -31,11 +38,12 @@
                 </p>                
                 </div>
                 <div class="flex red">
-                <span class="b1">+{{item.price}} </span><sup class="f4">元</sup>                
+                <span class="b1">+{{item2.price}} </span><sup class="f4"></sup>                
                 </div>
             </li>
-            <p class="nodata">暂时没有未完成任务</p>
+            <p class="nodata" v-if="mytasklist.length==0">暂无数据</p>
         </ul>
+        </van-list>
     </div>
 </template>
 <script>
@@ -43,12 +51,16 @@ export default {
     data(){
         return{
              Tabactive:0,
-             pageNo:1,
-             pageNoMy:1,
+             pageNo:1,             
              totalPage:1,
+
+             pageNoMy:1,
              totalPageMy:1,
              tasklist:[],
-             mytasklist:[]
+             mytasklist:[],
+
+             loading: false,
+             finished: false
 
         }
     },
@@ -88,32 +100,54 @@ export default {
       }
     },
     methods:{
-      getMyTaskList(num){
+      onLoad(){
+        console.log('加载')
+        setTimeout(() => {
+          if (this.pageNo > this.totalPage) {            
+            this.loading = false;     
+            this.finished = true
+          }else{
+            this.getList()  
+            this.loading = false;
+          }
+          
+        }, 2000);
+          
+      },
+      getMyTaskList(num){        
         if(num){
-          this.pageNoMy = num
+          this.mytasklist = []
+          this.pageNoMy = num  
+          this.finished = false
         }
-        this.postRequest({ cmd: "myTaskList",pageNo:this.pageNoMy }).then(res => {
+        this.postRequest({ cmd: "myTaskList",pageNo:this.pageNoMy }).then(res => {           
             console.log(res)
-            if(res.dataList){
-              this.tasklist = res.data.dataList
-            }             
+            this.totalPageMy = res.data.totalPage
+            this.mytasklist = [...this.mytasklist, ...res.data.dataList]           
+            this.pageNoMy ++
         });
       },
       getList(num){
         if(num){
-          this.pageNo = num
+          this.tasklist = []
+          this.pageNo = num  
+          this.finished = false
         }
+        console.log(this.pageNo)
         this.postRequest({ cmd: "taskList",pageNo:this.pageNo }).then(res => {
             console.log(res)
-            if(res.dataList){
-              this.tasklist = res.data.dataList
-            }             
+            this.totalPage = res.data.totalPage
+            this.tasklist = [...this.tasklist, ...res.data.dataList]           
+            this.pageNo ++
+            
         });
       },
       tabselect(num){
         this.Tabactive = num-0
+
       },
       getTaskdetail(taskId){
+        sessionStorage.setItem('taskId',taskId)
           this.$router.push({
               name:"taskdetail",
               params:{taskId:taskId}
@@ -144,14 +178,14 @@ export default {
   text-align: center;
   height: 35px;
   line-height: 35px;
-  font-size: 17px;
+  font-size: 16px;
   color: #999;
 }
-.tastlist{
-}
+
 .actived{
   font-weight: bold;
-  color: #000!important;
+  color: #333!important;
+  border-bottom: 2px solid #FACE15;
 }
 .ullist{
   width: 100%;

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <myheader tit="我的好友" showL="true"></myheader>
+        <myheader tit="我的好友" showL="true"  bg='2'></myheader>
         <div class="wrap">            
             <div class="ti">
                 <p :class="[Tabactive==0?'actived':'']" @click="tabselect(0)">一级好友(20)</p>

@@ -3,22 +3,22 @@
         <myheader tit="缴纳押金" showL="true"></myheader>
         <div class="wrap">
             <div class="head">
-                <img src="../assets/images/touxiang.png" style="width:50px;height:50px;border-radius: 50%;display:block;"/>
+                <img src="../assets/images/touxiang.png" style="width:45px;height:45px;border-radius: 50%;display:block;"/>
                 <div class="user">
                     <p>
                         <span class="sp1">维也纳音乐盒</span>
                     </p>
                     <p class="sp2">押金退还时间：暂未缴纳押金</p>
                 </div>
-                <button class="tip" @click="pay('alipay')">缴纳</button>
+                <button class="tip">缴纳</button>
             </div>
             <p class="level">会员等级</p>
             <div class="cards">
                 <ul class="flex">
                     <li class="card" :class="[nowclick==index?'choose':'']" v-for="(item,index) in levellist" :key="index" @click="select(index,item.price)">
                         <span class="spleft">
-                            <span class="span1">{{item.level}}</span>
-                            <span class="c9">至少可接{{item.num}}个</span>
+                            <span class="span1">{{item.title}}</span>
+                            <span class="c9">至少可接{{item.qty}}个</span>
                         </span>
                         <span class="span2"><font style="font-size:14px;">￥</font> {{item.price}}</span>
                     </li>
@@ -29,8 +29,12 @@
             <p class="level">代理：</p>
             <p class="color9">一级代理提佣金的20%</p>
             <p class="color9">二级代理提佣金的10%</p>
+             <!-- @click="pay('alipay')" -->
+             <!-- <div style="position:fixed;bottom:20px;left:50%;transform:translate(-50%)"> -->
+                 <m-ybutton text="立即缴纳" @click="buy"></m-ybutton>
+             <!-- </div>             -->
         </div> 
-         <m-ybutton text="立即缴纳" @click="buy"></m-ybutton>
+         
     </div>
 </template>
 <script>
@@ -61,10 +65,29 @@ export default {
     created(){
         this.postRequest({ cmd: "vipList"}).then(res => {
             console.log(res)
-            this.dataList = res.data.dataList
+            this.levellist = res.data.dataList
         });
     },
+    mounted(){
+        document.addEventListener('plusready', this.plusReady, false);
+    },
     methods:{  
+        plusReady(){
+            // 获取支付通道
+            plus.payment.getChannels(function(channels){
+                console.log(JSON.stringify(channels))
+                var txt='支付通道信息：';
+                for(var i in channels){
+                    var channel=channels[i];
+                    if(channel.id=='qhpay'||channel.id=='qihoo'){	// 过滤掉不支持的支付通道：暂不支持360相关支付
+                        continue;
+                    }
+                    pays[channel.id]=channel;
+                }
+            },function(e){
+                outLine('获取支付通道失败：'+e.message);
+            });
+        },
        pay(id){
             if(w){return;}//检查是否请求订单中
             console.log('----- 请求支付 -----');
@@ -88,7 +111,7 @@ export default {
                         console.log('----- 请求订单成功 -----');
                         console.log(xhr.responseText);
                         var order=xhr.responseText;
-                        plus.payment.request("alipay",order,function(result){
+                        plus.payment.request({"id":"alipay","description":"支付宝","serviceReady":true},order,function(result){
                             console.log('----- 支付成功 -----');
                             console.log(JSON.stringify(result));
                             plus.nativeUI.alert('支付成功：感谢你的支持，我们会继续努力完善产品。',function(){
@@ -123,7 +146,9 @@ export default {
                 Toast('请选择vip类型')
                 return;
            }
-           this.postRequest({ cmd: "buyVip",uid:this.uid,type:this.nowclick,price:this.price}).then(res => {
+           var params = { cmd: "buyVip",uid:this.uid,type:(Number(this.nowclick)+1),price:this.price}
+           console.log(params)
+           this.postRequest(params).then(res => {
                 console.log(res)
                         
            });
@@ -133,22 +158,24 @@ export default {
 </script>
 <style scoped>
 .c9{color: #999;margin-top: 10px;font-size: 13px;}
-.color9{color: #999;height: 20px;line-height: 20px;font-size: 14px;}
+.color9{color: #666;height: 20px;line-height: 20px;font-size: 14px;}
 .flex{
   display: flex;flex-flow: row wrap;align-items: center;
 }
 .wrap{
     padding: 10px;
+    background:rgba(247,247,247,1);
 }
 .head{
     display: flex;
     flex-flow: row;
     align-items: center;
-    padding: 12px 12px 50px;
-    box-shadow:0 2px 6px rgba(100, 100, 100, 0.3);
+    padding: 15px 15px 55px;
     border-radius: 3px;
     position: relative;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    background: url('../assets/images/bg9.png');
+    background-size: 100% 100%;
 }
 .spleft{
     display: flex;
@@ -157,8 +184,8 @@ export default {
 }
 .tip{
     position: absolute;
-    right: 12px;
-    bottom: 12px;   
+    right: 20px;
+    bottom: 20px;   
     font-size: 14px; 
     background:#face15;
     color: #fff;
@@ -166,11 +193,11 @@ export default {
     border-radius:25px;
     text-align: center;
     line-height: .8rem;
-    width: 80px;
+    width: 70px;
 
 }
 .user{
-    margin-left: 20px;
+    margin-left: 15px;
 }
 .sp1{
     font-size: 18px;
@@ -203,7 +230,6 @@ export default {
     padding:3px 15px;
     align-items: center;
     margin-bottom: 12px;
-    background:#fff;
 }
 .nocard{border: none;}
 .card span{ 
@@ -215,5 +241,5 @@ export default {
     background: #fff5cc;
 }
 .span1{font-size: 15px;font-weight: bold;}
-.span2{font-size: 19px;color: #face15;}
+.span2{font-size: 19px;color: #face15;font-weight: bold;}
 </style>

@@ -4,14 +4,14 @@
        <myheader :tit="title==0?'进行中':title==1?'审核中':title==2?'已通过':'未通过'" showL="true"></myheader>   
        <div class="container">
            <ul v-if="title !='1'">
-               <li @click="godetail()" v-for="(i,index) in tasklist" :key="index">
+               <li @click="godetail(i.taskId)" v-for="(i,index) in tasklist" :key="index">
                    <div class="flex">
-                       <span>阿里看到啊撒</span>
+                       <span>{{i.title}}</span>
                        <span class="corg" v-if="title !=0">{{title==0?'进行中':title==1?'等待审核':title==2?'已通过':'未通过'}}</span>
                    </div>
-                   <p class="second" v-if="title !=0">任务收益：<span class="color9">￥1.00</span></p>
-                   <p class="second">审核时间：<span class="color9"> 2019-01-01</span></p>
-                  <button class="mybtn" v-if="title ==0">提交任务</button>
+                   <p class="second" v-if="title !=0">任务收益：<span class="color9">￥{{i.price}}</span></p>
+                   <p class="second">申请时间：<span class="color9">{{i.createDate}}</span></p>
+                  <button class="mybtn" v-if="title ==0" @click.stop="up(i.id)">提交任务</button>
                </li>
            </ul>
        </div>
@@ -57,17 +57,23 @@ export default {
         
     },
     methods:{
-       godetail(){
+        up(id){
+            this.$router.push({
+                name:"subtask"
+            })
+        },
+       godetail(taskId){
            this.$router.push({
                name:'mytaskdetail',
                params:{
-
+                   taskId:taskId
                }
            })
        },
        getList(){           
            console.log(this.title)
-           this.postRequest({ cmd: "myTaskList",uid:this.uid,state:this.title}).then(res => {            
+           this.postRequest({ cmd: "myTaskList",uid:this.uid,state:this.title}).then(res => { 
+            console.log(res)           
             if(res.data.dataList){
               this.tasklist = res.data.dataList
             }             

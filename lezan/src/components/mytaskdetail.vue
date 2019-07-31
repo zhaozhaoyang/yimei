@@ -8,7 +8,7 @@
                     任务名称：
                 </van-col>
                 <van-col span="12" class="mylist rt corg">
-                    阿萨德加快科技
+                    {{tasklist.title}}
                 </van-col>
             </van-row>
             <van-row class="Trow">
@@ -16,7 +16,7 @@
                     任务金额：
                 </van-col>
                 <van-col span="12" class="mylist rt">
-                    <span class="cred">￥1</span>    
+                    <span class="cred">￥{{tasklist.price}}</span>    
                 </van-col>
             </van-row>
             <van-row class="Trow">
@@ -24,19 +24,19 @@
                     完成状态：
                 </van-col>
                 <van-col span="12" class="mylist rt">
-                    阿萨德加快科技
+                    {{tasklist.state==0?'未完成':tasklist.state==1?'已完成':tasklist.state==2?'审核通过':tasklist.state==3?'审核拒绝':'未领取'}}
                 </van-col>
             </van-row>
             <van-row class="Trow">
                 <van-col span="12" class="mylist">
-                    完成状态：
+                    最后更新：
                 </van-col>
                 <van-col span="12" class="mylist rt">
-                    阿萨德加快科技
+                    <!-- {{tasklist.time}} -->2019-07-31
                 </van-col>
             </van-row>
             <van-row class="Trow">
-                <img src="../assets/images/banner.jpg" alt style="width:50%;height:300px;border-radius: 3px;display:block;margin:10px 0;"/>
+                <img src="../assets/images/banner.png" alt style="width:50%;height:300px;border-radius: 3px;display:block;margin:10px 0;"/>
             </van-row>
         </div>    
         
@@ -50,14 +50,14 @@ export default {
 	data() {
 		return {
             uid:this.$store.state.uid || window.localStorage.getItem("uid"),
+            tasklist:''
 		}
     },
     created(){       
-       this.postRequest({ cmd: "taskDetail",uid:this.uid,taskId:this.taskId }).then(res => {
+        var taskId = this.$route.params.taskId
+       this.postRequest({ cmd: "taskDetail",uid:this.uid,taskId:taskId }).then(res => {
             console.log(res)
-            if(res.dataList){
-            //   this.tasklist = res.data.dataList
-            }             
+            this.tasklist = res.data          
         });
     },
     mounted(){

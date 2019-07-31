@@ -8,6 +8,7 @@
             label="原密码"
             placeholder="请输入原密码"
         />
+        <div style="height:10px;width:100%;background:rgba(246,246,246,1);"></div>
         <van-field
             v-model="newpsw"
             required

@@ -1,9 +1,10 @@
 <template>
     <div>
         <div class="n1">
-            <van-icon  class="nocimg" name="volume" color="#1889f9" size="18"/>            
+            <!-- <van-icon  class="nocimg" name="volume" color="#1889f9" size="18"/>             -->
+            <img src="@/assets/images/laba.png"  class="nocimg" alt style="height:18px;width:18px;"/>
             <transition-group name="slide">            
-            <p :key="text.id">{{text.val}}</p>
+            <p :key="text.id" @click="gourl(text.url)">{{text.val}}</p>
             </transition-group>           
         </div>        
     </div>
@@ -18,7 +19,8 @@ export default {
         text () {
             return {
                 id: this.number,
-                val: this.textArr[this.number]
+                val: this.textArr[this.number].title,
+                url:this.textArr[this.number].url
             }
         }
     },
@@ -31,6 +33,15 @@ export default {
         this.startMove()
     },
     methods:{
+        gourl(src){
+            this.$router.push({
+                name:'webview',
+                params:{
+                src:src,
+                title:'乐赞APP'
+                }
+            })
+        },
         startMove () {
             // eslint-disable-next-line
             let timer = setTimeout(() => {
@@ -48,21 +59,22 @@ export default {
 <style scoped>
 
 .n1{  
-  box-shadow:0 2px 6px rgba(100, 100, 100, 0.3);
+  box-shadow:0 2px 6px rgba(100, 100, 100, 0.4);
   width: 100%;
-  height: 40px;
+  height: 32px;
   border-radius: 30px;
   display: flex;
   flex-flow: row;
   align-items: center;
-  padding-left: 15px;
+  padding-left: 23px;
+  background: #fff;
   position: relative;
 }
 .nocimg{margin-right: 10px;}
 .n1 p{ width: 100%;
     position: absolute;
-    height: 40px;
-    line-height: 40px;
+    height: 32px;
+    line-height: 32px;
     font-size: 14px;
     bottom: 0;}
 .slide-enter-active, .slide-leave-active {

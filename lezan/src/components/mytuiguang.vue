@@ -1,25 +1,22 @@
 <template>
     <div>
         <myheader tit="我的推广" showL="true"></myheader>
-        <img src="../assets/images/banner.jpg" alt style="width:100%;height:160px;border-radius: 3px;display:block;box-shadow:0 2px 6px rgba(100, 100, 100, 0.3);"/>
+        <img :src="tasklist.image" alt style="width:100%;height:160px;border-radius: 3px;display:block;box-shadow:0 2px 6px rgba(100, 100, 100, 0.3);"/>
         <div class="wrap">  
             <div class="ti">
                 <p :class="[Tabactive==0?'actived':'']" @click="tabselect(0)">文字素材</p>
                 <p :class="[Tabactive==1?'actived':'']" @click="tabselect(1)">图片素材</p>
             </div>
+            <button class="copy">长按文字选择复制</button>
             <ul class="ullist" v-if="Tabactive==0">
-                 <li class="flex"  v-for="(item,index) in tasklist" :key="index">
-                      <span>asasas</span>
-                      <span>5415413</span>
-                      <span>2018-10-10 12:13:55</span>
+                 <li class="flex sp">
+                      {{tasklist.content}}
                  </li>
-                  <p class="nodata">暂无数据..</p>
             </ul>
             <ul class="ullist" v-if="Tabactive==1">
-                 <li class="flex"  v-for="(item,index) in tasklist" :key="index">
-                     <img src="../assets/images/banner.jpg" alt style="width:100%;height:160px;border-radius: 3px;display:block;box-shadow:0 2px 6px rgba(100, 100, 100, 0.3);"/>
+                 <li class="flex"  v-for="i in tasklist.pics" :key="i" style="margin-bottom:20px;">
+                     <img :src="i" alt style="width:100%;height:160px;border-radius: 3px;display:block;box-shadow:0 2px 6px rgba(100, 100, 100, 0.3);"/>
                  </li>
-                  <p class="nodata">暂无数据..</p>
             </ul>
         </div>
     </div>
@@ -32,7 +29,7 @@ export default {
         return{
            uid:this.$store.state.uid || window.localStorage.getItem("uid"),	
            Tabactive:0,
-           tasklist:[1,1,1,1,5]
+           tasklist:{},
         }
     },
     created(){
@@ -44,7 +41,7 @@ export default {
         },
         getList(){
            this.postRequest({ cmd: "material"}).then(res => {
-                console.log(res)
+                this.tasklist = res.data
                 
             });
        },
@@ -52,8 +49,28 @@ export default {
 }
 </script>
 <style scoped>
+.sp{
+    font-size: 14px;
+    height: 18px;
+    line-height: 18px;
+}
+.copy{
+    width: 92%;
+    display: block;
+    margin: 0 auto;
+    height:40px;
+    background:rgba(250,206,21,0.06);
+    border:1px solid rgba(250,206,21,1);
+    border-radius:5px;
+    margin: 15px auto;
+    color: #666666;
+    font-size: 14px;
+
+}
 .actived{
   font-weight: bold;
+  color: #333!important;
+  border-bottom: 2px solid #FACE15;
 }
 .wrap{
     padding: 10px;

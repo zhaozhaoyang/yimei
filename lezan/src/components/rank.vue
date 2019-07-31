@@ -1,8 +1,7 @@
 <template>
-    <div>
-        <myheader tit="排行榜" bg='2'></myheader>   
-        <div class="wrap" :style="{'top':positionTop}">       
-            <img :src="image" alt style="width:100%;height:160px;display:block;"/>
+    <div> 
+        <div class="wrap" >       
+            <img src="@/assets/images/rank.png" alt style="width:100%;height:220px;display:block;box-shadow:0 2px 6px rgba(100, 100, 100, 0.3);"/>
             <!-- 可做动画效果 -->
             <div class="plist">
                 <p class="flex">
@@ -83,6 +82,7 @@ export default {
 .wrap{
     width: 100%;
     position: absolute;  
+    top: 0;
     bottom: 1.3333rem; 
     overflow-x: hidden;
     overflow-y: scroll;
@@ -105,7 +105,8 @@ export default {
     display: flex;flex-flow: row;
 }
 .plist p span{
-    font-size: 16px;
+    font-size: 15px;
+    color: #999;
 }
 .plist ul span{
     font-size: 15px;
@@ -118,6 +119,7 @@ export default {
     border-bottom: 1px solid #E6E6E6;
     height: 58px;
     line-height: 58px;
+    color: #666;
 }
 </style>
 

@@ -87,7 +87,7 @@ export default new Router({
       name: 'swiper',
       component: () => import('./views/swiper.vue')
     },{
-      path: '/',
+      path: '/pay',
       name: 'pay',
       component: () => import('./views/pay.vue')
     }
