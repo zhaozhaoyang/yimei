@@ -20,7 +20,7 @@
                     </li>
                 </ul>
             </div>
-            <p class="lqsx">领取顺序</p>
+            <p class="lqsx">任务流程</p>
             <ul class="bars">
                 <li>
                     <img src="@/assets/images/t1.png" alt />
@@ -65,16 +65,39 @@ export default {
             isGet:false,
             uid: this.$store.state.uid || window.localStorage.getItem("uid"),
             taskId:'',
-            obj:''
+            obj:'',
         }
     },
     created(){
         this.taskId = this.$route.params.taskId || sessionStorage.getItem('taskId')
+        if(sessionStorage.getItem('isGet') == 'false'){
+            this.isGet = false
+        }else{
+            this.isGet = true
+        }
+        
         this.postRequest({ cmd: "taskDetail",uid:this.uid,taskId:this.taskId}).then(res => {
             console.log(res)
             this.obj = res.data
 
         });
+    },
+    mounted(){
+        var first = null
+        var that =this
+		mui.back = function() {
+			if (!first) {
+				first = new Date().getTime() 
+				that.$router.push('/index')
+				setTimeout(function() { 
+					first = null
+				}, 1000)
+			} else {
+				if (new Date().getTime() - first < 1000) { 
+					plus.runtime.quit() 
+				}
+			}
+        }  
     },
     methods:{
         gettask(){            
@@ -84,7 +107,7 @@ export default {
             }            
             this.postRequest({ cmd: "addTask",uid:this.uid,taskId:this.taskId}).then(res => {
                 if(res.data.result=='0'){                    
-                    console.log(res)
+                    // console.log(res)
                     this.isGet = true
                     Toast.success('领取成功！')
                 }
@@ -196,8 +219,8 @@ p.detitle{
   border-radius: 6px;
 }
 .ullist li{
-  height: 75px;  
-  padding: 0 8px;
+  min-height: 75px;  
+  padding: 3px 8px;
 }
 .ullist li + li{
   border-top: 1px solid #E6E6E6;

@@ -3,14 +3,16 @@
         <myheader tit="缴纳押金" showL="true"></myheader>
         <div class="wrap">
             <div class="head">
-                <img src="../assets/images/touxiang.png" style="width:45px;height:45px;border-radius: 50%;display:block;"/>
+                <img :src="userInfo.icon" style="width:45px;height:45px;border-radius: 50%;display:block;"/>
                 <div class="user">
                     <p>
-                        <span class="sp1">维也纳音乐盒</span>
+                        <span class="sp1">{{userInfo.nickname}}</span>
+                        <span class="lv"  v-if="userInfo.vip != '0'">LV.{{userInfo.vip}}</span>
+                        <span class="lv" v-if="userInfo.vip == '0'">普通用户</span>
                     </p>
-                    <p class="sp2">押金退还时间：暂未缴纳押金</p>
+                    <p class="sp2">押金退还时间：<span v-if="userInfo.vip == '0'"> 暂未缴纳押金</span></p>
                 </div>
-                <button class="tip">缴纳</button>
+                <button class="tip" @click="move">缴纳</button>
             </div>
             <p class="level">会员等级</p>
             <div class="cards">
@@ -29,10 +31,8 @@
             <p class="level">代理：</p>
             <p class="color9">一级代理提佣金的20%</p>
             <p class="color9">二级代理提佣金的10%</p>
-             <!-- @click="pay('alipay')" -->
-             <!-- <div style="position:fixed;bottom:20px;left:50%;transform:translate(-50%)"> -->
-                 <m-ybutton text="立即缴纳" @click="buy"></m-ybutton>
-             <!-- </div>             -->
+            <m-ybutton text="立即缴纳" @click="buy"></m-ybutton>
+            
         </div> 
          
     </div>
@@ -40,9 +40,8 @@
 <script>
 import myheader  from './component/header.vue'
 import { Toast } from "vant";
-var pays={};
-var w=null;
-var PAYSERVER='http://demo.dcloud.net.cn/payment/?payid=';
+var channel=null;  
+var ALIPAYSERVER='http://demo.dcloud.net.cn/helloh5/payment/alipay.php?total=';
 export default {
     components:{myheader},
     data(){
@@ -59,89 +58,91 @@ export default {
             ],
             nowclick:-1,
             type:'',
-            price:''
+            price:'',
+            userInfo:JSON.parse(window.localStorage.getItem("userInfo"))
         }
     },
     created(){
         this.postRequest({ cmd: "vipList"}).then(res => {
-            console.log(res)
+            // console.log(res)
             this.levellist = res.data.dataList
         });
     },
     mounted(){
-        document.addEventListener('plusready', this.plusReady, false);
-    },
-    methods:{  
-        plusReady(){
-            // 获取支付通道
-            plus.payment.getChannels(function(channels){
-                console.log(JSON.stringify(channels))
-                var txt='支付通道信息：';
-                for(var i in channels){
-                    var channel=channels[i];
-                    if(channel.id=='qhpay'||channel.id=='qihoo'){	// 过滤掉不支持的支付通道：暂不支持360相关支付
-                        continue;
-                    }
-                    pays[channel.id]=channel;
-                }
-            },function(e){
-                outLine('获取支付通道失败：'+e.message);
-            });
-        },
-       pay(id){
-            if(w){return;}//检查是否请求订单中
-            console.log('----- 请求支付 -----');
-            var url=PAYSERVER;
-            url+=id;
-            var appid=plus.runtime.appid;
-            if(navigator.userAgent.indexOf('StreamApp')>=0){
-                appid='Stream';
+        var first = null
+        var that =this
+		mui.back = function() {
+			if (!first) {
+				first = new Date().getTime() 
+				that.$router.push('/my')
+				setTimeout(function() { 
+					first = null
+				}, 1000)
+			} else {
+				if (new Date().getTime() - first < 1000) { 
+					plus.runtime.quit() 
+				}
+			}
+        }
+         document.addEventListener('plusready', this.plusReady, false);
+    
+        
+    },   
+
+       
+    methods:{
+        plusReady(){ //uni-app中将此function里的代码放入vue页面的onLoad生命周期中  
+            let that =this
+            // 获取支付通道  
+            plus.payment.getChannels(function(channels){  
+                channel=channels[0];  
+                console.log('获取支付通道')
+                console.log(channel)
+                that.pay('alipay')
+            },function(e){  
+                alert("获取支付通道失败："+e.message);  
+            });  
+        },  
+        pay(id){  
+            // 从服务器请求支付订单  
+            var PAYSERVER='';  
+            if(id=='alipay'){  
+                PAYSERVER=ALIPAYSERVER;  
             }
-            url+='&appid='+appid+'&total=';
-            
-            w=plus.nativeUI.showWaiting();
-            // 请求支付订单
-            var amount = '1';
-            var xhr=new XMLHttpRequest();
-            xhr.onreadystatechange=function(){
-                switch(xhr.readyState){
-                    case 4:
-                    w.close();w=null;
-                    if(xhr.status==200){
-                        console.log('----- 请求订单成功 -----');
-                        console.log(xhr.responseText);
-                        var order=xhr.responseText;
-                        plus.payment.request({"id":"alipay","description":"支付宝","serviceReady":true},order,function(result){
-                            console.log('----- 支付成功 -----');
-                            console.log(JSON.stringify(result));
-                            plus.nativeUI.alert('支付成功：感谢你的支持，我们会继续努力完善产品。',function(){
-                                back();
-                            },'捐赠');
-                        },function(e){
-                            console.log('----- 支付失败 -----');
-                            console.log('['+e.code+']：'+e.message);
-                            plus.nativeUI.alert('更多错误信息请参考支付(Payment)规范文档：http://www.html5plus.org/#specification#/specification/Payment.html', null, '支付失败：'+e.code);
-                        });
-                    }else{
-                        console.log('----- 请求订单失败 -----');
-                        console.log( xhr.status );
-                        plus.nativeUI.alert('获取订单信息失败！', null, '捐赠');
-                    }
-                    break;
-                    default:
-                    break;
-                }
-            }
-            xhr.open('GET',url+amount);
-            console.log('请求支付订单：'+url+amount);
-            xhr.send();
-        },
+            var xhr=new XMLHttpRequest(); //uni-app中请使用uni的request api联网  
+            xhr.onreadystatechange=function(){  
+                switch(xhr.readyState){  
+                    case 4:  
+                    if(xhr.status==200){ 
+                        console.log('去支付了') 
+                        console.log(channel) 
+                        plus.payment.request(channel,xhr.responseText,function(result){  
+                            plus.nativeUI.alert("支付成功！",function(){  
+                                back();  
+                            });  
+                        },function(error){  
+                            plus.nativeUI.alert("支付失败：" + error.code);  
+                        });  
+                    }else{  
+                        alert("获取订单信息失败！");  
+                    }  
+                    break;  
+                    default:  
+                    break;  
+                }  
+            }  
+            xhr.open('GET',PAYSERVER);  
+            xhr.send();  
+        },  
        select(num,price){
            this.nowclick = num
            this.price = price
-           console.log(num)
        },
        buy(){
+        //    this.pay('alipay')
+           this.plusReady()
+           return;
+
            if(this.nowclick == '-1' || this.price==''){
                 Toast('请选择vip类型')
                 return;
@@ -152,6 +153,9 @@ export default {
                 console.log(res)
                         
            });
+       },
+       move(){
+          window.scrollTo({top:400,behavior: "smooth"})
        }
     }
 }
@@ -165,6 +169,18 @@ export default {
 .wrap{
     padding: 10px;
     background:rgba(247,247,247,1);
+}
+.lv{
+    color: #fff;
+    display: inline-block;
+    height: 13px;
+    line-height: 13px;
+    width: 30px;
+    background: #FACE15;
+    border: 1px solid #f28b42;
+    text-align: center;
+    border-radius: 3px;
+    font-size: 10px;
 }
 .head{
     display: flex;

@@ -42,6 +42,10 @@ export default {
                 pagination: {
                   el: '.swiper-pagination',
                 },
+                loopAdditionalSlides: 3,
+                autoplay: {// 自动滑动
+                  disableOnInteraction: false
+                },
 
             },
         }

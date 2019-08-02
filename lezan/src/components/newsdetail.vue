@@ -18,10 +18,12 @@ export default {
     },
     mounted(){
         var first = null
+        var that =this
 		mui.back = function() {
 			if (!first) {
 				first = new Date().getTime() 
-				mui.toast('再按一次退出应用')
+                // mui.toast('再按一次退出应用')
+                that.$router.back()
 				setTimeout(function() { 
 					first = null
 				}, 1000)

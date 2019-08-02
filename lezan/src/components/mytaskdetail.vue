@@ -32,11 +32,11 @@
                     最后更新：
                 </van-col>
                 <van-col span="12" class="mylist rt">
-                    <!-- {{tasklist.time}} -->2019-07-31
+                    {{time}}
                 </van-col>
             </van-row>
             <van-row class="Trow">
-                <img src="../assets/images/banner.png" alt style="width:50%;height:300px;border-radius: 3px;display:block;margin:10px 0;"/>
+                <img :src="tasklist.image" alt style="width:50%;border-radius: 3px;display:block;margin:10px 0;"/>
             </van-row>
         </div>    
         
@@ -50,11 +50,13 @@ export default {
 	data() {
 		return {
             uid:this.$store.state.uid || window.localStorage.getItem("uid"),
-            tasklist:''
+            tasklist:'',
+            time:''
 		}
     },
     created(){       
         var taskId = this.$route.params.taskId
+        this.time = this.$route.params.time
        this.postRequest({ cmd: "taskDetail",uid:this.uid,taskId:taskId }).then(res => {
             console.log(res)
             this.tasklist = res.data          
@@ -62,10 +64,11 @@ export default {
     },
     mounted(){
         var first = null
+        var that =this
 		mui.back = function() {
 			if (!first) {
 				first = new Date().getTime() 
-				mui.toast('再按一次退出应用')
+				that.$router.back()
 				setTimeout(function() { 
 					first = null
 				}, 1000)

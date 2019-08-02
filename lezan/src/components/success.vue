@@ -1,8 +1,8 @@
 <template>
   <div class="c1">
-    <myheader tit="提交成功" showL="true"></myheader>
+    <myheader tit="提交成功"></myheader>
     <div class="success">
-        <img src="../assets/images/success.jpg">
+        <img src="../assets/images/chenggong.png">
         <span>提交成功</span>
     </div>
     <m-ybutton @click="doIt" text="确定"></m-ybutton>

@@ -131,8 +131,8 @@ export default {
     methods:{
          //打开预购规则页面
         advances(){
-            Toast('请去app端进行支付！')
-            return;
+            // Toast('请去app端进行支付！')
+            // return;
             this.popup = 1;
             if(this.ordernum == ''){
                 let params = {
@@ -159,7 +159,9 @@ export default {
             // this.$router.push('/shopcar')
         },
         bcPay() {
-            var appid = "cfeb7a37-1050-4945-8d41-0ee20e5149d9";
+            // wxfb1ebe2a840c9206
+            // var appid = "cfeb7a37-1050-4945-8d41-0ee20e5149d9";
+            var appid = 'cfeb7a37-1050-4945-8d41-0ee20e5149d9'
             var secret = "263a1a17-dd31-4700-b882-8c6ae7218468";
             var outTradeNo = this.ordernum;
             // var sign = "7290107289d8aed74631f580d1de9a21";

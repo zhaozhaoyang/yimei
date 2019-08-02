@@ -137,7 +137,7 @@ export default {
           var scrollHeight=document.body.scrollHeight|| document.documentElement.scrollHeight;
           //滚动的距离（动态） +  页面可视高度 （固定） 》= 页面总高度 （固定）
             if(scrollTop + (clientHeight - 0) >=scrollHeight - 0){    
-              console.log('底部...')      
+              console.log('底部...'+scrollTop)      
               this.getTuidata()              
             }
             // 吸顶

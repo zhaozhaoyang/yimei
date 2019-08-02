@@ -22,6 +22,10 @@ export default new Router({
       component: Home
     },
     {
+      path: '/',
+      redirect: 'home'
+    },
+    {
       path: '/about',
       name: 'about',
       // route level code-splitting
@@ -63,6 +67,11 @@ export default new Router({
       path: '/list', //这个为vant
       name: 'list',
       component: list
+    },
+    {
+      path: '/listnew',
+      name: 'listnew',
+      component: () => import('./views/listnew.vue')
     },
     {
       path: '/listscroll', //better-scroll

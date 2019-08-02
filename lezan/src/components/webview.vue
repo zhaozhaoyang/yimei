@@ -28,7 +28,7 @@ export default {
             var that = this
             mui.back = function() {
                 if (!first) {
-                    that.$router.push('/index')
+                    that.$router.back()
                     first = new Date().getTime() 
                     setTimeout(function() { 
                         first = null

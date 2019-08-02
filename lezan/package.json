@@ -15,6 +15,7 @@
     "fastclick": "^1.0.6",
     "lib-flexible": "^0.3.2",
     "px2rem-loader": "^0.1.9",
+    "qrcodejs2": "^0.0.2",
     "style-loader": "^0.23.1",
     "swiper": "^4.5.0",
     "va-carousel": "^1.0.4",

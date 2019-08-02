@@ -1,6 +1,6 @@
 <template>
   <div class="c1">
-    <myheader tit="提交成功" showL="true"></myheader>
+    <myheader tit="提交成功"></myheader>
     <div class="success">
         <img src="../assets/images/success.jpg">
         <span style="font-size:15px;">页面将在<font class="blue"> {{time}}s</font> 后 <font class="blue" @click="$router.back()">跳转</font></span>
@@ -26,6 +26,22 @@ export default {
             this.$router.back()
           }
       },1000)
+
+      var first = null
+      var that = this
+      mui.back = function() {
+          if (!first) {
+          that.$router.push('/my')
+          first = new Date().getTime() 
+          setTimeout(function() { 
+              first = null
+          }, 1000)
+          } else {
+          if (new Date().getTime() - first < 1000) { 
+              plus.runtime.quit() 
+          }
+          }
+      }
   },
   methods:{      
   }

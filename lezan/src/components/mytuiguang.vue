@@ -6,16 +6,17 @@
             <div class="ti">
                 <p :class="[Tabactive==0?'actived':'']" @click="tabselect(0)">文字素材</p>
                 <p :class="[Tabactive==1?'actived':'']" @click="tabselect(1)">图片素材</p>
-            </div>
-            <button class="copy">长按文字选择复制</button>
+            </div>            
             <ul class="ullist" v-if="Tabactive==0">
+                <button class="copy">长按文字选择复制</button>
                  <li class="flex sp">
                       {{tasklist.content}}
                  </li>
             </ul>
             <ul class="ullist" v-if="Tabactive==1">
+                <button class="copy">长按图片选择复制</button>
                  <li class="flex"  v-for="i in tasklist.pics" :key="i" style="margin-bottom:20px;">
-                     <img :src="i" alt style="width:100%;height:160px;border-radius: 3px;display:block;box-shadow:0 2px 6px rgba(100, 100, 100, 0.3);"/>
+                     <img :src="i" @click="saveImg(i)" alt style="width:100%;border-radius: 3px;display:block;box-shadow:0 2px 6px rgba(100, 100, 100, 0.3);"/>
                  </li>
             </ul>
         </div>
@@ -23,6 +24,7 @@
 </template>
 <script>
 import myheader  from './component/header.vue'
+import {Toast,Dialog} from 'vant';
 export default {
     components:{myheader},
     data(){
@@ -35,7 +37,35 @@ export default {
     created(){
         this.getList()
     },
+    mounted(){
+        var first = null
+        var that =this
+		mui.back = function() {
+			if (!first) {
+				first = new Date().getTime() 
+				that.$router.push('/my')
+				setTimeout(function() { 
+					first = null
+				}, 1000)
+			} else {
+				if (new Date().getTime() - first < 1000) { 
+					plus.runtime.quit() 
+				}
+			}
+        }  
+    },
     methods:{
+        saveImg(src){
+            Dialog.confirm({
+            title: '保存推广码',
+            message: '是否保存推广码'
+            }).then(() => { 
+                plus.gallery.save( src, function () {
+                    Toast.success('保存成功！');                
+                });
+            }).catch(() => {
+            });
+        },
         tabselect(num){
            this.Tabactive= num
         },

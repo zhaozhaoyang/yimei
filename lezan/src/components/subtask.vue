@@ -2,7 +2,9 @@
     <div>
         <myheader tit="任务详情" showL="true"></myheader>
         <div class="top">
-            <van-uploader :after-read="afterRead" accept="image/*" :max-count="1"  v-model="fileList" multiple/>
+            <van-uploader :after-read="afterRead" accept="image/*" :max-count="1"  v-model="fileList" multiple>
+                <img src="../assets/images/camera.png" alt="" style="height:78px;width:78px;margin-bottom:10px;">
+            </van-uploader>
             <p>添加图片</p>
         </div>
         <div class="pdalar">
@@ -20,7 +22,7 @@
                     任务金额
                 </van-col>
                 <van-col span="12" class="mylist rt">
-                   {{obj.price}}
+                   +{{obj.price}}
                 </van-col>
             </van-row>
             <van-row class="Trow">
@@ -44,7 +46,7 @@ export default {
     data(){
         return{
             uid: this.$store.state.uid || window.localStorage.getItem("uid"),
-            taskId:'',
+            userTaskId:'',
             fileList:[],
             obj:{}
         }
@@ -52,14 +54,21 @@ export default {
     created(){
         this.obj = this.$route.params.obj
         console.log(this.obj)
+        if(this.$route.params.obj.id){
+            this.userTaskId = this.$route.params.obj.id
+        }else{
+            this.userTaskId =this.$route.params.obj.userTaskId
+        }
+
         
     },
     mounted() {
         var first = null;
+        var that = this
         mui.back = function() {
             if (!first) {
             first = new Date().getTime();
-            mui.toast("再按一次退出应用");
+            that.$router.back()
             setTimeout(function() {
                 first = null;
             }, 1000);
@@ -77,7 +86,7 @@ export default {
             formdata.append("file", file.file);
             axios.post("http://122.114.56.212:8090/api/uploadFile",formdata)
             .then(res => {
-              Toast("上传成功！");
+            //   Toast("上传成功！");
               this.image =  'http://122.114.56.212:8090/'+res.data.url
               
             })
@@ -87,11 +96,14 @@ export default {
                 
         },
         subtask(){
-            this.postRequest({ cmd: "finishTask",uid:this.uid,userTaskId:this.obj.userTaskId,image:this.image}).then(res => {
-                console.log(res)
-                        
-            });
-            this.$router.push('/success')
+            if(this.image==''){
+                Toast("请上传图片！");
+            }
+            var params = { cmd: "finishTask",uid:this.uid,userTaskId:this.userTaskId,image:this.image}            
+            this.postRequest(params).then(res => {
+                console.log(res)         
+                this.$router.push('/success')
+            });            
         }
     }
 }

@@ -40,24 +40,24 @@ export default {
     onLoad() {
       console.log(1111111)      
       // 异步更新数据
-      // setTimeout(() => {
-      //     // 数据全部加载完成
-      //   if (this.list.length >= 40) {
-      //     this.finished = true;
-      //     this.loading = false;
-      //     return;
-      //   }
-      //    let resList = []
-      //   for (let i = 0; i < 15; i++) {
-      //     resList.push(this.list.length + 1)
-      //     // this.list.push(this.list.length + 1);
-      //   }
-      //    this.list =[...this.list,...resList]
-      //   // 加载状态结束
-      //   this.loading = false;
+      setTimeout(() => {
+          // 数据全部加载完成
+        if (this.list.length >= 40) {
+          this.finished = true;
+          this.loading = false;
+          return;
+        }
+         let resList = []
+        for (let i = 0; i < 15; i++) {
+          resList.push(this.list.length + 1)
+          // this.list.push(this.list.length + 1);
+        }
+         this.list =[...this.list,...resList]
+        // 加载状态结束
+        this.loading = false;
 
         
-      // }, 500);
+      }, 500);
     },
     onRefresh() {
       setTimeout(() => {

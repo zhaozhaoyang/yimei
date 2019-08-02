@@ -23,7 +23,7 @@
                 <img
                     slot="icon"
                     slot-scope="props"
-                    :src="props.active ? icon1.active : icon1.normal"
+                    :src="props.active ? icon2.active : icon2.normal"
                 >
             </van-tabbar-item>
             <van-tabbar-item>
@@ -31,7 +31,7 @@
                 <img
                     slot="icon"
                     slot-scope="props"
-                    :src="props.active ? icon2.active : icon3.normal"
+                    :src="props.active ? icon3.active : icon3.normal"
                 >
             </van-tabbar-item>
         </van-tabbar>
@@ -54,8 +54,8 @@ export default {
                 active: require('../../assets/images/active_rank.jpg')
             },
             icon2: {
-                normal: require('../../assets/images/me.jpg'),
-                active: require('../../assets/images/active_me.jpg')
+                normal: require('../../assets/images/bell.png'),
+                active: require('../../assets/images/active_bell.png')
             },
             icon3: {
                 normal: require('../../assets/images/me.jpg'),

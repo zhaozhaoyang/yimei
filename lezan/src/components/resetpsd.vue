@@ -40,6 +40,23 @@ export default {
            uid: this.$store.state.uid || window.localStorage.getItem("uid"),
         }
     },
+    mounted(){
+        var first = null
+        var that =this
+		mui.back = function() {
+			if (!first) {
+				first = new Date().getTime() 
+				that.$router.push('/my')
+				setTimeout(function() { 
+					first = null
+				}, 1000)
+			} else {
+				if (new Date().getTime() - first < 1000) { 
+					plus.runtime.quit() 
+				}
+			}
+        }  
+    },
     methods:{
        subtask(){
            if(this.oldpsw==''||this.newpsw==''||this.password==''){

@@ -4,11 +4,12 @@
         <div style="position:relative;">
         <div class="bgm"></div>        
         <div class="head">
-            <img src="../assets/images/touxiang.png" style="width:55px;height:55px;border-radius: 50%;display:block;"/>
+            <img :src="userInfo.icon" style="width:55px;height:55px;border-radius: 50%;display:block;"/>
             <div class="user">
                 <p>
                     <span class="sp1">{{userInfo.nickname}}</span>
-                    <span class="lv">LV.3</span>
+                    <span class="lv"  v-if="userInfo.vip != '0'">LV.{{userInfo.vip}}</span>
+                    <span class="lv" v-if="userInfo.vip == '0'">普通用户</span>
                 </p>
                 <p class="sp2">ID: {{userInfo.account}}</p>
             </div>
@@ -23,7 +24,7 @@
                     <span class="span1">累计收益</span>
                     <span class="span2">{{userInfo.totalFee}}</span>
                 </li>
-                <button class="tip" @click="$router.push('/tixian')">提现</button>
+                <button class="tip" @click="$router.push('/tixian')">提现 <font style="font-size:12px;"></font></button>
             </ul>
             <!-- <div class="money">
                 <p>
@@ -70,7 +71,7 @@
                 </van-grid>
             </div>
         </div>
-        <van-popup v-model="codeImg"><img :src="userInfo.customer" alt @click="saveImg(userInfo.customer)"/></van-popup>
+        <van-popup v-model="codeImg"><img :src="customImg" alt @click="saveImg(customImg)"/></van-popup>
         <btmbar @goIndex="goto" :actived='actnum'></btmbar>  
         </div>  
     </div>
@@ -97,11 +98,20 @@ export default {
                 {name:'修改密码',src:require('@/assets/images/b8.png'),url:'/resetpsd'},
                 {name:'退出登录',src:require('@/assets/images/b9.png'),url:''},
             ],
-            userInfo:{}
+            userInfo:{},
+            customImg:''
         }
     },
     created(){
-        this.userInfo = JSON.parse(window.localStorage.getItem("userInfo"))
+        window.localStorage.setItem('zfInfo','')  
+        this.postRequest({ cmd: "customerImage"}).then(res => {
+            this.customImg = res.data.image     
+        });
+        this.postRequest({ cmd: "userInfo",uid:this.uid}).then(res => {     
+          window.localStorage.setItem("userInfo", JSON.stringify(res.data));          
+          this.userInfo = JSON.parse(window.localStorage.getItem("userInfo"))
+      });
+
     },
     methods:{
         come(num){
@@ -110,7 +120,8 @@ export default {
             }else if(num == 8){
                 //退出登录
                 window.localStorage.setItem("uid",'')
-                window.localStorage.setItem("userInfo",{})
+                window.localStorage.setItem("userInfo",'')
+                window.localStorage.setItem('zfInfo','')
                 Toast.loading({
                     duration: 0,       // 持续展示 toast
                     forbidClick: true, // 禁用背景点击
@@ -259,8 +270,8 @@ export default {
   font-size: 12px;
 }
 .bars li img {
-  width:35px;
-  height:35px;
+  width:30px;
+  height:30px;
 }
 .money{
     width: 100%;

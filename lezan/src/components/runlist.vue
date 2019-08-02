@@ -20,27 +20,27 @@
                 <p :class="[Tabactive==1?'actived':'']" @click="tabselect(1)">任务收入</p>
             </div>
              <ul class="ullist" v-if="Tabactive==0">
-                 <li class="flex"  v-for="(item,index) in 5" :key="index">
-                      <img src="../assets/images/touxiang.png" alt style="height:33px;width:33px;"/>
-                      <span class="c_middle">好友1</span>
-                      <span class="b1 red">+1.00 </span> <sup class="f4">元</sup>   
+                 <li class="flex"  v-for="(item,index) in tasklist" :key="index">
+                      <img :src="item.image" alt style="height:33px;width:33px;"/>
+                      <span class="c_middle">{{item.title}}</span>
+                      <span class="b1 red">+{{item.title}} </span> <sup class="f4">元</sup>   
                  </li>
-                  <p class="nodata">暂无数据</p>
+                  <p class="nodata" v-if="tasklist.length==0">暂无数据</p>
             </ul>
              <ul class="ullist" v-if="Tabactive==1">
-                <li class="flex" v-for="(item,index) in 5" :key="index">
-                    <img src="../assets/images/touxiang.png" alt style="height:30px;width:30px;"/>
+                <li class="flex" v-for="(item,index) in tasklist" :key="index">
+                    <img :src="item.image" alt style="height:35px;width:35px;"/>
                     <div class="c_middle">
-                        <p class="f1"> asdasd</p>
+                        <p class="f1"> {{item.title}}</p>
                         <p class="p1">
                             <span class="f2">抖音点赞</span>                        
                         </p>                
                     </div>
                     <div class="flex red">
-                    <span class="b1">+1.00 </span><sup class="f4">元</sup>                
+                    <span class="b1">+{{item.fee}} </span><sup class="f4">元</sup>                
                     </div>
                 </li>
-                <p class="nodata">暂无数据</p>
+                <p class="nodata" v-if="tasklist.length==0">暂无数据</p>
             </ul>
         </div>
     </div>
@@ -57,18 +57,36 @@ export default {
            type:1,//1好友提成 2任务收入
            pageNo:1,
            totalPage:1,
-           todayFee:'',
-           totalFee:''
+           todayFee:'0.00',
+           totalFee:'0.00'
         }
     },
     created(){
         this.getList()
+    },
+    mounted(){
+        var first = null
+        var that =this
+		mui.back = function() {
+			if (!first) {
+				first = new Date().getTime() 
+				that.$router.push('/my')
+				setTimeout(function() { 
+					first = null
+				}, 1000)
+			} else {
+				if (new Date().getTime() - first < 1000) { 
+					plus.runtime.quit() 
+				}
+			}
+        }  
     },
     methods:{
        tabselect(num){
            this.Tabactive= num
            this.type = Number(num)+1
            this.pageNo = 1
+           this.tasklist = []
            this.getList()
        },
        getList(){          
@@ -161,8 +179,8 @@ export default {
   height: 60px;  
   padding: 0 8px;
 }
-.ullist li + li{
-  border-top: 1px solid #E6E6E6;
+.ullist li {
+  border-bottom: 1px solid #E6E6E6;
 }
 .c_middle{
   flex: 1;

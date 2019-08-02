@@ -35,19 +35,38 @@ export default {
            
         }
     },
+    mounted() {
+        var first = null;
+        var that = this
+        mui.back = function() {
+            if (!first) {
+            first = new Date().getTime();
+            that.$router.back()
+            setTimeout(function() {
+                first = null;
+            }, 1000);
+            } else {
+            if (new Date().getTime() - first < 1000) {
+                plus.runtime.quit();
+            }
+            }
+        };
+
+    },
     methods:{
        comfirm(){
-           if(this.zfInfo.username==''|| this.zfInfo.number == ''){
+           if(this.zfInfo.username.trim()==''|| this.zfInfo.number.trim() == ''){
                this.$toast('请完善您的账号信息!')
            }else{
                window.localStorage.setItem('zfInfo',JSON.stringify(this.zfInfo))
-               this.$toast.success({
-                   message:'保存成功！',
-                   duration:1000,
-                   onClose:()=>{
-                       this.$router.back()
-                   }
-               })
+               this.$router.back(-1)
+            //    this.$toast.success({
+            //        message:'保存成功！',
+            //        duration:1000,
+            //        onClose:()=>{
+            //            this.$router.back()
+            //        }
+            //    })
                
            }           
        }

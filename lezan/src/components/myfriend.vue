@@ -3,12 +3,19 @@
         <myheader tit="我的好友" showL="true"  bg='2'></myheader>
         <div class="wrap">            
             <div class="ti">
-                <p :class="[Tabactive==0?'actived':'']" @click="tabselect(0)">一级好友(20)</p>
-                <p :class="[Tabactive==1?'actived':'']" @click="tabselect(1)">二级好友(10)</p>
+                <p :class="[Tabactive==0?'actived':'']" @click="tabselect(0)">一级好友({{totalCount}})</p>
+                <p :class="[Tabactive==1?'actived':'']" @click="tabselect(1)">二级好友({{totalCount}})</p>
             </div>
             <p class="flex ptitle">
                 <span>用户名</span><span>账号</span><span>注册时间</span>
             </p>
+            <van-list
+              v-model="loading"
+              :finished="finished"
+              finished-text="没有更多了"
+              @load="onLoad"
+              :immediate-check="false"
+            >
             <ul class="ullist" v-if="Tabactive==0">
                  <li class="flex"  v-for="(item,index) in tasklist" :key="index">
                       <span>{{item.nickname}}</span>
@@ -25,6 +32,7 @@
                 </li>
                 <p class="nodata">暂无数据...</p>
             </ul>
+            </van-list>
         </div>
 
     </div>
@@ -41,20 +49,80 @@ export default {
             type:'1', //1一级好友 2二级好友
             pageNo:1,
             totalPage:1,
-            totalCount:0  //总人数
+            totalCount:0 , //总人数
+
+            loading: false,
+            finished: false
         }
     },
-    created(){      
-      this.postRequest({ cmd: "friendList",uid:this.uid,type:this.type,pageNo:this.pageNo }).then(res => {
-          console.log(res)
-          if(res.dataList){
-            this.tasklist = res.data.dataList
-          }             
-      });
+    created(){
+      this.getList()
+    },
+    mounted(){
+      var first = null
+      var that = this
+      mui.back = function() {
+        if (!first) {
+          that.$router.push('/my')
+          first = new Date().getTime() 
+          setTimeout(function() { 
+            first = null
+          }, 1000)
+        } else {
+          if (new Date().getTime() - first < 1000) { 
+            plus.runtime.quit() 
+          }
+        }
+      }
     },
     methods:{
+      onLoad(){
+        console.log('加载')
+        setTimeout(() => {
+          if(this.Tabactive == '0'){
+            if (this.pageNo > this.totalPage) {        
+              this.loading = false;     
+              this.finished = true
+            }else{
+              this.type = 1
+              this.getList()  
+              this.loading = false;
+            }
+          }else{
+            if (this.pageNo > this.totalPage) {        
+              this.loading = false;     
+              this.finished = true
+            }else{
+              this.type =2
+              this.getList()  
+              this.loading = false;
+            }
+          }
+          
+          
+        }, 2000);
+          
+      },
+      getList(num){
+        if(num){
+          this.pageNo =1;
+          this.tasklist = []
+          this.finished = false
+        }
+        this.postRequest({ cmd: "friendList",uid:this.uid,type:this.type,pageNo:this.pageNo }).then(res => {
+            console.log(res)
+            if(res.data.dataList){
+              this.tasklist = res.data.dataList
+              this.totalPage = res.data.totalPage
+              this.totalCount = res.data.totalCount
+              this.pageNo++
+            }             
+        });
+      },
        tabselect(num){
            this.Tabactive= num
+           this.type = Number(num)+1
+           this.getList(1);
        }
     }
 }

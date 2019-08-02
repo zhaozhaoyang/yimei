@@ -52,8 +52,8 @@ import { setTimeout } from 'timers';
             },1000)            
             return;
         }
-        var params = {cmd:"messagelist",uid:"872565d6103947fbbc7f5b6a7d0479be",nowPage:this.nowPage,pageCount:this.pageCount}
-        this.http.post(encodeURI('http://122.114.48.61:8080/garbage/api/service?json='+JSON.stringify(params)))   //不加encodeURI报跨域错误
+        var params = {cmd:"messagelist",uid:"32a88cc60da04a8ab905a7aa930bfb9c",nowPage:this.nowPage,pageCount:this.pageCount}
+        this.http.post(encodeURI('http://112.126.98.64/garbage/api/service?json='+JSON.stringify(params)))   //不加encodeURI报跨域错误
         .then(res=>{
             console.log(res)
             setTimeout(()=>{

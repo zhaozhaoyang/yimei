@@ -22,13 +22,13 @@
                 </p>                
               </div>
               <div class="flex red">
-              <span class="b1">+{{item.price}} </span><sup class="f4"></sup>                
+              <span class="b1">+{{item.price}} </span><sup class="f4"> 元</sup>                
               </div>
           </li>          
           <p class="nodata" v-if="tasklist.length==0">暂无任务</p>
         </ul>       
         <ul class="ullist" v-if="Tabactive==1">
-            <li class="flex" v-for="(item2,index)  in mytasklist" :key="index">
+            <li class="flex" v-for="(item2,index)  in mytasklist"  @click="getTaskdetail(item2.taskId,'my')" :key="index">
                 <img :src="item2.image" alt style="height:30px;width:30px;"/>
                 <div class="c_middle">
                 <p class="f1"> {{item2.title}}</p>
@@ -38,12 +38,12 @@
                 </p>                
                 </div>
                 <div class="flex red">
-                <span class="b1">+{{item2.price}} </span><sup class="f4"></sup>                
+                <span class="b1">+{{item2.price}} </span><sup class="f4"> 元</sup>                
                 </div>
             </li>
             <p class="nodata" v-if="mytasklist.length==0">暂无数据</p>
         </ul>
-        </van-list>
+        </van-list>       
     </div>
 </template>
 <script>
@@ -53,6 +53,7 @@ export default {
              Tabactive:0,
              pageNo:1,             
              totalPage:1,
+             uid: this.$store.state.uid || window.localStorage.getItem("uid"),
 
              pageNoMy:1,
              totalPageMy:1,
@@ -88,13 +89,13 @@ export default {
     filters:{
       formatstate(num){
         switch(num){
-          case 0:
+          case '0':
             return '未完成';
-          case 1:
+          case '1':
             return '已完成';
-          case 2:
+          case '2':
             return '审核通过';
-          case 3:
+          case '3':
             return '审核拒绝';
         }
       }
@@ -103,13 +104,24 @@ export default {
       onLoad(){
         console.log('加载')
         setTimeout(() => {
-          if (this.pageNo > this.totalPage) {            
-            this.loading = false;     
-            this.finished = true
+          if(this.Tabactive == '0'){
+            if (this.pageNo > this.totalPage) {        
+              this.loading = false;     
+              this.finished = true
+            }else{
+              this.getList()  
+              this.loading = false;
+            }
           }else{
-            this.getList()  
-            this.loading = false;
+            if (this.pageNoMy > this.totalPageMy) {        
+              this.loading = false;     
+              this.finished = true
+            }else{
+              this.getMyTaskList()  
+              this.loading = false;
+            }
           }
+          
           
         }, 2000);
           
@@ -120,7 +132,8 @@ export default {
           this.pageNoMy = num  
           this.finished = false
         }
-        this.postRequest({ cmd: "myTaskList",pageNo:this.pageNoMy }).then(res => {           
+        console.log(this.pageNoMy)
+        this.postRequest({ cmd: "myTaskList",pageNo:this.pageNoMy,uid:this.uid }).then(res => { 
             console.log(res)
             this.totalPageMy = res.data.totalPage
             this.mytasklist = [...this.mytasklist, ...res.data.dataList]           
@@ -146,8 +159,14 @@ export default {
         this.Tabactive = num-0
 
       },
-      getTaskdetail(taskId){
+      getTaskdetail(taskId,fag){
         sessionStorage.setItem('taskId',taskId)
+        if(fag){
+          sessionStorage.setItem('isGet',true)
+        }else{
+          sessionStorage.setItem('isGet',false)
+        }
+        
           this.$router.push({
               name:"taskdetail",
               params:{taskId:taskId}
@@ -158,9 +177,9 @@ export default {
 </script>
 <style scoped>
 .red{color: #ff4843;}
-.f1{font-size: 16px;color: #333;}
+.f1{font-size: 15px;color: #333;}
 .f2{display: inline-block;color: #ef5897;font-size: 10px;text-align: center;border-radius: 10px;line-height: 16px;margin-right: 5px;border: 1px solid #ef5897;padding: 0 9px;}
-.f3{color: #999;font-size: 14px;}
+.f3{color: #999;font-size: 13px;}
 .p1{margin-top: 8px;}
 .small{font-size: 14px;}
 .b1{font-size: 21px;}

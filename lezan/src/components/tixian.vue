@@ -38,11 +38,12 @@
             </ul>
             <ul  class="uti2">
                 <li class="flex monylist" v-for="(item,index) in dataList" :key="index">
-                    <span>200</span>
-                    <span>审核中</span>
-                    <span>2019-04-05</span>
+                    <span>￥{{item.amount}}</span>
+                    <!-- 0审核中 1审核通过 2拒绝 -->
+                    <span>{{item.state == '0'?'审核中':item.state == '1'?'审核通过':'拒绝'}}</span>
+                    <span>{{item.createDate}}</span>
                 </li>
-                <p class="nodata" v-if="!dataList">暂无提现记录！</p>
+                <p class="nodata" v-if="dataList.length==0">暂无提现记录！</p>
             </ul>
         </div>
 
@@ -56,23 +57,60 @@ export default {
     data(){
         return{
            uid: this.$store.state.uid || window.localStorage.getItem("uid"),   
-           zfInfo:JSON.parse(localStorage.getItem('zfInfo')),
+           zfInfo:'',
            amount:'',
            pageNo:1,
-           totalPage:5,
+           totalPage:1,
            dataList:[],
-           userInfo:{}
+           userInfo:{},
+           isend:true
         }
     },
-    created(){
-        // addCash
-        this.userInfo = JSON.parse(window.localStorage.getItem("userInfo"))
-        this.postRequest({ cmd: "cashList",uid:this.uid,pageNo:this.pageNo}).then(res => {
-            console.log(res)
-            this.dataList = res.data.dataList
-        });
+    created(){      
+        this.userInfo = JSON.parse(window.localStorage.getItem("userInfo"))  
+        this.getList() 
+    },
+    mounted(){
+        var first = null
+        var that = this
+		mui.back = function() {
+			if (!first) {
+				first = new Date().getTime() 
+				that.$router.push('/my')
+				setTimeout(function() { 
+					first = null
+				}, 1000)
+			} else {
+				if (new Date().getTime() - first < 1000) { 
+					plus.runtime.quit() 
+				}
+			}
+        }
+        window.addEventListener('scroll',this.scrollLoad,true)
     },
     methods:{
+        getList(){
+            if(this.pageNo > this.totalPage){
+                Toast('没有更多数据！')
+                return;
+            }
+            this.isend = false
+            this.postRequest({ cmd: "cashList",uid:this.uid,pageNo:this.pageNo}).then(res => {
+                console.log(res)
+                if(res.data.dataList){
+                    this.isend = true
+                    this.totalPage = res.data.totalPage
+                    this.dataList = [...this.dataList,...res.data.dataList]
+                    this.pageNo++
+                    if(localStorage.getItem('zfInfo') && localStorage.getItem('zfInfo')){
+                        this.zfInfo = JSON.parse(localStorage.getItem('zfInfo'))
+                    }else{
+                        this.zfInfo = {username:res.data.dataList[0].username,number:res.data.dataList[0].account}
+                    }
+                }
+                
+            });
+        },
        getcash(){
            if(this.zfInfo == null){
                Toast('请完善支付宝信息！')
@@ -88,9 +126,27 @@ export default {
            }
            this.postRequest({ cmd: "addCash",uid:this.uid,username:this.zfInfo.username,account:this.zfInfo.number,amount:this.amount}).then(res => {
                 console.log(res)
+                this.amount = ''
+                Toast.success('申请提现成功！')
                           
            });
-       }
+       },
+       scrollLoad(){
+            this.$nextTick(() => {
+            var scrollTop =document.body.scrollTop || document.documentElement.scrollTop;
+            var clientHeight=document.compatMode == "CSS1Compat"?document.documentElement.clientHeight:document.body.clientHeight;
+            var scrollHeight=document.body.scrollHeight|| document.documentElement.scrollHeight;
+            //滚动的距离（动态） +  页面可视高度 （固定） 》= 页面总高度 （固定）
+                if(scrollTop + (clientHeight - 0) >=scrollHeight - 0 &&  this.isend){    
+                    console.log('底部...')                     
+                    this.getList()
+                }
+            })
+        
+      },
+    },      
+    destroyed() {
+      window.removeEventListener('scroll',this.scrollLoad,true)
     }
 }
 </script>
@@ -164,19 +220,21 @@ export default {
 .pay3 p span{
     font-size: 13px;  
 }
+.monylist{
+    border-bottom: 1px solid #e6e6e6;
+}
 .monylist span{
     flex: 1;
     text-align: center;
-    height: 48px;
-    line-height: 48px;
-    border-bottom: 1px solid #e6e6e6;
-    
+    padding: 15px 0;
 }
 .moybox .uti span{
     font-size: 14px;
     color: #999;
 }
 .moybox .uti2 span{
-    font-size: 13px;
+    font-size: 14px;
+    line-height: 15px;
+    color: #333;
 }
 </style>

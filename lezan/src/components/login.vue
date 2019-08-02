@@ -1,7 +1,7 @@
 <template>
   <div class="contain">    
     <div class="logo">
-      <img src="../assets/images/touxiang.png" alt />
+      <img src="../assets/images/log.png" alt />
     </div>
     <div class="formLogin">
       <div class="order">
@@ -9,7 +9,7 @@
         <input type="number" placeholder="请输入账号" v-model="account" />
       </div>
       <div class="order">
-        <img src="../assets/images/mima.png" alt />
+        <img src="../assets/images/mima.png" alt style="width:15px;height:16.5px;" />
         <input type="password" placeholder="请输入密码" v-model="password" />
       </div>
     </div>
@@ -53,7 +53,7 @@ export default {
         token: ""
       }).then(res => {
         console.log(res);
-        Toast.success("登陆成功！");
+        Toast.success("登录成功！");
         setTimeout(() => {
           this.$router.push("index");
         }, 1000);
@@ -98,8 +98,8 @@ export default {
   margin-left: 0.5rem;
 }
 .order img {
-  width: 0.5rem;
-  height: 0.6rem;
+  width:13px;
+  height: 20px;
 }
 .logo {
   width: 100%;

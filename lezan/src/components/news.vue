@@ -4,12 +4,19 @@
         <div class="wrap" :style="{'top':positionTop}">           
             <img src="@/assets/images/banner.png" alt style="width:100%;height:180px;display:block;box-shadow:0 2px 6px rgba(100, 100, 100, 0.3);"/>
             <div class="newslist">
+                <van-list
+                v-model="loading"
+                :finished="finished"
+                finished-text="没有更多了"
+                @load="onLoad"
+                :immediate-check="false"
+                >
                 <ul>
                     <li class="li1" @click="godetail(i.msgId)" v-for="(i,index) in dataList" :key="index">
                         <div class="flex top">
-                            <span class="font1">{{i.title}}</span>
+                            <span class="font1">{{i.title.length>24?i.title.substring(1,24)+'...':i.title}}</span>
                             <span>
-                                <span :class="[i.state==0?'cgreen':'cred']">{{i.state==0?'未读':'已读'}}</span>
+                                <span :class="[i.state==0?'cred':'cgreen']">{{i.state==0?'未读':'已读'}}</span>
                                 <!-- <span class="c9">{{i.createDate | ftime}}</span> -->
                             </span>
                         </div>
@@ -17,6 +24,7 @@
                     </li>
                     <p class="nodata" v-if="dataList.length==0">暂无数据..</p>
                 </ul>
+                </van-list>
             </div>
          </div>
         <btmbar @goIndex="goto"  :actived='actnum'></btmbar>
@@ -39,6 +47,8 @@ export default {
             totalPage:1,
             dataList:[],
             image:'',
+            loading: false,
+            finished: false
 
 		}
     },
@@ -72,12 +82,28 @@ export default {
         
     },
     methods:{
+        onLoad(){
+            console.log('加载')
+            setTimeout(() => {            
+                if (this.pageNo > this.totalPage) {        
+                    this.loading = false;     
+                    this.finished = true
+                }else{
+                    this.getList()  
+                    this.loading = false;
+                }        
+            }, 2000)
+            
+        },
         getList(){
-           this.postRequest({ cmd: "msgList",uid:this.uid}).then(res => {
+            console.log(this.pageNo)
+           this.postRequest({ cmd: "msgList",uid:this.uid,pageNo:this.pageNo}).then(res => {
                 console.log(res)
                 if(res.data.dataList){
-                    this.dataList = res.data.dataList
                     this.image = res.data.image
+                    this.totalPage = res.data.totalPage
+                    this.dataList = [...this.dataList, ...res.data.dataList]           
+                    this.pageNo ++
                 }
             });
        },

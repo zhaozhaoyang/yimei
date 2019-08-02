@@ -48,6 +48,7 @@
 
 21、文件上传  vant 返回的file对象里面还有一个file,这个file才是上传的file;
 	
+22、获取base64的图片src ：必须在 img.onload=function(){ 获取 }
 ===============================================================================================================================================================
 ####心得
 
@@ -149,6 +150,15 @@
 	-webkit-mask-image: url(img/1.png)  完成蒙层滚动效果
 
 
+2、关于 scroll：
+
+	window.addEventListener('scroll',this.scrollLoad,true)
+	var scrollTop =document.body.scrollTop || document.documentElement.scrollTop;     
+	用这个不能 overflow：scroll ； height:100vh；不能这样滚动，要不scrolltop恒为0；
+
+	
+	
+	   
 
 
 

@@ -2,7 +2,7 @@
     <div>
         <div class="n1">
             <!-- <van-icon  class="nocimg" name="volume" color="#1889f9" size="18"/>             -->
-            <img src="@/assets/images/laba.png"  class="nocimg" alt style="height:18px;width:18px;"/>
+            <img src="@/assets/images/laba.png"  class="nocimg" alt style="height:16px;width:18px;"/>
             <transition-group name="slide">            
             <p :key="text.id" @click="gourl(text.url)">{{text.val}}</p>
             </transition-group>           
@@ -69,10 +69,12 @@ export default {
   padding-left: 23px;
   background: #fff;
   position: relative;
+  z-index: 10;
 }
 .nocimg{margin-right: 10px;}
 .n1 p{ width: 100%;
     position: absolute;
+    z-index: 10;
     height: 32px;
     line-height: 32px;
     font-size: 14px;
