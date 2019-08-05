@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			function wake(time){
+			  return new Promise((resolve, reject) => {
+				setTimeout(() => {
+				  resolve(`${time / 1000}秒后醒来`)
+				}, time)
+			  })
+			}
+			
+			async function aaa(){			
+				let p1 = await wake(3000)
+				let p2 = await wake(2000)
+				console.log(p1)
+				console.log(p2)
+			}
+		
+			aaa()
+		</script>
+	</body>
+</html>

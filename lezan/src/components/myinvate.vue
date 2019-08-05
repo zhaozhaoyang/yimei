@@ -8,7 +8,7 @@
         </div>        
         <canvas id="myCanvas" ref="myCanvas" width="330" height="500"  @click="save" style="border:1px solid #666;margin:0 auto;display:block;"></canvas>
         <img src="../assets/images/banner.png" ref="img" style="width:100%;height:520px;border-radius: 3px;display:block;box-shadow:0 2px 6px rgba(100, 100, 100, 0.3);visibility:hidden;"/>
-        <div id="qrcode" style="visibility:hidden;"></div>
+        <div id="qrcode" ></div>
     </div>
 </template>
 <script>
@@ -42,22 +42,22 @@ export default {
         this.draw()
     },
     methods:{
-        draw(){
+        draw(){            
             var c=this.$refs.myCanvas;
             var qrImgsrc = document.querySelector('#qrcode img')
             var ctx=c.getContext("2d");            
             var bg = this.$refs.img
-            this.$refs.img.onload = function(){          
+            this.$refs.img.onload =async function(){          
                  ctx.drawImage(bg,0,0,c.width,c.height)
                 
             }
-            qrImgsrc.onload =  function(){
+            qrImgsrc.onload = async function(){
                 ctx.drawImage(qrImgsrc,c.width/2-66,c.height/2-66);  
                
             }                   
             
         },
-        qrcode() {     
+        qrcode() {
             let qrcode = new QRCode('qrcode', {
                 width: 132,  
                 height: 132,

@@ -13,14 +13,14 @@
         <input type="password" placeholder="请输入密码" v-model="password" />
       </div>
     </div>
-    <p class="p1">立即注册</p>
+    <p class="p1" @click="zhuce">立即注册</p>
     <m-ybutton text="立即登录" size="2"  @click="logo"></m-ybutton>
-    <van-popup v-model="codeImg"><img :src="src" alt @click="saveImg(src)"/></van-popup>
+    <van-popup v-model="codeImg"><img src="../assets/images/log.png" alt @click="saveImg(src)"/></van-popup>
   </div>
 </template>
 
 <script>
-import { Toast, Button } from "vant";
+import { Toast, Button ,Dialog } from "vant";
 export default {
   data() {
     return {
@@ -60,6 +60,20 @@ export default {
         window.localStorage.setItem("uid", res.data.uid);
         this.$store.commit("setuid", res.data.uid);
       });
+    },
+    zhuce(){
+      this.codeImg = true
+    },
+    saveImg(src){
+        Dialog.confirm({
+        title: '是否保存图片',
+        message: '是否保存客户二维码？'
+        }).then(() => { 
+            plus.gallery.save( src, function () {
+                Toast.success('保存成功！');                
+            });
+        }).catch(() => {
+        });
     }
   }
 };
