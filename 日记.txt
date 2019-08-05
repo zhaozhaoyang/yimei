@@ -149,6 +149,8 @@
 
 	-webkit-mask-image: url(img/1.png)  完成蒙层滚动效果
 
+	font-family: "Helvetica";
+
 
 2、关于 scroll：
 
@@ -156,6 +158,7 @@
 	var scrollTop =document.body.scrollTop || document.documentElement.scrollTop;     
 	用这个不能 overflow：scroll ； height:100vh；不能这样滚动，要不scrolltop恒为0；
 
+	
 	
 	
 	   

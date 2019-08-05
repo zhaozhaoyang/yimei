@@ -66,6 +66,7 @@ export default {
             uid: this.$store.state.uid || window.localStorage.getItem("uid"),
             taskId:'',
             obj:'',
+            state:'' // -1 未领取
         }
     },
     created(){
@@ -79,7 +80,7 @@ export default {
         this.postRequest({ cmd: "taskDetail",uid:this.uid,taskId:this.taskId}).then(res => {
             console.log(res)
             this.obj = res.data
-
+            this.state = res.data.state
         });
     },
     mounted(){
@@ -100,11 +101,15 @@ export default {
         }  
     },
     methods:{
-        gettask(){            
+        gettask(){      
             if(JSON.parse(localStorage.getItem('userInfo')).vip == '0'){
                 Toast('普通用户无法领取任务！')
                 return;
-            }            
+            }       
+            if(this.state !='-1'){
+                Toast('你已领取过该任务，请勿重复领取')
+                return;
+            }     
             this.postRequest({ cmd: "addTask",uid:this.uid,taskId:this.taskId}).then(res => {
                 if(res.data.result=='0'){                    
                     // console.log(res)

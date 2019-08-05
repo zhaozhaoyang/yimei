@@ -9,13 +9,13 @@
                 </p>
                 <ul>
                     <li class="flex" v-for="(item,index) in dataList" :class="[index<3?'corg':'']" :key="index">
-                        <span v-if="index<3"><img :src="require('@/assets/images/'+(index+1)+'.jpg')" alt="" style="height:30px;width:30px;"></span>
+                        <span v-if="index<3"><img :src="require('@/assets/images/'+(index+1)+'.png')" alt="" style="height:18px;width:23px;"></span>
                         <span class="bold"  v-if="index>2">{{index+1}}</span>
                         <span>{{item.nickname}}</span>
                         <span>{{item.account}}</span>
                         <span class="corg">{{item.fee}}</span>
                     </li>
-                    <div class="nodata">暂无数据...</div>
+                    <div class="nodata" v-if="dataList.length==0">暂无数据...</div>
                 </ul>
             </div>  
          </div>
@@ -65,8 +65,8 @@ export default {
        getList(){
            this.postRequest({ cmd: "rankList",pageNo:this.pageNo}).then(res => {
                 console.log(res)
-                if(res.dataList){
-                    this.dataList = res.dataList
+                if(res.data.dataList){
+                    this.dataList = res.data.dataList
                 }
             });
        },
@@ -78,7 +78,7 @@ export default {
 .flex{
   display: flex;flex-flow: row;align-items: center;
 }
-.corg{color: #face15;}
+.corg{color: #face15 !important;}
 .wrap{
     width: 100%;
     position: absolute;  
@@ -94,7 +94,6 @@ export default {
     border-top-right-radius: 13px;
     background: #fff;
     padding: 20px 10px 0;
-    box-shadow:0 0px 6px rgba(100, 100, 100, 0.3);
     color: #666;
     position: absolute;
     margin-left:1px;

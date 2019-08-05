@@ -140,8 +140,8 @@ export default {
         },
         saveImg(src){
             Dialog.confirm({
-            title: '保存推广码',
-            message: '是否保存推广码'
+            title: '是否保存图片',
+            message: '是否保存客户二维码？'
             }).then(() => { 
                 plus.gallery.save( src, function () {
                     Toast.success('保存成功！');                
