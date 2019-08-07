@@ -14,7 +14,7 @@
                 <ul>
                     <li class="li1" @click="godetail(i.msgId)" v-for="(i,index) in dataList" :key="index">
                         <div class="flex top">
-                            <span class="font1">{{i.title.length>24?i.title.substring(1,24)+'...':i.title}}</span>
+                            <span class="font1">{{i.title.length>24?i.title.substring(1,19)+'...':i.title}}</span>
                             <span>
                                 <span :class="[i.state==0?'cred':'cgreen']">{{i.state==0?'未读':'已读'}}</span>
                                 <!-- <span class="c9">{{i.createDate | ftime}}</span> -->
@@ -115,7 +115,7 @@ export default {
 </script>
 <style scoped>
 .flex{
-  display: flex;flex-flow: row;align-items: center;
+  display: flex;flex-flow: row nowrap;align-items: center;
 }
 .contt{font-size: 13px;color: #999;}
 .font1{font-size: 15px;color: #333;}
@@ -146,6 +146,7 @@ export default {
 }
 .top{
     justify-content: space-between;
+
 }
 .cgreen{
     color: #35bd1e;

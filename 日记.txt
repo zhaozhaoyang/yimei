@@ -53,7 +53,9 @@
 ####心得
 
 
-1.小程序模板
+1.小程序模板 
+
+1.1 小程序富文本解析： https://www.jason-z.com/post/62 
 
 2.height:calc(100vh - 65%);
 

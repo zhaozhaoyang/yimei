@@ -43,7 +43,7 @@ export default{
 		postRequest(data = {}, method = 'post') {
 			return new Promise((resolve, reject) => {
 				axios({
-						url: encodeURI("http://122.114.56.212:8090/api/service?json="+JSON.stringify(data)),
+						url: encodeURI("http://47.95.5.242/api/service?json="+JSON.stringify(data)),
 						method: method,
 						headers: {
 							'Content-Type': 'application/json'

@@ -6,9 +6,9 @@
             <p class="p2">一级好友完成一个任务  提成：0.2元</p>
             <p class="p2">二级好友完成一个任务  提成：0.1元</p>
         </div>        
-        <canvas id="myCanvas" ref="myCanvas" width="330" height="500"  @click="save" style="border:1px solid #666;margin:0 auto;display:block;"></canvas>
-        <img src="../assets/images/banner.png" ref="img" style="width:100%;height:520px;border-radius: 3px;display:block;box-shadow:0 2px 6px rgba(100, 100, 100, 0.3);visibility:hidden;"/>
-        <div id="qrcode" ></div>
+        <!-- <canvas id="myCanvas" ref="myCanvas" width="330" height="500"  @click="save" style="border:1px solid #666;margin:0 auto;display:block;"></canvas> -->
+        <!-- <img src="../assets/images/banner.png" ref="img" style="width:100%;height:520px;border-radius: 3px;display:block;box-shadow:0 2px 6px rgba(100, 100, 100, 0.3);visibility:hidden;"/> -->
+        <div id="qrcode" @click="save" ></div>
     </div>
 </template>
 <script>
@@ -19,7 +19,7 @@ export default {
     components:{myheader},
     data(){
         return{
-           
+           uid:this.$store.state.uid || window.localStorage.getItem("uid"),
         }
     },
     mounted () {
@@ -39,7 +39,7 @@ export default {
             }
         }
         this.qrcode()
-        this.draw()
+        // this.draw()
     },
     methods:{
         draw(){            
@@ -61,15 +61,15 @@ export default {
             let qrcode = new QRCode('qrcode', {
                 width: 132,  
                 height: 132,
-                text: 'https://www.baidu.com', // 二维码地址
+                text: 'http://lezan.lixinapp.com/api/wxLogin?inviteId='+this.uid, // 二维码地址
                 colorDark : "#000",
                 colorLight : "#fff",
             })  
-            
+            // var qrImgsrc = document.querySelector('#qrcode img')
         },
        save(){
            var image = new Image()
-           image.src = this.$refs.myCanvas.toDataURL("image/png");
+        //    image.src = this.$refs.myCanvas.toDataURL("image/png");
 
            Dialog.confirm({
             title: '保存推广码',

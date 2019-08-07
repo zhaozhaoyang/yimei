@@ -15,20 +15,27 @@
     </div>
     <p class="p1" @click="zhuce">立即注册</p>
     <m-ybutton text="立即登录" size="2"  @click="logo"></m-ybutton>
-    <van-popup v-model="codeImg"><img src="../assets/images/log.png" alt @click="saveImg(src)"/></van-popup>
+    <!-- <van-popup v-model="codeImg">
+      <img :src="src" alt @click="saveImg(src)"/>
+        
+    </van-popup> -->
+    <div class="mask" @click.stop="close" ref="code">      
+      <canvas id="myCanvas" ref="myCanvas" width="132" height="132"  @click.stop="saveImg" style="border:1px solid #666;margin:0 auto;display:block;"></canvas>
+    </div>    
+    <div id="qrcode" class="qrcode" style="visibility: hidden;"></div>
   </div>
 </template>
 
 <script>
 import { Toast, Button ,Dialog } from "vant";
+import QRCode from 'qrcodejs2'  // 引入qrcode
 export default {
   data() {
     return {
       account: "",
       password: "",
       token: "",
-      codeImg:false,
-      src:''
+      codeImg:false
     };
   },
   created() {
@@ -40,7 +47,21 @@ export default {
     //     this.src = res.data.src
     // });
   },
+  mounted(){
+     this.qrcode()
+  },
   methods: {    
+    qrcode() {
+        let qrcode = new QRCode('qrcode', {
+            width: 132,  
+            height: 132,
+            text: 'http://lezan.lixinapp.com/api/wxLogin', // 二维码地址
+            colorDark : "#000",
+            colorLight : "#fff",
+            src:''
+        })  
+        
+    },
     logo() {
       if (this.account == "" || this.password == "") {
         Toast("用户名或密码不能为空！");
@@ -62,25 +83,87 @@ export default {
       });
     },
     zhuce(){
-      this.codeImg = true
+       this.$refs.code.style.visibility= 'visible'
+      var c=this.$refs.myCanvas;
+      var ctx=c.getContext("2d"); 
+      var that =  this;
+      var qrImgsrc = document.querySelector('#qrcode img')  
+      ctx.drawImage(qrImgsrc,c.width/2-66,c.height/2-66);  
+      console.log(qrImgsrc.src) 
+      this.src =qrImgsrc.src
     },
-    saveImg(src){
+    close(){
+      // this.codeImg = false
+      this.$refs.code.style.visibility= 'hidden'
+    },
+    saveImg(){        
+        var c=this.$refs.myCanvas;
+        var ctx=c.getContext("2d"); 
+        var qrImgsrc = document.querySelector('#qrcode img')
+        ctx.drawImage(qrImgsrc,c.width/2-66,c.height/2-66); 
+        var image = new Image()
+        image.src = this.$refs.myCanvas.toDataURL("image/png"); 
+        
+        console.log(image.src)
+
         Dialog.confirm({
         title: '是否保存图片',
         message: '是否保存客户二维码？'
         }).then(() => { 
-            plus.gallery.save( src, function () {
+            plus.gallery.save(image, function () {
                 Toast.success('保存成功！');                
             });
         }).catch(() => {
+           Toast('保存失败！');  
         });
+    },
+    dataURLtoFile(dataurl, filename = 'file') {
+      let arr = dataurl.split(',')
+      let mime = arr[0].match(/:(.*?);/)[1]
+      let suffix = mime.split('/')[1]
+      let bstr = atob(arr[1])
+      let n = bstr.length
+      let u8arr = new Uint8Array(n)
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n)
+      }
+      return new File([u8arr], `${filename}.${suffix}`, {
+        type: mime
+      })
     }
   }
 };
 </script>
 
 <style scoped="scoped">
+.mask{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 310;
+  visibility: hidden;
+}
+#myCanvas{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  z-index: 300;
+}
+.qrcode {
+  height: 132px;
+  width: 132px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%)
+}
+
 .contain {
+  position: relative;
   width: 100%;
   box-sizing: border-box;
   height: 100vh;

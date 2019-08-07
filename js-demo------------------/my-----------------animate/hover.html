@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<style type="text/css">
+			p{list-style: none;display: block;width: 200px;
+				text-align: center;height: 50px;line-height: 50px;border: 1px solid antiquewhite;
+				border-radius: 3px;position: relative;overflow: hidden;
+				margin: 250px;
+			}
+			p:after{
+				position: absolute;
+				content: '';
+				left: 50%;
+				top: 50%;
+				transform: translate(-50%,-50%);
+				width: 0;
+				height: 0%;
+			    border-radius: 50%;
+			    opacity: 0.5;
+			    background: #ff8b03;
+			    z-index: 1;
+			    transition: all .6s ease 0s;
+			}
+			p:hover{color: #fff;opacity: 0.6;}
+			p:hover:after{
+				width: 110%;
+				height: 450%;
+			}
+			span{
+				position: absolute;
+				z-index: 2;
+				width: 100%;
+				height: 100%;
+				display: inline-block;
+				left: 0;
+				top: 0;
+				font-weight: bold;
+			}
+			/*
+			 	实现原理： 对  :before 延时  添加高度 和 宽度 ，圆形是因为 border-radius
+			 * */
+		</style>
+	</head>
+	<body>
+		
+		<p> 
+			<span>高级自动化测试工程师</span>
+		</p>
+	</body>
+</html>

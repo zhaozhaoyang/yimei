@@ -14,9 +14,13 @@ import store from './store'
 import 'lib-flexible/flexible'
 import mixins from './mixins'
 import install from './components/commons/index';
+import VueClipboard from 'vue-clipboard2'
+
 Vue.use(Vant)
 Vue.use(install)
+Vue.use(VueClipboard)
 Vue.mixin(mixins)
+
 
 require('es6-promise').polyfill()
 Es6Promise.polyfill()

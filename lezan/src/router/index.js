@@ -134,6 +134,11 @@ export default new Router({
 			path: '/webview',
 			name:'webview',
 			component: () => import("@/components/webview")
+		},
+		{
+			path: '/pay',
+			name:'pay',
+			component: () => import("@/components/pay")
 		}		
 		
 	]

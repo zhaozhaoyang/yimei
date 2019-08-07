@@ -8,7 +8,7 @@
             <ul class="showmoney">
                 <li>
                     <span class="span1">{{todayFee}}</span>
-                    <span  class="span2">我的余额</span>
+                    <span  class="span2">今日收益</span>
                 </li>
                 <li>
                     <span class="span1">{{totalFee}}</span>

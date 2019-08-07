@@ -102,7 +102,7 @@ export default {
                     this.totalPage = res.data.totalPage
                     this.dataList = [...this.dataList,...res.data.dataList]
                     this.pageNo++
-                    if(localStorage.getItem('zfInfo') && localStorage.getItem('zfInfo')){
+                    if(localStorage.getItem('zfInfo')!='' && localStorage.getItem('zfInfo')){
                         this.zfInfo = JSON.parse(localStorage.getItem('zfInfo'))
                     }else{
                         this.zfInfo = {username:res.data.dataList[0].username,number:res.data.dataList[0].account}

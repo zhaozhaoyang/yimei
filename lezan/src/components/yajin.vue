@@ -27,7 +27,7 @@
                 </ul>
             </div>
             <p class="level">佣金及押金返还制度：</p>
-            <p class="color9">押金30个工作日自动返还；佣金申请后324小时之内到账</p>
+            <p class="color9">押金30个工作日自动返还；佣金申请后24小时之内到账</p>
             <p class="level">代理：</p>
             <p class="color9">一级代理提佣金的20%</p>
             <p class="color9">二级代理提佣金的10%</p>
@@ -115,8 +115,10 @@ export default {
                     case 4:  
                     if(xhr.status==200){ 
                         console.log('去支付了') 
-                        console.log(channel) 
-                        plus.payment.request(channel,xhr.responseText,function(result){  
+                        console.log(JSON.stringify(channel))
+                        console.log(xhr.responseText)
+                        console.log(typeof xhr.responseText)
+                        plus.payment.request(channel,xhr.responseText,function(result){
                             plus.nativeUI.alert("支付成功！",function(){  
                                 back();  
                             });  
@@ -140,19 +142,20 @@ export default {
        },
        buy(){
         //    this.pay('alipay')
-           this.plusReady()
-           return;
+        //    this.plusReady()
+        //    return;
 
            if(this.nowclick == '-1' || this.price==''){
                 Toast('请选择vip类型')
                 return;
-           }
-           var params = { cmd: "buyVip",uid:this.uid,type:(Number(this.nowclick)+1),price:this.price}
-           console.log(params)
-           this.postRequest(params).then(res => {
-                console.log(res)
-                        
-           });
+           }           
+           this.$router.push({
+               name:'pay',
+               params:{
+                   price:this.price,
+                   type:(Number(this.nowclick)+1)
+               }
+            })
        },
        move(){
           window.scrollTo({top:400,behavior: "smooth"})

@@ -91,7 +91,7 @@ export default {
                 {name:'资金明细',src:require('@/assets/images/b1.png'),url:'/runlist'},
                 {name:'我的好友',src:require('@/assets/images/b2.png'),url:'/myfriend'},
                 {name:'邀请好友',src:require('@/assets/images/b3.png'),url:'/myinvate'},
-                {name:'常见问题',src:require('@/assets/images/b4.png'),url:{name:'webview',params:{title:'常见问题',src:'http://122.114.56.212:8090/display/faq?id=1'}}},
+                {name:'常见问题',src:require('@/assets/images/b4.png'),url:{name:'webview',params:{title:'常见问题',src:'http://47.95.5.242/display/faq?id=1'}}},
                 {name:'推广素材',src:require('@/assets/images/b5.png'),url:'/mytuiguang'},
                 {name:'联系客服',src:require('@/assets/images/b6.png'),url:''},
                 {name:'缴纳押金',src:require('@/assets/images/b7.png'),url:'/yajin'},

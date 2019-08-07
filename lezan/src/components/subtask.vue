@@ -22,7 +22,7 @@
                     任务金额
                 </van-col>
                 <van-col span="12" class="mylist rt">
-                   +{{obj.price}}
+                   +{{obj.price}}元
                 </van-col>
             </van-row>
             <van-row class="Trow">
@@ -83,11 +83,11 @@ export default {
     methods:{
         afterRead(file){  
             var formdata = new FormData();
-            formdata.append("file", file.file);
-            axios.post("http://122.114.56.212:8090/api/uploadFile",formdata)
+            formdata.append("file", file.file);            
+            axios.post("http://47.95.5.242/api/uploadFile",formdata)
             .then(res => {
             //   Toast("上传成功！");
-              this.image =  'http://122.114.56.212:8090/'+res.data.url
+              this.image =  'http://47.95.5.242/'+res.data.url
               
             })
             .catch(err => {
