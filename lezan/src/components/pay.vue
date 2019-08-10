@@ -19,10 +19,13 @@
     <p class="level">支付信息：</p>
     <ul class="bank">        
         <li>
-            <span class="sp">姓名</span><span class="sp2"><input type="text"  placeholder="请输入姓名" required v-model="username"></span>
+            <span class="sp">姓名</span><span class="sp2"><input type="text"  placeholder="请输入真实姓名" required v-model="username"></span>
         </li>
         <li>
-            <span class="sp">电话</span><span class="sp2"><input type="tel" placeholder="请输入电话" required v-model="phone" maxlength="11"></span>
+            <span class="sp">电话</span><span class="sp2"><input type="tel" placeholder="请输入真实电话" required v-model="phone" maxlength="11"></span>
+        </li>
+        <li>
+            <span class="sp">个人ID</span><span class="sp2">{{userInfo.account }}</span>
         </li>
     </ul>
     <m-ybutton text="提交" @click="buy"></m-ybutton>
@@ -44,11 +47,14 @@ export default {
         info:{bank:'中国建设银行',name:'啦啦啦',card:'1234654'},
         username:'',
         phone:'',
-        type:''
+        type:'',
+        userInfo:{}
 
     };
   },
   created(){
+    this.userInfo = JSON.parse(window.localStorage.getItem("userInfo"))
+    console.log(this.userInfo)
     this.price = this.$route.params.price
     this.type = this.$route.params.type
     this.postRequest({cmd:'getBankInfo'}).then(res => {

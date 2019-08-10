@@ -46,10 +46,10 @@
                 <span>请在180秒内完成任务且完成过程中不得退出本软件否则将扣除相应佣金。</span> 
             </p>
         </div>
-        <div class="typeBtns" v-if="!isGet">
+        <div class="typeBtns" v-if="state =='-1'">
             <m-ybutton @click="gettask" text="领取任务"></m-ybutton>
         </div>
-        <div class="typeBtns" v-if="isGet">
+        <div class="typeBtns"  v-if="state !='-1'">
             <m-ybutton @click="gover()" size='3' text="点击-去完成"></m-ybutton>
             <m-ybutton @click="done()" size='3' text="已完成-提交"></m-ybutton>
         </div>
@@ -114,6 +114,7 @@ export default {
                 if(res.data.result=='0'){                    
                     // console.log(res)
                     this.isGet = true
+                    this.state = 1
                     Toast.success('领取成功！')
                 }
                 if('你已领取过该任务，请勿重复领取'==res.data.resultNote){
@@ -121,13 +122,20 @@ export default {
                 }
             });
         },
-        done(){            
-            this.$router.push({
-                name:"subtask",
-                params:{
-                    obj:this.obj
-                }
-            })
+        done(){
+            this.postRequest({ cmd: "taskDetail",uid:this.uid,taskId:this.taskId}).then(res => {
+                console.log(res)
+                this.obj = res.data
+                this.state = res.data.state
+                this.$router.push({
+                    name:"subtask",
+                    params:{
+                        obj:this.obj
+                    }
+                })
+
+            });
+            
         },
         gover(){
             this.$router.push({

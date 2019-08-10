@@ -2,13 +2,13 @@
     <div>
         <myheader tit="提现" showL="true"></myheader>
         <p class="pd flex pay1" @click="$router.push('/tixian2')" v-if="!zfInfo">
-            <img class="zfbIcon" src="../assets/images/zhifubao.png"/>
-            <span>完善支付宝信息</span>
+            <!-- <img class="zfbIcon" src="../assets/images/zhifubao.png"/> -->
+            <span>请选择开户银行选择</span>
             <van-icon name="arrow" size="18" class="rtarrow"/>
         </p>
         <p class="pd flex pay1" @click="$router.push('/tixian2')" v-if="zfInfo">
-            <img class="zfbIcon" src="../assets/images/zhifubao.png"/>
-            <span style="color:#999;">姓名：{{zfInfo.username}}  账号：{{zfInfo.number}}</span>
+            <!-- <img class="zfbIcon" src="../assets/images/zhifubao.png"/> -->
+            <span style="color:#999;">姓名：{{zfInfo.username}}， 银行卡号：{{zfInfo.account}}</span>
             <van-icon name="arrow" size="18" class="rtarrow"/>
         </p>
         <div class="pd pay2">
@@ -105,7 +105,7 @@ export default {
                     if(localStorage.getItem('zfInfo')!='' && localStorage.getItem('zfInfo')){
                         this.zfInfo = JSON.parse(localStorage.getItem('zfInfo'))
                     }else{
-                        this.zfInfo = {username:res.data.dataList[0].username,number:res.data.dataList[0].account}
+                        this.zfInfo = {username:res.data.dataList[0].username,account:res.data.dataList[0].account}
                     }
                 }
                 
@@ -124,7 +124,10 @@ export default {
                Toast('提现金额不能小于1元！')
                return;
            }
-           this.postRequest({ cmd: "addCash",uid:this.uid,username:this.zfInfo.username,account:this.zfInfo.number,amount:this.amount}).then(res => {
+          
+           let params = { cmd: "addCash",uid:this.uid,username:this.zfInfo.username,account:this.zfInfo.account,amount:this.amount,phone:this.zfInfo.phone,bank:this.zfInfo.bank}
+           console.log(params)
+           this.postRequest(params).then(res => {
                 console.log(res)
                 this.amount = ''
                 Toast.success('申请提现成功！')

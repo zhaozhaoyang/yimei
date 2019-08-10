@@ -102,7 +102,7 @@ export default {
     },
     methods:{
       onLoad(){
-        console.log('加载')
+        // console.log('加载')
         setTimeout(() => {
           if(this.Tabactive == '0'){
             if (this.pageNo > this.totalPage) {        
@@ -132,9 +132,9 @@ export default {
           this.pageNoMy = num  
           this.finished = false
         }
-        console.log(this.pageNoMy)
+        // console.log(this.pageNoMy)
         this.postRequest({ cmd: "myTaskList",pageNo:this.pageNoMy,uid:this.uid }).then(res => { 
-            console.log(res)
+            // console.log(res)
             this.totalPageMy = res.data.totalPage
             this.mytasklist = [...this.mytasklist, ...res.data.dataList]           
             this.pageNoMy ++
@@ -146,9 +146,9 @@ export default {
           this.pageNo = num  
           this.finished = false
         }
-        console.log(this.pageNo)
+        // console.log(this.pageNo)
         this.postRequest({ cmd: "taskList",pageNo:this.pageNo }).then(res => {
-            console.log(res)
+            // console.log(res)
             this.totalPage = res.data.totalPage
             this.tasklist = [...this.tasklist, ...res.data.dataList]           
             this.pageNo ++

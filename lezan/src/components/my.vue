@@ -9,7 +9,7 @@
                 <p>
                     <span class="sp1">{{userInfo.nickname}}</span>
                     <span class="lv"  v-if="userInfo.vip != '0'">LV.{{userInfo.vip}}</span>
-                    <span class="lv" v-if="userInfo.vip == '0'">普通用户</span>
+                    <span class="lv" v-if="userInfo.vip == '0'">LV.0</span>
                 </p>
                 <p class="sp2">ID: {{userInfo.account}}</p>
             </div>
@@ -71,7 +71,9 @@
                 </van-grid>
             </div>
         </div>
-        <van-popup v-model="codeImg"><img :src="customImg" alt @click="saveImg(customImg)"/></van-popup>
+        <!-- <van-popup v-model="codeImg">
+            <img :src="customImg" alt @click="saveImg(customImg)"/>
+        </van-popup> -->
         <btmbar @goIndex="goto" :actived='actnum'></btmbar>  
         </div>  
     </div>
@@ -94,7 +96,7 @@ export default {
                 {name:'常见问题',src:require('@/assets/images/b4.png'),url:{name:'webview',params:{title:'常见问题',src:'http://47.95.5.242/display/faq?id=1'}}},
                 {name:'推广素材',src:require('@/assets/images/b5.png'),url:'/mytuiguang'},
                 {name:'联系客服',src:require('@/assets/images/b6.png'),url:''},
-                {name:'缴纳押金',src:require('@/assets/images/b7.png'),url:'/yajin'},
+                {name:'成为会员',src:require('@/assets/images/b7.png'),url:'/yajin'},
                 {name:'修改密码',src:require('@/assets/images/b8.png'),url:'/resetpsd'},
                 {name:'退出登录',src:require('@/assets/images/b9.png'),url:''},
             ],
@@ -116,7 +118,14 @@ export default {
     methods:{
         come(num){
             if(num == 5){
-                this.codeImg = true
+                // this.codeImg = true
+                Dialog.alert({
+                    title: '联系客服',
+                    confirmButtonColor:'#FACE15',
+                    message: '956456756；6573854532'
+                    }).then(() => {
+                    // on close
+                });
             }else if(num == 8){
                 //退出登录
                 window.localStorage.setItem("uid",'')

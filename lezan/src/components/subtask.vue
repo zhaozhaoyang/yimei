@@ -48,7 +48,8 @@ export default {
             uid: this.$store.state.uid || window.localStorage.getItem("uid"),
             userTaskId:'',
             fileList:[],
-            obj:{}
+            obj:{},
+            image:''
         }
     },
     created(){
@@ -98,10 +99,15 @@ export default {
         subtask(){
             if(this.image==''){
                 Toast("请上传图片！");
+                return;
+            }
+            console.log(this.obj.state)
+            if(this.obj.state != 0){
+                Toast("任务已完成，请勿重复提交！");
+                return;
             }
             var params = { cmd: "finishTask",uid:this.uid,userTaskId:this.userTaskId,image:this.image}            
-            this.postRequest(params).then(res => {
-                console.log(res)         
+            this.postRequest(params).then(res => {       
                 this.$router.push('/success')
             });            
         }

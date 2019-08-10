@@ -1,6 +1,6 @@
 <template>
     <div>
-        <myheader tit="缴纳押金" showL="true"></myheader>
+        <myheader tit="成为会员" showL="true"></myheader>
         <div class="wrap">
             <div class="head">
                 <img :src="userInfo.icon" style="width:45px;height:45px;border-radius: 50%;display:block;"/>
@@ -26,8 +26,8 @@
                     </li>
                 </ul>
             </div>
-            <p class="level">佣金及押金返还制度：</p>
-            <p class="color9">押金30个工作日自动返还；佣金申请后24小时之内到账</p>
+            <p class="level">佣金提现制度：</p>
+            <p class="color9">佣金申请提现后 24小时之内到账</p>
             <p class="level">代理：</p>
             <p class="color9">一级代理提佣金的20%</p>
             <p class="color9">二级代理提佣金的10%</p>

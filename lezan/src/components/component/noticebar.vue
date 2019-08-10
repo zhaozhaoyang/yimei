@@ -13,15 +13,17 @@
 <script>
 export default {
     props:['textArr'],
-    watch:{        
-    },
     computed: {
         text () {
+            console.log(this.textArr[this.number].title)
             return {
                 id: this.number,
                 val: this.textArr[this.number].title,
                 url:this.textArr[this.number].url
             }
+            
+            
+            
         }
     },
     data(){
@@ -45,7 +47,7 @@ export default {
         startMove () {
             // eslint-disable-next-line
             let timer = setTimeout(() => {
-                if (this.number === 2) {
+                if (this.number === this.textArr.length-1) {
                 this.number = 0;
                 } else {
                 this.number += 1;
@@ -59,7 +61,7 @@ export default {
 <style scoped>
 
 .n1{  
-  box-shadow:0 2px 6px rgba(100, 100, 100, 0.4);
+  box-shadow:0 2px 6px rgba(100, 100, 100, 0.3);
   width: 100%;
   height: 32px;
   border-radius: 30px;

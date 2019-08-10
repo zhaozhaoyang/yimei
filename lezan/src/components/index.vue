@@ -43,11 +43,7 @@ export default {
       actnum: 0,
       bannerlist: '', //轮播图
       positionTop:'64px',
-      textArr: [
-                '1 第一条公告',
-                '2 第二条公告第二条公告',
-                '3 第三条公告第三条公告第三条公告'
-      ],
+      textArr: [{title:'111',url:'111'},{title:'222',url:'222'}],
       bg:1,
       isLoading: false,
       ipx:false,
@@ -118,7 +114,8 @@ export default {
         }
     },
     getIndex() {      
-      this.postRequest({ cmd: "index" }).then(res => {       
+      this.postRequest({ cmd: "index" }).then(res => {
+        console.log(res)
           var bannerlist = res.data.bannerList;
           // var bannerlist =[{image:require('../assets/images/task.png')},{image:require('../assets/images/task.png')}]
           this.bannerlist = bannerlist;
@@ -202,10 +199,10 @@ export default {
   background: #fff;  
 }
 .wImg{
-  width:100%;height:100px;margin: 35px 0 12px;display:block;
+  width:100%;height:100px;margin: 38px 0 12px;display:block;
 }
 .middleImg{
-  width:100%;height:100px;margin: 35px 0 12px;display:block;
+  width:100%;height:100px;margin: 38px 0 12px;display:block;
 }
 .wrapper {
   position: relative;
