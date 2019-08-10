@@ -52,10 +52,19 @@
       </view>
       <text class="laber_txt">实名认证</text>
     </view>
-  </view>
 
+    <!-- <view class="laber_dv">
+      <view class="laber_img">
+        <image src='../../image/16.png'></image>
+      </view>
+      <navigator open-type="exit" target="miniProgram">退出登录</navigator>
+    </view> -->
+     
+  </view>  
 </view>
-
+<navigator open-type="exit" target="miniProgram">
+  <view class="login_btn" bindtap='closeLogin'>退出登录</view>
+</navigator>
 <view class="margin_dv">客服电话：
   <text class="margin_txt">{{userinfo.kefuTel}}</text>
 </view>

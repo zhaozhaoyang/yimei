@@ -1,26 +1,18 @@
-// pages/perCenter/guideDetail.js
-var WxParse = require('../../wxParse/wxParse.js');
-const app = getApp();
+// pages/perCenter/video.wxml.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    src:""
+
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // console.log(options.video)
-    this.setData({
-      src: options.video
-    })
-    var content = app.strcharacterDiscode(wx.getStorageSync('content'));
-    WxParse.wxParse('content', 'html', content, this, 0);
-    wx.removeStorageSync('content');
+
   },
 
   /**

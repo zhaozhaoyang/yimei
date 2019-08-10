@@ -29,6 +29,7 @@
     "pages/order/ordersearch",
     "pages/scanCode/scanLock",
     "pages/perCenter/guideDetail",
+    "pages/perCenter/video",
     "pages/backstage/shebeicount",
     "pages/order/backstageorder",
     "pages/order/orderdetail",
@@ -39,7 +40,8 @@
     "pages/backstage/declaredetailtwo",
     "pages/theLock/theLock",
     "pages/index/index",
-    "pages/logs/logs"
+    "pages/logs/logs",
+    "pages/perCenter/video.wxml"
   ],
   "permission": {
     "scope.userLocation": {

@@ -6,8 +6,8 @@
             <p class="p2">一级好友完成一个任务  提成：0.2元</p>
             <p class="p2">二级好友完成一个任务  提成：0.1元</p>
         </div>         -->
-        <canvas id="myCanvas" ref="myCanvas" width="330" height="500"  @click="save" style="margin:0 auto;display:block;width:100%;"></canvas>
-        <img src="../assets/images/99.png" ref="img" style="width:100%;height:520px;border-radius: 3px;display:block;box-shadow:0 2px 6px rgba(100, 100, 100, 0.3);visibility: hidden"/>
+        <canvas id="myCanvas" ref="myCanvas" width="330" height="560"  @click="save" style="margin:10px auto;display:block;"></canvas>
+        <img src="../assets/images/bg.png" ref="img" style="width:80%;height:520px;border-radius: 3px;display:block;box-shadow:0 2px 6px rgba(100, 100, 100, 0.3);visibility: hidden"/>
         <div id="qrcode" style="visibility: hidden"></div>
     </div>
 </template>
@@ -48,21 +48,21 @@ export default {
             var qrImgsrc = document.querySelector('#qrcode img')
             var ctx=c.getContext("2d");            
             var bg = this.$refs.img
-            this.$refs.img.onload =async function(){          
+            this.$refs.img.onload =function(){          
                  ctx.drawImage(bg,0,0,c.width,c.height)
                 
             }
-            qrImgsrc.onload = async function(){
-                ctx.drawImage(qrImgsrc,c.width/2-66,c.height/2-66);  
+            qrImgsrc.onload = function(){
+                ctx.drawImage(qrImgsrc,c.width/2-75,c.height/2+55);  
                
             }                   
             
         },
         qrcode() {
             let qrcode = new QRCode('qrcode', {
-                width: 132,  
-                height: 132,
-                text: 'http://lezan.lixinapp.com/api/wxLogin?inviteId='+this.uid, // 二维码地址
+                width: 150,  
+                height: 150,
+                text: 'http://lezan.lixinapp.com/api/regist?inviteId='+this.uid, // 二维码地址
                 colorDark : "#000",
                 colorLight : "#fff",
             })  

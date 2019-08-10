@@ -1,4 +1,5 @@
 <import src="../../wxParse/wxParse.wxml"/>
 <view class="infotxt">
    <template is="wxParse"  data="{{wxParseData:content.nodes}}"/>
+   <video src="{{src}}" class="video"></video>
 </view>

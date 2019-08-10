@@ -135,13 +135,20 @@ Page({
           var datas = res.data.body;
           console.log("请求成功", datas);
 
-          totalPage = datas.totalPage;
+          totalPage = datas.totalPage;          
           if (nowPage >= totalPage) {
             endrefush = "1";
           }
 
           if (!datas.orderList) {
             datas.orderList = [];
+          }
+          if (datas.orderList && datas.orderList.length == 0) {
+            wx.showToast({
+              title: '暂无数据！',
+              icon: 'none',
+              duration: 2000
+            })
           }
 
           if (nowPage == "1") {

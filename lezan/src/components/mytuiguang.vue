@@ -2,6 +2,7 @@
     <div>
         <myheader tit="我的推广" showL="true"></myheader>
         <img :src="tasklist.image" alt style="width:100%;height:160px;border-radius: 3px;display:block;box-shadow:0 2px 6px rgba(100, 100, 100, 0.3);"/>
+        
         <div class="wrap">  
             <div class="ti">
                 <p :class="[Tabactive==0?'actived':'']" @click="tabselect(0)">文字素材</p>
@@ -9,7 +10,7 @@
             </div>            
             <ul class="ullist" v-if="Tabactive==0">
                 <button class="copy">长按文字选择复制</button>
-                 <li class="flex sp">
+                 <li class="flex sp" ref="con">
                       {{tasklist.content}}
                  </li>
             </ul>
@@ -52,7 +53,8 @@ export default {
 					plus.runtime.quit() 
 				}
 			}
-        }  
+        }         
+
     },
     methods:{
         saveImg(src){
@@ -70,11 +72,25 @@ export default {
            this.Tabactive= num
         },
         getList(){
-           this.postRequest({ cmd: "material"}).then(res => {
-                this.tasklist = res.data
-                
+           this.postRequest({ cmd: "material"}).then(res => {            
+               this.tasklist = res.data
+               this.format()
+                             
             });
        },
+       format(){
+           this.$nextTick(()=>{
+            var str = this.$refs.con.innerHTML
+            console.log(str)
+            let regs = new RegExp("\r", "g");
+            let reg = new RegExp("\n", "g");
+            let regSpace = new RegExp(" ", "g");
+            str = str.replace(reg, "<br/>");
+            str = str.replace(regs, "<br/>");
+            this.$refs.con.innerHTML = str
+           })
+           
+       }
     }
 }
 </script>

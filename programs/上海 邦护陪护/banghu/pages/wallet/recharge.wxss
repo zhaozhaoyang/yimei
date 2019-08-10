@@ -37,7 +37,7 @@
 }
 
 .recharge {
-  width: 448rpx;
+  width: 80%;
   height: 70rpx;
   background-color: #1197f6;
   border-radius: 70rpx;

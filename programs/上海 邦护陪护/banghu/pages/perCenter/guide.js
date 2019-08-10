@@ -56,10 +56,11 @@ Page({
   openguideDetail: function(e) {
     let _this = this;
     var content = e.currentTarget.dataset.cons;
+    let video = e.currentTarget.dataset.video
     console.log("详情内容："+content);
     wx.setStorageSync('content', content)
     wx.navigateTo({
-      url: "./guideDetail"
+      url: "./guideDetail?video=" + video
     });
   },
 
