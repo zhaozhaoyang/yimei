@@ -1,6 +1,26 @@
 <view class="title">温馨提示：优惠卡必须在购卡医院使用</view>
-
-
+<!-- 修改 -->
+<!-- <view wx:for="{{list}}" wx:key="item.cardId" class="bjdv" style="background:#fff;box-shadow: 0px 0px 12px 0px rgba(55, 151, 255, 0.3);">
+  <block wx:if="{{item.type == '0'}}">
+    <view class="timetxt">时段卡</view>
+    <image src='../../image/bg.jpg' style="height:60%;display:block;margin:0 auto;border-radius:10rpx;"></image>
+    <view style="display:flex;flex-flow:row;justify-content: space-between;padding:5rpx 24rpx;font-size:28rpx;">
+      <view ><image src='../../image/wz.png' style="height:27rpx;width:20rpx"></image> {{item.hospitalName}}</view>
+      <block wx:if="{{item.timeType == '0'}}">
+        <view ><image src='../../image/tt.png'  style="height:26rpx;width:26rpx"></image> 中午 ({{item.timeSlot}})</view>
+      </block>
+      <block wx:if="{{item.timeType == '1'}}">
+        <view ><image src='../../image/tt.png'  style="height:26rpx;width:26rpx"></image> 晚上 ({{item.timeSlot}})</view>
+      </block>
+    </view>
+    <view style="padding:0 20rpx;">剩余次数  <text style="color:#f18c16;font-size:35rpx;"> {{item.lastNum}}次</text></view>
+    <view bindtap='openkaipay' data-flag='0' data-cardid='{{item.id}}' data-yajin="{{item.yajin}}">
+      <form  bindsubmit='gorRunnerLobby' report-submit='true'>
+        <button class="btns" form-type='submit'>去使用</button>
+      </form>
+    </view>
+  </block> -->
+  <!-- 修改 -->
 <view wx:for="{{list}}" wx:key="item.cardId" class="bjdv" style="background-image: url('{{pop}}');background-repeat:no-repeat; background-size: cover">
 
   <!--      **type:""//卡类型：0-时段卡，1-小时卡,2-天卡

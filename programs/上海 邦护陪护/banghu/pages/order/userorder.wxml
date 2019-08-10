@@ -6,6 +6,9 @@
 
 
 <!-- <block wx:if="{{tab_index == 0}}"> -->
+<view wx:if="list.length==0">
+  <image src='../../image/no.png' style="margin:40rpx auto;display: block;"></image>
+</view>
 <view class="liss" wx:for="{{list}}" wx:key="item.id" >
   <view class="lis_cont" bindtap='openDetial' data-oid="{{item.id}}">
     <text class="lis_title">{{item.hospitalName}}</text>

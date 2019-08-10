@@ -7,8 +7,8 @@
             <p class="p2">二级好友完成一个任务  提成：0.1元</p>
         </div>         -->
         <canvas id="myCanvas" ref="myCanvas" width="330" height="560"  @click="save" style="margin:10px auto;display:block;"></canvas>
-        <img src="../assets/images/bg.png" ref="img" style="width:80%;height:520px;border-radius: 3px;display:block;box-shadow:0 2px 6px rgba(100, 100, 100, 0.3);visibility: hidden"/>
         <div id="qrcode" style="visibility: hidden"></div>
+        <img src="../assets/images/bg.png" ref="img" style="width:80%;height:520px;border-radius: 3px;display:block;box-shadow:0 2px 6px rgba(100, 100, 100, 0.3);visibility: hidden"/>  
     </div>
 </template>
 <script>
@@ -48,14 +48,18 @@ export default {
             var qrImgsrc = document.querySelector('#qrcode img')
             var ctx=c.getContext("2d");            
             var bg = this.$refs.img
-            this.$refs.img.onload =function(){          
-                 ctx.drawImage(bg,0,0,c.width,c.height)
+            ctx.drawImage(bg,0,0,c.width,c.height)
+            
+            ctx.drawImage(qrImgsrc,c.width/2-75,c.height/2+55);  
+            // this.$refs.img.onload =function(){
+            //      ctx.drawImage(bg,0,0,c.width,c.height)
                 
-            }
-            qrImgsrc.onload = function(){
-                ctx.drawImage(qrImgsrc,c.width/2-75,c.height/2+55);  
+            // }
+            // qrImgsrc.onload = function(){
+            //     console.log(qrImgsrc.src)
+            //     ctx.drawImage(qrImgsrc,c.width/2-75,c.height/2+55);  
                
-            }                   
+            // }                   
             
         },
         qrcode() {
@@ -72,7 +76,7 @@ export default {
            var image = new Image()
            image.src = this.$refs.myCanvas.toDataURL("image/png");           
             // var qrImgsrc = document.querySelector('#qrcode img')            
-            if(image.src == 'undefined' || image.src == ''){
+            if(image.src == 'undefined' || image.src == '' || image.src == undefined){
                 Toast('保存失败，请手动截屏！');
                 return;
             }

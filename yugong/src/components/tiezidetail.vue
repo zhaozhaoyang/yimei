@@ -1,92 +1,72 @@
 <template>
   <div>    
     <p class="liuptitle2">
-            帖子详情
+      帖子详情
     </p>
     <div class="box2 pd">
       <ul class="ubox">
         <li>
             <span class="s1">关注</span>
-            <img src="@/assets/images/touxiang.png" class="avtor4" alt="">
+            <img :src="dataobject.usericon" class="avtor4" alt="">
             <span class="bspan">
-                <span class="p14">王兆才</span>
-                <span class="tim">发布时间：2019-06-03  17:11:24</span>
+                <span class="p14">{{dataobject.username}}</span>
+                <span class="tim">发布时间：{{dataobject.time}}</span>
             </span>            
-            <p class="cblue pttit">标题标题</p>
-            <p class="pcon">经济困难，需要帮助，经济困难，需要帮助，经济困难，需要帮助，经济困难。</p>
+            <p class="cblue pttit">{{dataobject.title}}</p>
+            <p class="pcon">{{dataobject.content}}</p>
             <div>
-              <img src="@/assets/images/banner.jpg" alt="" class="ci" v-for="i in 6">
+              <img :src="dataobject.image" alt="" class="ci" v-for="i in dataobject.image" :key="i">
             </div>
         </li>       
       </ul>
     </div>
     <div class="line"></div>
     <div class="flex pd b3">
-        <img src="@/assets/images/touxiang.png" class="avtor4" alt="">
+        <img :src="dataobject.circlesimage" class="avtor4" alt="">
         <span class="s2">进入圈子</span>
         <div>
-            <p class="p14">西洋古董杂货铺西洋古董...</p>
-            <p class="c99">成员：145  .  236条帖子</p>
+            <p class="p14">{{dataobject.circlestitle}}</p>
+            <p class="c99">成员：{{dataobject.membercount}}  .  {{dataobject.dongtaicount}}条帖子</p>
         </div>
         
     </div>
     <div class="line"></div>
     <div class="con2">
       <p class="liuptitle">
-        <span class="bold">留言 (3)</span>       
+        <span class="actived" >留言 (3)</span>
+        <!-- <span :class="tab2active==1?'actived':''" @click="tab2cg(1)">中标公示</span> -->
       </p>
       <section class="liuycontent">
         <ul>
-          <li>
+          <li v-for="(item,index) in dataList" :key="index">
             <div class="topflex">
                 <div>
-                  <img src="@/assets/images/touxiang.png" alt="" class="lyavator">
-                  <span class="c333">专职愉公</span>
+                  <img :src="item.usericon" alt="" class="lyavator">
+                  <span class="c333">{{item.username}}</span>
                 </div>
-                <span class="c9">1楼</span>
+                <span class="c9">{{index+1}}楼</span>
             </div>
             <div class="middle">
-              怎么做？怎么做？怎么做？怎么做？做？怎么做？怎么做？怎么做？怎么做？怎么做？怎么做？
+              {{item.content}}
             </div>
             <div class="bottom">
               <div class="time">
-                2019-05-09  11：32：25
+                {{item.time}}
               </div>
               <div class="option">
                 <img src="@/assets/images/news.png" alt="" class="icon">
                 <span>回复</span>
-                <img src="@/assets/images/zan.png" alt="" class="icon">
-                <span>0</span>
+                <img src="@/assets/images/zan.png" alt="" class="icon" v-if="item.iszan==0">
+                <img src="@/assets/images/zan2.png" alt="" class="icon" v-if="item.iszan==1">
+                <span>{{item.zancount}}</span>
               </div>
-            </div>
-          </li>
-          <li>
-            <div class="topflex">
-                <div>
-                  <img src="@/assets/images/touxiang.png" alt="" class="lyavator">
-                  <span class="c333">专职愉公</span>
-                </div>
-                <span class="c9">1楼</span>
-            </div>
-            <div class="middle">
-              怎么做？怎么做？怎么做？怎么做？做？怎么做？怎么做？怎么做？怎么做？怎么做？怎么做？
-            </div>
-            <div class="bottom">
-              <div class="time">
-                2019-05-09  11：32：25
-              </div>
-              <div class="option">
-                <img src="@/assets/images/news.png" alt="" class="icon">
-                <span>回复</span>
-                <img src="@/assets/images/zan.png" alt="" class="icon">
-                <span>0</span>
-              </div>              
             </div>
             <div class="replay">
-              <p><span class="respan"> @王富贵：</span><span class="c666"> 先报名！</span></p>
-              <p class="more">共5条回复></p>
+              <p><span class="respan"> @{{item.username}}：</span><span class="c666"> 先报名！</span></p>
+              <p class="more">共{{item.secondcount}}条回复></p>
             </div>
           </li>
+        
         </ul>
       </section>
     </div>
@@ -98,11 +78,25 @@
 export default {
   components: {  },
   data() {
-    return {
+    return {      
+      dataobject:{},
+      dataList:[],
+      did:'',
+
     };
   },
   created() {
-    
+    this.did =this.$route.query.did
+    var params ={ cmd: "circlesdynamicdetail",did:this.did}
+    this.postRequest(params).then(res => {       
+          // console.log(res)
+          this.dataobject = res.data.dataobject
+    });
+    var params2={ cmd: "adddynamicfirstmessage",did:this.did,nowPage:'1',pageCount:'10'}
+    this.postRequest(params2).then(res => {       
+          console.log(res)
+          this.dataList = res.data.dataList
+    });
   },
   mounted() {
     

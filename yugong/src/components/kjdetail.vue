@@ -2,14 +2,14 @@
   <div class="box">
     <img class="bg" src="@/assets/images/bg.png" alt="">
     <div class="top">
-      <img src="@/assets/images/touxiang.png" class="avtor" alt="">
+      <img :src="dataobject.usericon" class="avtor" alt="">
       <span class="s1">关注</span>
-      <p class="pcom">水源星子</p>
+      <p class="pcom">{{dataobject.username}}</p>
       <ul class="ut">
-        <li>河南郑州</li>
-        <li>芝麻分:800</li>
-        <li>关注:1</li>
-        <li>粉丝:5</li>
+        <li>{{dataobject.username}}</li>
+        <li>芝麻分:{{dataobject.userzhima}}</li>
+        <li>关注:{{dataobject.userguanzhu}}</li>
+        <li>粉丝:{{dataobject.userfensi}}</li>
       </ul>
     </div>
     <van-tabs v-model="active" title-active-color="#2076FF" color="#2076FF" :border="false">
@@ -17,21 +17,20 @@
         <div class="line"></div>
         <div class="con">
           <p class="p1">
-            <span class="corg">绘画</span> 
-            <span>零基础成人油画班</span>             
+            <span class="corg">{{dataobject.classname}}</span> 
+            <span>{{dataobject.title}}</span>             
           </p>
           <ul class="ul1">
-            <li class="first">成交量：999</li><li class="corg">￥500元起</li>
-            <li style="flex-grow:1;text-align:right;color:#999;">1000人浏览</li>
+            <li class="first">成交量：{{dataobject.salecount}}</li><li class="corg">￥{{dataobject.money}}元起</li>
+            <li style="flex-grow:1;text-align:right;color:#999;">{{dataobject.looknum}}人浏览</li>
           </ul>
           <p class="pw">
-               地址：商都路通泰路商都世贸中心D座 
+               地址：{{dataobject.address}}
           </p>
           <p class="p1">空间详情</p>
-          <p class="p3">空间详情描述，任务内容描述，任务内容描述，任务内容描述，任务内容描述....</p>
-          
-          <div class="detail">            
-            <img src="@/assets/images/banner.jpg" alt="">
+          <p class="p3">{{dataobject.content}}</p>
+          <img class="aaa" :src="i" alt="" v-for="i in dataobject.image" :key="i">
+          <div class="detail">
             <p  class="corg" style="line-height:20px;font-size:11px;">              
               注：凡是要求缴纳定金及保证金的都涉嫌诈骗，为了您的财务安全请走线上交易
             </p>
@@ -49,60 +48,40 @@
     <div class="line"></div>
     <div class="con2">
       <p class="liuptitle">
-        <span class="bold">留言 (3)</span>       
+        <span :class="tab2active==0?'actived':''" @click="tab2cg(0)">留言 (3)</span>
+        <!-- <span :class="tab2active==1?'actived':''" @click="tab2cg(1)">中标公示</span> -->
       </p>
       <section class="liuycontent">
         <ul>
-          <li>
+          <li v-for="(item,index) in dataList" :key="index">
             <div class="topflex">
                 <div>
-                  <img src="@/assets/images/touxiang.png" alt="" class="lyavator">
-                  <span class="c333">专职愉公</span>
+                  <img :src="item.usericon" alt="" class="lyavator">
+                  <span class="c333">{{item.username}}</span>
                 </div>
-                <span class="c9">1楼</span>
+                <span class="c9">{{index+1}}楼</span>
             </div>
             <div class="middle">
-              怎么做？怎么做？怎么做？怎么做？做？怎么做？怎么做？怎么做？怎么做？怎么做？怎么做？
+              {{item.content}}
             </div>
             <div class="bottom">
               <div class="time">
-                2019-05-09  11：32：25
+                {{item.time}}
               </div>
               <div class="option">
                 <img src="@/assets/images/news.png" alt="" class="icon">
                 <span>回复</span>
-                <img src="@/assets/images/zan.png" alt="" class="icon">
-                <span>0</span>
+                <img src="@/assets/images/zan.png" alt="" class="icon" v-if="item.iszan==0">
+                <img src="@/assets/images/zan2.png" alt="" class="icon" v-if="item.iszan==1">
+                <span>{{item.zancount}}</span>
               </div>
-            </div>
-          </li>
-          <li>
-            <div class="topflex">
-                <div>
-                  <img src="@/assets/images/touxiang.png" alt="" class="lyavator">
-                  <span class="c333">专职愉公</span>
-                </div>
-                <span class="c9">1楼</span>
-            </div>
-            <div class="middle">
-              怎么做？怎么做？怎么做？怎么做？做？怎么做？怎么做？怎么做？怎么做？怎么做？怎么做？
-            </div>
-            <div class="bottom">
-              <div class="time">
-                2019-05-09  11：32：25
-              </div>
-              <div class="option">
-                <img src="@/assets/images/news.png" alt="" class="icon">
-                <span>回复</span>
-                <img src="@/assets/images/zan.png" alt="" class="icon">
-                <span>0</span>
-              </div>              
             </div>
             <div class="replay">
-              <p><span class="respan"> @王富贵：</span><span class="c666"> 先报名！</span></p>
-              <p class="more">共5条回复></p>
+              <p><span class="respan"> @{{item.username}}：</span><span class="c666"> 先报名！</span></p>
+              <p class="more">共{{item.secondcount}}条回复></p>
             </div>
           </li>
+        
         </ul>
       </section>
     </div>
@@ -125,11 +104,25 @@ export default {
     return {
       active:0,
       tab2active:0,
-      isscroll:false
+      isscroll:false,
+      dataobject:{},
+      dataList:[],
+      uid:'',
+      spacesid:'',
     };
   },
   created() {
-    
+    this.spacesid =this.$route.query.spacesid
+    var params ={ cmd: "spacesdetail", spacesid:this.spacesid}
+    this.postRequest(params).then(res => {       
+          // console.log(res)
+          this.dataobject = res.data.dataobject
+    });
+    var params2={ cmd: "spacesfirstmessagelist",spacesid:this.spacesid,nowPage:'1',pageCount:'10'}
+    this.postRequest(params2).then(res => {       
+          console.log(res)
+          this.dataList = res.data.dataList
+    });
   },
   mounted() {
     window.addEventListener('scroll',this.scrollLoad,true)
@@ -174,7 +167,7 @@ export default {
 
 .icon{width: 14px;height:14px ;}
 .c333{color: #333;font-size: 15px;font-weight: 600;}
-.detail>img{width:100px;height: 100px; display: inline-block;margin: 8px 0;}
+.aaa{width:100px;height: 100px; display: inline-block;margin: 8px 5px;}
 .detail p{vertical-align:middle;}
 .c9{color: #999;font-size: 12px;font-weight: normal;}
 .p2{width: 100%;display: flex;flex-flow: row;justify-content: space-between;height: 30px;line-height: 30px;font-size: 15px;font-weight: bold;}

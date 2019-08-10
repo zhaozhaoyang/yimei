@@ -2,7 +2,7 @@
   <div class="box">
     <img class="bg" src="@/assets/images/bg.png" alt="">
     <div class="top">
-      <img src="@/assets/images/touxiang.png" class="avtor" alt="">
+      <img :src="dataobject.usericon" class="avtor" alt="">
       <span class="s1">关注</span>
       <p class="pcom">{{dataobject.username}}</p>
       <ul class="ut">
@@ -33,9 +33,9 @@
             <img src="@/assets/images/banner.jpg" alt="">            
           </div>
           <p class="p1">案例</p>
-          <div class="detail" v-for="i in 3">
-            <p class="p3">技能详情</p>
-            <img src="@/assets/images/banner.jpg" alt="">            
+          <div class="detail" v-for="(item,index) in dataobject.caseList" :key="index">
+            <p class="p3">{{dataobject.casecontent}}</p>
+            <img :src="i" alt="" v-for="i in item.caseimage" :key="i">            
           </div>
           <p  class="corg" style="line-height:20px;font-size:11px;">              
             注：凡是要求缴纳定金及保证金的都涉嫌诈骗，为了您的财务安全请走线上交易
@@ -56,7 +56,7 @@
       </p>
       <section class="liuycontent">
         <ul>
-          <li>
+           <!-- <li v-for="(item,index) in dataList" :key="index">
             <div class="topflex">
                 <div>
                   <img src="@/assets/images/touxiang.png" alt="" class="lyavator">
@@ -78,32 +78,33 @@
                 <span>0</span>
               </div>
             </div>
-          </li>
-          <li>
+          </li> -->
+          <li v-for="(item,index) in dataList" :key="index">
             <div class="topflex">
                 <div>
-                  <img src="@/assets/images/touxiang.png" alt="" class="lyavator">
-                  <span class="c333">专职愉公</span>
+                  <img :src="item.usericon" alt="" class="lyavator">
+                  <span class="c333">{{item.username}}</span>
                 </div>
-                <span class="c9">1楼</span>
+                <span class="c9">{{index+1}}楼</span>
             </div>
             <div class="middle">
-              怎么做？怎么做？怎么做？怎么做？做？怎么做？怎么做？怎么做？怎么做？怎么做？怎么做？
+             {{item.content}}
             </div>
             <div class="bottom">
               <div class="time">
-                2019-05-09  11：32：25
+                {{item.time}}
               </div>
               <div class="option">
                 <img src="@/assets/images/news.png" alt="" class="icon">
                 <span>回复</span>
-                <img src="@/assets/images/zan.png" alt="" class="icon">
-                <span>0</span>
-              </div>              
+                <img src="@/assets/images/zan.png" alt="" class="icon" v-if="item.iszan==0">
+                <img src="@/assets/images/zan2.png" alt="" class="icon" v-if="item.iszan==1">
+                <span>{{item.zancount}}</span>
+              </div>            
             </div>
             <div class="replay">
-              <p><span class="respan"> @王富贵：</span><span class="c666"> 先报名！</span></p>
-              <p class="more">共5条回复></p>
+              <p><span class="respan"> @{{item.username}}：</span><span class="c666"> 先报名！</span></p>
+              <p class="more">共{{item.secondcount}}条回复></p>
             </div>
           </li>
         </ul>
@@ -128,15 +129,24 @@ export default {
       active:0,
       tab2active:0,
       isscroll:false,
-      dataobject:{}
+      dataobject:{},
+      dataList:[],
+      skillsid:''
     };
   },
   created() {
-    this.tasksid =this.$route.query.skillsid
+    this.skillsid =this.$route.query.skillsid
+
     var params ={ cmd: "skillsdetail",skillsid:this.skillsid}
-    this.postRequest(params).then(res => {       
+    this.postRequest(params).then(res => {  
           console.log(res)
           this.dataobject = res.data.dataobject
+    });
+
+    var params2={ cmd: "skillsfirstmessagelist",skillsid:this.skillsid,nowPage:'1',pageCount:'10'}
+    this.postRequest(params2).then(res => {       
+          console.log(res)
+          this.dataList = res.data.dataList
     });
   },
   mounted() {

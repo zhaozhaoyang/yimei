@@ -4,46 +4,44 @@
       <div class="topbox">      
         <span class="s1">关注</span>
         <div class="flex">
-          <img src="@/assets/images/touxiang.png" class="avtor" alt="">
+          <img :src="dataobject.image" class="avtor" alt="">
           <div class="pd">
-            <p class="p16">#西洋古董杂货铺#</p>
-            <p class="p12">成员：100</p>
+            <p class="p16">{{dataobject.title}}</p>
+            <p class="p12">成员：{{dataobject.membercount}}</p>
           </div>
         </div>
-        <p class="pd">我们只关注狐狸网最新资讯</p>
+        <p class="pd">{{dataobject.content}}</p>
       </div>
     </div>
 
     <div class="box2 pd">
       <div class="lou">
         <div>
-          <img src="@/assets/images/touxiang.png" class="avtor2" alt="">
-          <span class="s13">楼主昵称</span>
+          <img :src="dataobject.usericon" class="avtor2" alt="">
+          <span class="s13">{{dataobject.username}}</span>
         </div>        
         <div class="rtitle">
-          <img src="@/assets/images/touxiang.png" class="avtor3" alt="">
-          <img src="@/assets/images/touxiang.png" class="avtor3" alt="">
-          <img src="@/assets/images/touxiang.png" class="avtor3" alt="">
+          <img src="@/assets/images/touxiang.png" class="avtor3" alt="" v-for="i in dataobject.userimage" :key="i">
           <img src="@/assets/images/r.png"  alt="" class="arrow">
         </div>
       </div>
       <ul class="ubox">
-        <li v-for="i in 2">
+        <li v-for="(item,index) in dataList" :key="index">
             <img src="@/assets/images/ddd.png" alt="" class="ddd" style="height:3.2px;">
-            <img src="@/assets/images/touxiang.png" class="avtor4" alt="">
-            <span class="p14">王兆才</span>
-            <p class="cblue pttit">标题标题</p>
-            <p class="pcon">经济困难，需要帮助，经济困难，需要帮助，经济困难，需要帮助，经济困难。</p>
+            <img :src="item.usericon" class="avtor4" alt="">
+            <span class="p14">{{item.username}}</span>
+            <p class="cblue pttit">{{item.title}}</p>
+            <p class="pcon">{{item.content}}</p>
             <div>
-              <img src="@/assets/images/banner.jpg" alt="" class="ci" v-for="i in 6">
+              <img :src="j" alt="" class="ci" v-for="j in item.images" :key="j">
             </div>
             <div class="option">
               <img src="@/assets/images/f.png" alt="" class="icon">
               <span>回复</span>
               <img src="@/assets/images/news.png" alt="" class="icon">
-              <span>0</span>
+              <span>{{item.commcount}}</span>
               <img src="@/assets/images/zan.png" alt="" class="icon">
-              <span>0</span>
+              <span>{{item.zancount}}</span>
             </div>
         </li>
         <p class="btp">加入圈子，查看全部帖子</p>
@@ -60,10 +58,19 @@ export default {
   components: {  },
   data() {
     return {
+      circlesid:'',
+      dataobject:{},
+      dataList:[]
     };
   },
   created() {
-    
+    this.circlesid =this.$route.query.circlesid
+    var params ={ cmd: "circlesdetail", circlesid:this.circlesid}
+    this.postRequest(params).then(res => {       
+          // console.log(res)
+          this.dataobject = res.data.dataobject
+          this.dataList = res.data.dataList
+    });
   },
   mounted() {
     

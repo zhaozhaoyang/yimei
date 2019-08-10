@@ -38,6 +38,25 @@
             </div>
     </div>
 </template>
+<script>
+export default {
+  data() {
+    return {
+      dataList:[],
+      uid:'',
+      city:''
+    };
+  },
+  created() {
+    this.city =this.$route.query.city
+    var params ={ cmd: "welfareslibrary", city:this.city,nowPage:'1',pageCount:'10'}
+    this.postRequest(params).then(res => {       
+          // console.log(res)
+          this.dataList = res.data.dataList
+    });
+  },
+}
+</script>
 <style scoped>
 .detail{padding: 5px 10px;}
 .detail>img{width:100px;height: 100px; display: block;margin: 8px 0;}
